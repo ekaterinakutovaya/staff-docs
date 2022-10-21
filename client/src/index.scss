@@ -1,0 +1,85 @@
+@import '~antd/dist/antd.css';
+
+.trigger {
+  padding: 0 24px;
+  font-size: 18px;
+  line-height: 64px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+.logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+
+.site-layout .site-layout-background {
+  display: flex;
+  align-items: center;
+  background: #fff;
+}
+
+.content-wrapper {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: flex-start;
+}
+
+.site-page-header-ghost-wrapper {
+  padding: 24px;
+  background-color: #f5f5f5;
+}
+
+.site-card-border-less-wrapper {
+  padding: 20px;
+  background: #ececec;
+}
+
+.login-wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+.login-form {
+  max-width: 600px;  
+}
+.login-form-forgot {
+  float: right;
+}
+.ant-col-rtl .login-form-forgot {
+  float: left;
+}
+.login-form-button {
+  width: 100%;
+}
+
+.socials-login {
+  display: flex;
+  justify-content: space-around;
+}
+
+.active-row {
+  font-weight: bold;
+}
+
+.navbar {
+
+  @media (max-width: 599px) {
+        padding: 0;
+    }
+}

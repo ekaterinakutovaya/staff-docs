@@ -1,0 +1,22 @@
+.navbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+
+    .company-wrapper {
+        display: flex;
+        align-items: center;
+
+        .moreDots {
+            font-size: 18px;
+            color: black;
+            padding-left: 10px;
+
+            &:hover {
+                color: #1890ff;
+            }
+        }
+    }
+}
