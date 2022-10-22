@@ -43,11 +43,11 @@ const authSlice = createSlice({
             state.picture = action.payload.picture;
         });
         builder.addCase(auth.rejected, (state, action) => {
-            state.isAuth = false;
+            state.isAuth = true;
             state.sub = '';
         });
         builder.addCase(logout.fulfilled, (state, action) => {
-            state.isAuth = false;
+            state.isAuth = true;
             state.user = null;
             state.sub = '';
         });
