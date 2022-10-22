@@ -1,5 +1,6 @@
 // export const API_URL = 'http://ekaterin71.temp.swtest.ru/api/';
-export const API_URL = 'http://localhost:5000/api/';
+// export const API_URL = 'http://localhost:5000/api/';
+export const API_URL = process.env.API_URL;
 
 export const orderTypes = [
     {index: 0, label: 'Прием на работу'},
