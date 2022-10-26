@@ -9,6 +9,9 @@ const createCompany = async (values: CompanyDetails, sub: string) => {
 }
 
 const fetchCompanies = async (sub:string) => {  
+    console.log(API_URL + "/company");
+    console.log(sub);
+    
     return axios.get(API_URL + "/company", { params: {sub} });
 }
 

@@ -6,20 +6,24 @@ const cors = require('cors');
 const router = require('./routes/index');
 const errorHandler = require('./middleware/ErrorHandlingMiddleware');
 const path = require('path');
+const { support } = require('pizzip');
 
 const PORT = process.env.PORT || 5000;
 const app = express();
+// const indexHTML = path.resolve(__dirname, 'client/build/index.html');
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'client/build')))
+// app.use(express.static(path.join(__dirname, 'client/build')))
+app.use(express.static('client/build'));
 app.use('/api', router);
+app.get('/', (req, res) => res.sendFile(path.resolve('client', 'build', 'index.html')));
 app.use(errorHandler);
+console.log(__dirname);
+
+// app.get('/*', (req, res) => res.sendFile(indexHTML));
 
 if (process.env.NODE_ENV === "production") {
-    
-    
-    // app.use(express.static(path.resolve(__dirname, 'static')));
     app.use(express.static(path.join(__dirname, 'client/build')))
     app.use('/api', router);
     app.use(errorHandler);

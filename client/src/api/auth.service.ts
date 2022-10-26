@@ -5,9 +5,9 @@ import { API_URL } from "consts/consts";
 // const API_URL = "http://localhost:5000/api/user/";
 
 const auth = async ({given_name, picture, sub, token}) => {
-    console.log(given_name, picture, sub, token);
+    console.log(API_URL);
     
-    return axios.post(API_URL + "user/auth", {
+    return axios.post(API_URL + "/user/auth", {
         given_name, picture, sub
     })
         .then((response) => {

@@ -53,11 +53,11 @@ const SideBar: React.FC<SideBarProps> = ({ collapsed, setCollapsed }) => {
         breakpoint="md"
             collapsedWidth="0"
             onBreakpoint={broken => {
-                console.log(broken);
+                // console.log(broken);
                 setCollapsed(broken);
             }}
             onCollapse={(collapsed, type) => {
-                console.log(collapsed, type);
+                // console.log(collapsed, type);
             }}
         >
             <div className="logo" />
