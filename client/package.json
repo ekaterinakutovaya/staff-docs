@@ -1,9 +1,7 @@
 {
   "name": "client",
-  "homepage": "https://staff-manager-app.herokuapp.com",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://staff-manager-app.herokuapp.com",
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "@react-oauth/google": "^0.2.6",
