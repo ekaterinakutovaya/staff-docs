@@ -11,7 +11,7 @@ const {Sequelize} = require('sequelize');
 //     }
 // )
 
-module.exports = new Sequelize('postgresql://postgres:dZkKiT8gaM82OMb3ds3V@containers-us-west-95.railway.app:7931/railway', {
+module.exports = new Sequelize(DB_URI, {
     define: {
         timestamps: true
     }
