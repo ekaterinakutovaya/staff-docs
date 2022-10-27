@@ -11,7 +11,7 @@ const {Sequelize} = require('sequelize');
 //     }
 // )
 
-module.exports = new Sequelize(DB_URI, {
+module.exports = new Sequelize(process.env.DB_URI, {
     define: {
         timestamps: true
     }
