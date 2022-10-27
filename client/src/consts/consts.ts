@@ -1,7 +1,5 @@
-// export const API_URL = 'http://ekaterin71.temp.swtest.ru/api/';
-export const API_URL = 'http://localhost:5000/api';
-// export const API_URL = 'http://ekaterin71.temp.swtest.ru/api';
-// console.log(process.env.REACT_API_URL);
+// export const API_URL = 'http://localhost:5000/api';
+export const API_URL = 'https://staff-manager-production.up.railway.app/api';
 
 
 export const orderTypes = [
