@@ -22,12 +22,14 @@ app.use('/api', router);
 // app.get('/dashboard/company_details/:id', (req, res) => res.sendFile(path.resolve('client', 'build', 'index.html')));
 app.use(errorHandler);
 
-// if (process.env.NODE_ENV === "production") {
-//     app.use(express.static(path.join(__dirname, 'client/build')))
-//     app.get('/dashboard/companies', (req, res) => res.sendFile(path.resolve('client', 'build', 'index.html')));
-//     app.use('/api', router);
-//     app.use(errorHandler);
-// }
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static('client/build'));
+    app.get('/', (req, res) => res.sendFile(path.resolve('client', 'build', 'index.html')));
+    app.get('/dashboard/companies', (req, res) => res.sendFile(path.resolve('client', 'build', 'index.html')));
+    app.get('/dashboard/employees', (req, res) => res.sendFile(path.resolve('client', 'build', 'index.html')));
+    app.get('/dashboard/orders', (req, res) => res.sendFile(path.resolve('client', 'build', 'index.html')));
+    app.get('/dashboard/company_details/:id', (req, res) => res.sendFile(path.resolve('client', 'build', 'index.html')));
+}
 
 
 const start = async () => {
