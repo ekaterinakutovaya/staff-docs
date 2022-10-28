@@ -259,15 +259,25 @@ class wordDocController {
     async download(req, res, next) {
         const { fileName } = req.query;
 
+        // try {
+        //     const myPath = path.resolve(__dirname, `../assets/ouput/${fileName}`);
+        //     if (fs.existsSync(myPath)) {
+        //         return res.download(myPath, fileName, function(err) {
+        //             if (err) {
+        //                 console.log(err);
+        //             }
+        //             fs.unlinkSync(myPath)
+        //         });
+        //     }
+        //     return res.status(400).json({ message: "Download error" })
+        // } catch (error) {
+        //     next(ApiError.badRequest(error.message))
+        // }
+
         try {
             const myPath = path.resolve(__dirname, `../assets/ouput/${fileName}`);
             if (fs.existsSync(myPath)) {
-                return res.download(myPath, fileName, function(err) {
-                    if (err) {
-                        console.log(err);
-                    }
-                    fs.unlinkSync(myPath)
-                });
+                return res.download(myPath, fileName)
             }
             return res.status(400).json({ message: "Download error" })
         } catch (error) {
