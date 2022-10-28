@@ -10,6 +10,7 @@ const User = sequelize.define('user', {
 const Company = sequelize.define('company', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     companyName: { type: DataTypes.STRING, allowNull: false },
+    companyinn: {type: DataTypes.STRING, allowNull: false},
     isCurrent: {type: DataTypes.BOOLEAN, allowNull: false}
 })
 

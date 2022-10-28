@@ -19,6 +19,7 @@ export type JwtPayloadToken = {
 export type Company = {
     id: number;
     companyName: string;
+    companyinn: string;
     isCurrent: boolean;
     createdAt: string;
     updateAt: string;

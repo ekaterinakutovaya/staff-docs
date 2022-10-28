@@ -130,7 +130,7 @@ const Orders: React.FC = () => {
           contractId: order.contractId,
           agreementId: order.agreementId,
           employeeId: order.employeeId,
-          orderMobile: `${orderTypes[order.orderTypeId].label} ${employeeFullName} ${date}`
+          orderMobile: `${order.orderNo} ${orderTypes[order.orderTypeId].label} ${employeeFullName} ${date}`
         }
       ])
     })
@@ -200,61 +200,52 @@ const Orders: React.FC = () => {
     }
   }
 
-  const downloadOrder = (e: React.MouseEvent<HTMLElement>) => {
-    const orderId = Number(e.currentTarget.id);
+  const downloadHandler = (orderId: string, orderTypeId: number, agreementId: number, employeeId: number, contractId: number) => {
 
-    exportToDocService.generateOrder(orderId)
-      .then((response) => {
-        const { fileName } = response.data;
-        exportToDocService.downloadDocument(fileName);
-      })
-  }
-
-  const downloadDismissalOrder = (e: React.MouseEvent<HTMLElement>) => {
-    const orderId = Number(e.currentTarget.id);
-
-    exportToDocService.generateDismissalOrder(orderId)
-      .then((response) => {
-        const { fileName } = response.data;
-        exportToDocService.downloadDocument(fileName);
-      })
-  }
-
-  const downloadStaffChangesOrder = (e: React.MouseEvent<HTMLElement>) => {
-    const orderId = Number(e.currentTarget.id);
-
-    exportToDocService.generateStaffChangesOrder(orderId)
-      .then((response) => {
-        const { fileName } = response.data;
-        exportToDocService.downloadDocument(fileName);
-      })
-  }
-
-  const downloadContract = (e: React.MouseEvent<HTMLElement>) => {
-    const contractId = Number(e.currentTarget.id);
-    exportToDocService.generateContract(contractId)
-      .then((response) => {
-        const { fileName } = response.data;
-        exportToDocService.downloadDocument(fileName);
-      })
-  }
-
-  const downloadAdditionalAgreement = (e: React.MouseEvent<HTMLElement>) => {
-    const agreementId = Number(e.currentTarget.id);
-    exportToDocService.generateAdditionalAgreement(agreementId)
-      .then((response) => {
-        const { fileName } = response.data;
-        exportToDocService.downloadDocument(fileName);
-      })
-  }
-
-  const downloadContractCancellation = (e: React.MouseEvent<HTMLElement>) => {
-    const contractId = Number(e.currentTarget.id);
-    exportToDocService.generateContractCancellation(contractId)
-      .then((response) => {
-        const { fileName } = response.data;
-        exportToDocService.downloadDocument(fileName);
-      })
+    switch (orderTypeId) {
+      case 0:
+        exportToDocService.generateOrder(Number(orderId))
+          .then((response) => {
+            const { fileName } = response.data;
+            exportToDocService.downloadDocument(fileName);
+          })
+          .then(() => {
+            exportToDocService.generateContract(contractId)
+              .then((response) => {
+                const { fileName } = response.data;
+                exportToDocService.downloadDocument(fileName);
+              })
+          })
+        break;
+      case 1:
+        exportToDocService.generateStaffChangesOrder(Number(orderId))
+          .then((response) => {
+            const { fileName } = response.data;
+            exportToDocService.downloadDocument(fileName);
+          })
+          .then(() => {
+            exportToDocService.generateAdditionalAgreement(agreementId)
+              .then((response) => {
+                const { fileName } = response.data;
+                exportToDocService.downloadDocument(fileName);
+              })
+          })
+        break;
+      case 2:
+        exportToDocService.generateDismissalOrder(Number(orderId))
+          .then((response) => {
+            const { fileName } = response.data;
+            exportToDocService.downloadDocument(fileName);
+          })
+          .then(() => {
+            exportToDocService.generateContractCancellation(contractId)
+              .then((response) => {
+                const { fileName } = response.data;
+                exportToDocService.downloadDocument(fileName);
+              })
+          })
+        break;
+    }
   }
 
 
@@ -396,6 +387,7 @@ const Orders: React.FC = () => {
       title: '№ п/п',
       dataIndex: 'orderNo',
       key: 'orderNo',
+      ...getColumnSearchProps('orderNo'),
       responsive: ["sm"]
     },
     {
@@ -411,7 +403,7 @@ const Orders: React.FC = () => {
               
               <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <Text type="secondary" style={{ fontSize: '10px' }}>{record.orderType}</Text>
-                <a id={record.key} onClick={downloadOrder} ><FileWordOutlined style={{ fontSize: '24px' }} /></a>
+                <a id={record.key} onClick={() => downloadHandler(record.key, record.orderTypeId, record.agreementId, record.employeeId, record.contractId)} ><FileWordOutlined style={{ fontSize: '24px' }} /></a>
               </div>
               <Space size="small">
                 <Text strong style={{ fontSize: '12px' }}>№ {record.orderNo} от </Text>
@@ -421,24 +413,13 @@ const Orders: React.FC = () => {
               <Space>
                 <Text>{record.employeeName}</Text>
               </Space>
-
-
               <Space size="large">
                 <a id={record.key} onClick={() => editHandler(record.key, record.orderTypeId, record.agreementId)}>Редактировать</a>
                 <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key, record.orderTypeId, record.agreementId, record.employeeId)} >
                   <a >Удалить</a>
                 </Popconfirm>
-
               </Space>
-              
             </Space>
-
-            
-              
-           
-            
-
-
           </React.Fragment>
         )
       }
@@ -479,35 +460,15 @@ const Orders: React.FC = () => {
       responsive: ["sm"]
     },
     {
-      title: 'Скачать',
+      title: 'Скачать документы',
       dataIndex: 'download',
       key: 'download',
       responsive: ["sm"],
+      width: '10%',
       render: (_, record) => {
-        if (record.orderTypeId === 0) {
-          return (
-            <Space size="middle">
-              <a id={record.key} onClick={downloadOrder}>Приказ</a>
-              <a id={record.contractId.toString()} onClick={downloadContract}>Договор</a>
-            </Space>
-          )
-        } else if (record.orderTypeId === 1) {
-          return (
-            <Space size="middle">
-              <a id={record.key} onClick={downloadStaffChangesOrder}>Приказ</a>
-              <a id={record.agreementId.toString()} onClick={downloadAdditionalAgreement}>Доп.соглашение</a>
-            </Space>
-          )
-        }
-        else {
-          return (
-            <Space size="middle">
-              <a id={record.key} onClick={downloadDismissalOrder}>Приказ</a>
-              <a id={record.contractId.toString()} onClick={downloadContractCancellation}>Расторжение</a>
-            </Space>
-          )
-        }
-
+        return (
+          <a id={record.key} onClick={() => downloadHandler(record.key, record.orderTypeId, record.agreementId, record.employeeId, record.contractId)} ><FileWordOutlined style={{ fontSize: '20px' }} /></a>
+        )
       }
     },
     {

@@ -9,6 +9,7 @@ import CreateCompany from "components/modals/CreateCompany";
 import { useAppDispatch } from "store/store";
 import { fetchCompanies, setCurrentCompany, deleteCompanyById } from 'store/actionCreators/companyAction';
 import { selectAuth, selectCompanies } from "store/selectors";
+import { Company } from "../store/types";
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
 
@@ -34,7 +35,7 @@ const Companies: React.FC = () => {
   }, [open, sub])
 
   useEffect(() => {
-    companies?.map((company, index) => {
+    companies?.map((company: Company, index: number) => {
       setData(prevState => [
         ...prevState,
         {
