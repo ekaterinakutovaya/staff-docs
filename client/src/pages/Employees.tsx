@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Button, Input, PageHeader, Table, Space, Popconfirm, Tooltip, notification, Grid } from 'antd';
+import { Button, Input, PageHeader, Table, Space, Popconfirm, Tooltip, notification, Grid, Typography } from 'antd';
 import type { ColumnsType, TableProps, ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
 import type { InputRef } from 'antd';
@@ -16,6 +16,7 @@ import { selectCompanies, selectEmployees, selectAuth } from "store/selectors";
 import { Employee } from "../store/types";
 
 const { useBreakpoint } = Grid;
+const { Text } = Typography;
 
 interface DataType {
   key: string;
@@ -196,7 +197,7 @@ const Employees: React.FC = () => {
         return (
           <React.Fragment>
             <Space direction="vertical" size="middle">
-              {record.employeeName}
+              <Text strong>{record.employeeName}</Text>
               <Space>ПИНДФЛ:{record.personalId}</Space>
               
               <Space size="large">

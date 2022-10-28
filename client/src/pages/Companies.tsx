@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Button, PageHeader, Table, Space, Tag, Popconfirm, Grid } from 'antd';
+import { Button, PageHeader, Table, Space, Tag, Popconfirm, Grid, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 
 
@@ -10,6 +10,7 @@ import { useAppDispatch } from "store/store";
 import { fetchCompanies, setCurrentCompany, deleteCompanyById } from 'store/actionCreators/companyAction';
 import { selectAuth, selectCompanies } from "store/selectors";
 const { useBreakpoint } = Grid;
+const { Text } = Typography;
 
 interface DataType {
   key: string;
@@ -81,7 +82,7 @@ const Companies: React.FC = () => {
           return (
             <React.Fragment>
               <Space direction="vertical" size="middle">
-                {record.companyName}
+                <Text strong>{record.companyName}</Text>
                 <Space size="large">
                   <a onClick={navigateToEditPage} id={record.key}>Реквизиты</a>
                   <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
@@ -98,7 +99,7 @@ const Companies: React.FC = () => {
           return (
             <React.Fragment>
               <Space direction="vertical" size="middle">
-                {record.companyName}
+                <Text strong>{record.companyName}</Text>
                 <Space size="large">
                   <a onClick={navigateToEditPage} id={record.key}>Реквизиты</a>
                   <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
