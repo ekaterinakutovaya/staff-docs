@@ -16,6 +16,8 @@ const generateContractCancellation = async (contractId:number) => {
 }
 
 const downloadDocument = async (fileName:string) => {
+    console.log(API_URL + `/word/download?fileName`);
+    
     const response = await fetch(API_URL + `/word/download?fileName=${fileName}`, {
         headers: {
             'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
