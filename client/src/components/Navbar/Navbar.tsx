@@ -17,7 +17,7 @@ const { useBreakpoint } = Grid;
 const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
   const {md} = useBreakpoint();
-  const myFontSize = md ? '22px' : '14px';
+  const myFontSize = md ? '18px' : '12px';
   const { picture, sub } = useSelector(selectAuth);
   const { currentCompany } = useSelector(selectCompanies);
   const [currentCompanyTitle, setCurrentCompanyTitle] = useState<string | ''>('');

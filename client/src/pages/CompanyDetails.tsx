@@ -214,6 +214,7 @@ const CompanyDetails: React.FC = () => {
                 ghost={false}
                 title={companyTitle}
                 subTitle="Реквизиты"
+                onBack={() => window.history.back()}
                 extra={[
                     <Button key="1" type="primary" onClick={() => setOpen(true)}>
                         Внести изменения
