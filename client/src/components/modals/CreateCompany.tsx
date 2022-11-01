@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import {
     Modal,
@@ -6,7 +6,8 @@ import {
     Input,
     Button,
     DatePicker,
-    Space
+    Space,
+    Divider, Grid
 } from 'antd';
 import 'moment/locale/ru';
 
@@ -17,6 +18,7 @@ import { CompanyDetails } from "store/types";
 import moment from 'moment';
 
 const dateFormatList = ['DD.MM.YYYY', 'DD.MM.YY'];
+const { useBreakpoint } = Grid;
 
 type CreateCompanyProps = {
     open: boolean;
@@ -26,6 +28,8 @@ type CreateCompanyProps = {
 
 const CreateCompany: React.FC<CreateCompanyProps> = ({ open, setOpen }) => {
     const dispatch = useAppDispatch();
+    const [loading, setLoading] = useState(false);
+    const { sm, md, lg, xl, xxl } = useBreakpoint();
     const { sub } = useSelector(selectAuth);
     const [form] = Form.useForm();
 
@@ -92,16 +96,20 @@ const CreateCompany: React.FC<CreateCompanyProps> = ({ open, setOpen }) => {
                     <Form.Item label="Наименование" name="companyName" rules={[{ required: true, message: 'Пожалуйста введите наименование!' }]}>
                         <Input />
                     </Form.Item>
+                    <Divider/>
                     <Form.Item label="Адрес" name="address" rules={[{ required: true, message: 'Пожалуйста введите адрес организации!' }]}>
                         <Input />
                     </Form.Item>
+                    <Divider />
                     <Form.Item label="Телефон" name="phoneNumber" rules={[{ required: true, message: 'Пожалуйста введите телефон организации!' }]}>
                         <Input />
                     </Form.Item>
+                    <Divider />
 
                     <Form.Item label="Дата регистрации" name="registerDate" rules={[{ required: true, message: 'Пожалуйста введите дату регистрации!' }]}>
                         <DatePicker format={dateFormatList}/>
                     </Form.Item>
+                    <Divider />
                     <Form.Item label="ИНН" name="companyINN" rules={[{
                         required: true,
                         message: 'Пожалуйста введите ИНН организации!'
@@ -113,6 +121,7 @@ const CreateCompany: React.FC<CreateCompanyProps> = ({ open, setOpen }) => {
                             maxLength={9}
                         />
                     </Form.Item>
+                    <Divider />
                     <Form.Item label="р/с" name="bankAccount" rules={[{
                         required: true,
                         message: 'Пожалуйста введите расчетный счет организации!'
@@ -124,10 +133,12 @@ const CreateCompany: React.FC<CreateCompanyProps> = ({ open, setOpen }) => {
                             maxLength={20}
                         />
                     </Form.Item>
+                    <Divider />
 
                     <Form.Item label="банк" name="bankName" rules={[{ required: true, message: 'Пожалуйста введите наименование банка!' }]}>
                         <Input />
                     </Form.Item>
+                    <Divider />
 
                     <Form.Item label="МФО" name="bankCode" rules={[{
                         required: true,
@@ -140,6 +151,7 @@ const CreateCompany: React.FC<CreateCompanyProps> = ({ open, setOpen }) => {
                             maxLength={5}
                         />
                     </Form.Item>
+                    <Divider />
 
                     <Form.Item label="ОКЭД" name="companyOKED" rules={[{
                         required: true,
@@ -152,6 +164,7 @@ const CreateCompany: React.FC<CreateCompanyProps> = ({ open, setOpen }) => {
                             maxLength={5}
                         />
                     </Form.Item>
+                    <Divider />
 
                     <Form.Item label="Руководитель" name="manager" rules={[{
                         required: true,
@@ -159,22 +172,37 @@ const CreateCompany: React.FC<CreateCompanyProps> = ({ open, setOpen }) => {
                     }]}>
                         <Input />
                     </Form.Item>
+                    <Divider />
 
 
-                    <Form.Item wrapperCol={{
-                        offset: 8,
-                        span: 16,
-                    }}>
-                        <Space>
-                            <Button type="primary" htmlType="submit">
-                                Создать
-                            </Button>
-                            <Button onClick={onCancel}>
-                                Отмена
-                            </Button>
-                        </Space>
-                        
-                    </Form.Item>
+                    {sm ? (
+                        <Form.Item wrapperCol={{
+                            offset: 8,
+                            span: 16,
+                        }}>
+                            <Space>
+                                <Button type="primary" htmlType="submit" loading={loading}>
+                                    Создать
+                                </Button>
+                                <Button onClick={onCancel}>
+                                    Отмена
+                                </Button>
+                            </Space>
+
+                        </Form.Item>
+                    ) : (
+                        <Form.Item>
+                            <Space direction="vertical" style={{ width: '100%' }} size="middle">
+                                <Button type="primary" htmlType="submit" loading={loading} block>
+                                    Создать
+                                </Button>
+                                <Button onClick={onCancel} block>
+                                    Отмена
+                                </Button>
+                            </Space>
+
+                        </Form.Item>
+                    )}
 
                 </Form>
             </Modal>

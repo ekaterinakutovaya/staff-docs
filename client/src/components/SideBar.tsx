@@ -50,7 +50,7 @@ const SideBar: React.FC<SideBarProps> = ({ collapsed, setCollapsed }) => {
         trigger={null}
         collapsible
         collapsed={collapsed}
-        breakpoint="md"
+        breakpoint="lg"
             collapsedWidth="0"
             onBreakpoint={broken => {
                 // console.log(broken);

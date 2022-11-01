@@ -32,7 +32,7 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ open, setOpen, id }) => {
     useEffect(() => {
         setData([]);
         if (id) {
-            setData(employees?.filter(emp => emp.id === id));
+            setData(employees?.filter((emp: Employee) => emp.id === id));
         }
     }, [employees, id])
 
@@ -88,7 +88,6 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ open, setOpen, id }) => {
             footer={null}
             getContainer={false}
             forceRender
-
         >
             <Form
                 form={form}

@@ -41,7 +41,6 @@ const customFormat: DatePickerProps['format'] = value =>
   `custom format: ${value.format(dateFormat)}`;
 
 
-
 interface DataType {
   key: string;
   orderNo: number;
@@ -77,21 +76,23 @@ const Orders: React.FC = () => {
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef<InputRef>(null);
 
+  
+
   const menuItems = [
     {
       key: '1',
       icon: <FileDoneOutlined />,
-      label: (<Button type="text" onClick={() => setOpenEmployment(true)}>Прием на работу</Button>),
+      label: (<Button type="link" onClick={() => setOpenEmployment(true)}>Прием на работу</Button>),
     },
     {
       key: '2',
       icon: <FileDoneOutlined />,
-      label: (<Button type="text" onClick={() => setOpenStaffChanges(true)}>Кадровое перемещение</Button>),
+      label: (<Button type="link" onClick={() => setOpenStaffChanges(true)}>Кадровое перемещение</Button>),
     },
     {
       icon: <FileDoneOutlined />,
       key: '3',
-      label: (<Button type="text" onClick={() => setOpenDismissal(true)}>Увольнение</Button>)
+      label: (<Button type="link" onClick={() => setOpenDismissal(true)}>Увольнение</Button>)
     }
   ]
 

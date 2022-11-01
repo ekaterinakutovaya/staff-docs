@@ -77,7 +77,7 @@ const Companies: React.FC = () => {
       responsive: ["sm"]
     },
     {
-      title: "From to",
+      title: "",
       render: (_, record) => {
         if (record.current) {
           return (
@@ -174,18 +174,23 @@ const Companies: React.FC = () => {
         title="Организации"
         extra={[
           <Button key="1" type="primary" onClick={() => setOpen(true)}
+            style={md ? { display: 'flex' } : { display: 'none' }}
           >
             Добавить
           </Button>
         ]}
       >
-
+        <Button type="primary" onClick={() => setOpen(true)} block
+          style={md ? { display: 'none' } : { display: 'block', marginBottom: '20px' }}
+        >
+          Добавить
+        </Button>
       </PageHeader>
 
       <Table
         dataSource={data}
         columns={columns}
-        showHeader={sm ? true : false}
+        // showHeader={sm ? true : false}
       />
 
       <CreateCompany open={open} setOpen={setOpen} />

@@ -6,9 +6,9 @@ const ApiError = require('../error/ApiError');
 
 class AdditionalAgreementController {
     async create(req, res, next) {
-        const { values, agreementNo, companyId, employeeId, contractId, prevAgreementId } = req.body;
-        const { agreementDate, position, salary, salaryRate, workHours, workHoursStart, workHoursEnd, workSchedule } = values;
-        console.log(agreementDate);
+        const { values, position, agreementNo, companyId, employeeId, contractId, prevAgreementId } = req.body;
+        const { agreementDate, salary, salaryRate, workHours, workHoursStart, workHoursEnd, workSchedule } = values;
+        // console.log(agreementDate);
 
 
         try {
@@ -39,12 +39,12 @@ class AdditionalAgreementController {
     }
 
     async edit(req, res, next) {
-        const { values: { agreementDate, position, salary, salaryRate, workHoursStart, workHoursEnd, workSchedule, }, agreementId } = req.body;
+        const { values: { agreementDate, salary, salaryRate, workHours, workHoursStart, workHoursEnd, workSchedule, }, position, agreementId } = req.body;
 
         try {
             await AdditionalAgreement.update(
                 {
-                    agreementDate, position, salary, salaryRate, workHoursStart, workHoursEnd, workSchedule
+                    agreementDate, position, salary, salaryRate, workHours, workHoursStart, workHoursEnd, workSchedule
                 },
                 { where: { id: agreementId } }
             )

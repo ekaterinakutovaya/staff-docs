@@ -142,3 +142,10 @@ export type AdditionalAgreement = {
     prevAgreementId?: number;
 }
 
+export type Profession = {
+    id: number;
+    profession: string;
+    createdAt: string;
+    updatedAt: string;
+}
+

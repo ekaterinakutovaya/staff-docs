@@ -87,6 +87,12 @@ const AdditionalAgreement = sequelize.define('additional_agreement', {
     prevAgreementId: {type: DataTypes.INTEGER, allowNull: true}
 })
 
+const Profession = sequelize.define('profession', {
+    profession: { type: DataTypes.STRING, allowNull: true}
+})
+
+
+
 User.hasMany(Company);
 Company.belongsTo(User);
 
@@ -130,5 +136,6 @@ module.exports = {
     Employee,
     Contract,
     Order,
-    AdditionalAgreement
+    AdditionalAgreement,
+    Profession
 }

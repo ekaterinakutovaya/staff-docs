@@ -259,11 +259,17 @@ const Employees: React.FC = () => {
           // subTitle="This is a subtitle"
           extra={[
             <Button key="1" type="primary" onClick={() => setOpenCreateEmployee(true)}
+              style={md ? { display: 'flex' } : { display: 'none' }}
             >
               Добавить
             </Button>
           ]}
         >
+          <Button key="1" type="primary" onClick={() => setOpenCreateEmployee(true)} block
+            style={md ? { display: 'none' } : { display: 'block' }}
+          >
+            Добавить
+          </Button>
 
         </PageHeader>
       ) : (

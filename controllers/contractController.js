@@ -7,8 +7,8 @@ const ApiError = require('../error/ApiError');
 class ContractController {
     async create(req, res, next) {
         try {
-            const { values, companyId, employeeId } = req.body;
-            const { contractNo, contractDate, position, salary, salaryRate, workHours, workHoursStart, workHoursEnd, workSchedule, vacationDays } = values;
+            const { values, position, companyId, employeeId } = req.body;
+            const { contractNo, contractDate, salary, salaryRate, workHours, workHoursStart, workHoursEnd, workSchedule, vacationDays } = values;
 
             const contract = await Contract.create({
                 contractNo,
@@ -41,7 +41,7 @@ class ContractController {
     }
 
     async edit(req, res, next) {
-        const { values: { contractNo, contractDate, position, salary, salaryRate, workHours, workHoursStart, workHoursEnd, workSchedule, vacationDays }, contractId, employeeId } = req.body;
+        const { values: { contractNo, contractDate, salary, salaryRate, workHours, workHoursStart, workHoursEnd, workSchedule, vacationDays }, position, contractId, employeeId } = req.body;
         
         try {
             await Contract.update(
