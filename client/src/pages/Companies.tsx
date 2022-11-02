@@ -10,6 +10,8 @@ import { useAppDispatch } from "store/store";
 import { fetchCompanies, setCurrentCompany, deleteCompanyById } from 'store/actionCreators/companyAction';
 import { selectAuth, selectCompanies } from "store/selectors";
 import { Company } from "../store/types";
+import axios from 'axios';
+import { API_URL } from "consts/consts";
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
 
@@ -166,6 +168,11 @@ const Companies: React.FC = () => {
 
   ]
 
+  const handleJobs = () => {
+    axios.get(API_URL + "/profession/create")
+    
+  }
+
 
   return (
     <div>
@@ -192,6 +199,8 @@ const Companies: React.FC = () => {
         columns={columns}
         // showHeader={sm ? true : false}
       />
+
+      <Button onClick={handleJobs}>jobs</Button>
 
       <CreateCompany open={open} setOpen={setOpen} />
     </div>
