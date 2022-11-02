@@ -56,7 +56,3 @@ class ProfessionController {
 
 module.exports = new ProfessionController();
 
-// COPY professions
-// FROM 'D:\prof.csv'
-// DELIMITER ';'
-// CSV HEADER ENCODING 'windows-1251';
