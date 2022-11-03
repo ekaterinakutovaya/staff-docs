@@ -256,7 +256,6 @@ const Employees: React.FC = () => {
         <PageHeader
           ghost={false}
           title="Физические лица"
-          // subTitle="This is a subtitle"
           extra={[
             <Button key="1" type="primary" onClick={() => setOpenCreateEmployee(true)}
               style={md ? { display: 'flex' } : { display: 'none' }}
@@ -265,7 +264,7 @@ const Employees: React.FC = () => {
             </Button>
           ]}
         >
-          <Button key="1" type="primary" onClick={() => setOpenCreateEmployee(true)} block
+          <Button size="large" key="1" type="primary" onClick={() => setOpenCreateEmployee(true)} block
             style={md ? { display: 'none' } : { display: 'block' }}
           >
             Добавить
@@ -276,7 +275,6 @@ const Employees: React.FC = () => {
         <PageHeader
           ghost={false}
           title="Физические лица"
-          // subTitle="This is a subtitle"
           extra={[
             <Tooltip key="1" title="Сначала создайте организацию">
               <Button key="1" type="primary" onClick={() => setOpenCreateEmployee(true)}

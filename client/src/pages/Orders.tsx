@@ -403,7 +403,7 @@ const Orders: React.FC = () => {
             <Space direction="vertical" size="small" style={{ width: '100%' }}>                
               
               <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                <Text type="secondary" style={{ fontSize: '10px' }}>{record.orderType}</Text>
+                <Text type="secondary" style={{ fontSize: '12px' }}>{record.orderType}</Text>
                 <a id={record.key} onClick={() => downloadHandler(record.key, record.orderTypeId, record.agreementId, record.employeeId, record.contractId)} ><FileWordOutlined style={{ fontSize: '24px' }} /></a>
               </div>
               <Space size="small">

@@ -114,18 +114,20 @@ const CompanyDetails: React.FC = () => {
       render: (_, record) => {
         return (
           <React.Fragment>
-            <Space direction="vertical" size="middle">
-              <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-                <Text strong style={{ fontSize: '12px' }}>{record.registerDate}</Text>
-                <Text style={{ fontSize: '12px' }}>{record.companyName}</Text>
-              </div>
-              <Space size="middle">
-                <a id={record.key} onClick={handleEditCompanyDetails}>Ред.</a>
-                <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
-                  <a >Удалить</a>
-                </Popconfirm>
+            <div style={{padding: '5px 0'}}>
+              <Space direction="vertical" size="large">
+                <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+                  <Text strong style={{ fontSize: '14px' }}>{record.registerDate}</Text>
+                  <Text style={{ fontSize: '14px' }}>{record.companyName}</Text>
+                </div>
+                <Space size="middle">
+                  <a id={record.key} onClick={handleEditCompanyDetails}>Редактировать</a>
+                  <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
+                    <a >Удалить</a>
+                  </Popconfirm>
+                </Space>
               </Space>
-            </Space>
+            </div>
           </React.Fragment>
         )
       }
@@ -272,6 +274,10 @@ const CompanyDetails: React.FC = () => {
             <Title level={5}>{companyTitle}</Title>
             <Text type="secondary" >Реквизиты</Text>
           </Space>
+          <Divider/>
+            <Button size="large" block type="primary" onClick={() => setOpen(true)}>
+              Внести изменения
+            </Button>
           <Divider />
         </>
       )
@@ -287,25 +293,26 @@ const CompanyDetails: React.FC = () => {
           showExpandColumn: sm ? false : true,
           expandedRowRender: record => <div style={{ margin: 0 }}>
             <React.Fragment>
-              {/* <Space direction="vertical" size="small" style={{width: '100%'}}> */}
-              <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-                <Text strong style={{ fontSize: '10px' }}>Адрес:</Text>
-                <Text style={{ fontSize: '12px' }}>{record.address}</Text>
-                <Text strong style={{ fontSize: '10px' }}>Телефон:</Text>
-                <Text style={{ fontSize: '12px' }}>{record.phoneNumber}</Text>
-                <Text strong style={{ fontSize: '10px' }}>р/с:</Text>
-                <Text style={{ fontSize: '12px' }}>{record.bankAccount}</Text>
-                <Text strong style={{ fontSize: '10px' }}>Банк:</Text>
-                <Text style={{ fontSize: '12px' }}>{record.bankName}</Text>
-                <Text strong style={{ fontSize: '10px' }}>МФО:</Text>
-                <Text style={{ fontSize: '12px' }}>{record.bankCode}</Text>
-                <Text strong style={{ fontSize: '10px' }}>ИНН:</Text>
-                <Text style={{ fontSize: '12px' }}>{record.companyINN}</Text>
-                <Text strong style={{ fontSize: '10px' }}>ОКЭД:</Text>
-                <Text style={{ fontSize: '12px' }}>{record.companyOKED}</Text>
-                <Text strong style={{ fontSize: '10px' }}>Руководитель:</Text>
-                <Text style={{ fontSize: '12px' }}>{record.manager}</Text>
-                {/* </Space> */}
+              
+              <div style={{ padding: '20px 10px' }}>
+                <Space direction="vertical" size="small" style={{ width: '100%' }}>
+                <Text strong style={{ fontSize: '12px' }}>Адрес:</Text>
+                <Text>{record.address}</Text>
+                <Text strong style={{ fontSize: '12px' }}>Телефон:</Text>
+                <Text >{record.phoneNumber}</Text>
+                <Text strong style={{ fontSize: '12px' }}>р/с:</Text>
+                <Text >{record.bankAccount}</Text>
+                <Text strong style={{ fontSize: '12px' }}>Банк:</Text>
+                <Text >{record.bankName}</Text>
+                <Text strong style={{ fontSize: '12px' }}>МФО:</Text>
+                <Text >{record.bankCode}</Text>
+                <Text strong style={{ fontSize: '12px' }}>ИНН:</Text>
+                <Text >{record.companyINN}</Text>
+                <Text strong style={{ fontSize: '12px' }}>ОКЭД:</Text>
+                <Text >{record.companyOKED}</Text>
+                <Text strong style={{ fontSize: '12px' }}>Руководитель:</Text>
+                <Text >{record.manager}</Text>
+                </Space>
               </div>
             </React.Fragment>
           </div>,

@@ -247,10 +247,10 @@ const CreateEmployee: React.FC<CreateEmployeeProps> = ({ open, setOpen }) => {
         ) : (
           <Form.Item>
             <Space direction="vertical" style={{ width: '100%' }} size="middle">
-              <Button type="primary" htmlType="submit" loading={loading} block>
+                <Button size="large" type="primary" htmlType="submit" loading={loading} block>
                 Создать
               </Button>
-              <Button onClick={onCancel} block>
+                <Button size="large" onClick={onCancel} block>
                 Отмена
               </Button>
             </Space>

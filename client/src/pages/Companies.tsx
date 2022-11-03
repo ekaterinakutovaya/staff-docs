@@ -186,7 +186,7 @@ const Companies: React.FC = () => {
           </Button>
         ]}
       >
-        <Button type="primary" onClick={() => setOpen(true)} block
+        <Button size="large" type="primary" onClick={() => setOpen(true)} block
           style={md ? { display: 'none' } : { display: 'block', marginBottom: '20px' }}
         >
           Добавить

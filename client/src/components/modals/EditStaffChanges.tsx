@@ -323,9 +323,7 @@ const EditStaffChanges: React.FC<EditStaffChangesProps> = ({ open, setOpen, orde
           </Form.Item>
           <Divider />
 
-          <Form.Item required label="Режим рабочего времени" name="workSchedulePrev" wrapperCol={{
-            span: 14
-          }}
+          <Form.Item label="Режим рабочего времени" name="workSchedulePrev" wrapperCol={{span: 14}}
           >
             <Input disabled />
           </Form.Item>
@@ -419,10 +417,10 @@ const EditStaffChanges: React.FC<EditStaffChangesProps> = ({ open, setOpen, orde
           ) : (
             <Form.Item>
               <Space direction="vertical" style={{ width: '100%' }} size="middle">
-                <Button type="primary" htmlType="submit" loading={loading} block>
+                <Button size="large" type="primary" htmlType="submit" loading={loading} block>
                   Сохранить
                 </Button>
-                <Button onClick={onCancel} block>
+                <Button size="large" onClick={onCancel} block>
                   Отмена
                 </Button>
               </Space>

@@ -237,7 +237,7 @@ const CreateStaffChanges: React.FC<CreateStaffChangesProps> = ({ open, setOpen }
           onFinishFailed={onFinishFailed}
           preserve={false}
         >
-          <Form.Item label="Номер">
+          <Form.Item label="Номер" required>
             {md ? (
               <Input.Group size="default">
                 <Row gutter={10}>
@@ -255,7 +255,7 @@ const CreateStaffChanges: React.FC<CreateStaffChangesProps> = ({ open, setOpen }
               </Input.Group>
             ) : (
               <>
-                <Form.Item name="orderNo" >
+                  <Form.Item name="orderNo" required>
                     <InputNumber style={{ width: '70px' }} />
                 </Form.Item>
                 <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
@@ -268,7 +268,7 @@ const CreateStaffChanges: React.FC<CreateStaffChangesProps> = ({ open, setOpen }
           <Divider />
 
 
-          <Form.Item label="Сотрудник">
+          <Form.Item label="Сотрудник" required>
             <Select
               showSearch
               placeholder="Выбрать сотрудника"
@@ -292,7 +292,7 @@ const CreateStaffChanges: React.FC<CreateStaffChangesProps> = ({ open, setOpen }
           </Form.Item>
           <Divider />
 
-          <Form.Item label="Дата перевода" name="agreementDate" rules={[
+          <Form.Item required label="Дата перевода" name="agreementDate" rules={[
             {
               validator: (_, value) => {
                 if (value === null) {
@@ -338,7 +338,7 @@ const CreateStaffChanges: React.FC<CreateStaffChangesProps> = ({ open, setOpen }
           </Form.Item>
           <Divider />
 
-          <Form.Item label="Часы работы" required>
+          <Form.Item label="Часы работы">
             <Input.Group size="default" >
               <Row gutter={10}>
                 {md ? (
@@ -486,10 +486,10 @@ const CreateStaffChanges: React.FC<CreateStaffChangesProps> = ({ open, setOpen }
           ) : (
             <Form.Item>
               <Space direction="vertical" style={{ width: '100%' }} size="middle">
-                <Button type="primary" htmlType="submit" loading={loading} block>
+                <Button size="large" type="primary" htmlType="submit" loading={loading} block>
                   Сохранить
                 </Button>
-                <Button onClick={onCancel} block>
+                  <Button size="large" onClick={onCancel} block>
                   Отмена
                 </Button>
               </Space>

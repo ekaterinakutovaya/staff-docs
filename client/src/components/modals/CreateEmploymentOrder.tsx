@@ -98,9 +98,9 @@ const CreateEmploymentOrder: React.FC<CreateEmploymentOrderProps> = ({ open, set
 
   const validateDate = (rule: any, value: any, callback: (error?: string) => void) => {
     if (value === null) {
-      return Promise.reject('Пожалуйста введите дату приказа!');
+      return Promise.reject('Пожалуйста введите дату!');
     } else if (moment(value).isBefore(registerDate, 'day'))
-      return Promise.reject('Дата приказа не может быть раньше даты регистрации организации!');
+      return Promise.reject('Дата документа не может быть раньше даты регистрации организации!');
     else {
       return Promise.resolve();
     }
@@ -306,6 +306,7 @@ const CreateEmploymentOrder: React.FC<CreateEmploymentOrderProps> = ({ open, set
             <InputNumber step="0.25" />
           </Form.Item>
           <Divider />
+
           <Form.Item label="Часы работы" required>
             <Input.Group size="default" >
               <Row gutter={10}>
@@ -330,16 +331,12 @@ const CreateEmploymentOrder: React.FC<CreateEmploymentOrderProps> = ({ open, set
                   <Space>
                     <Col span={10}>
                       <Form.Item name="workHoursStart" label="с">
-                          <InputNumber style={{
-                            textAlign: 'center', width: '70px'
-                          }} />
+                          <InputNumber />
                       </Form.Item>
                     </Col>
                     <Col span={10}>
                       <Form.Item name="workHoursEnd" label="до">
-                          <InputNumber style={{
-                            textAlign: 'center', width: '70px'
-                          }} />
+                          <InputNumber />
                       </Form.Item>
                     </Col>
                   </Space>
@@ -396,10 +393,10 @@ const CreateEmploymentOrder: React.FC<CreateEmploymentOrderProps> = ({ open, set
           ) : (
               <Form.Item>
                 <Space direction="vertical" style={{width: '100%'}} size="middle">
-                  <Button type="primary" htmlType="submit" loading={loading} block>
+                  <Button size="large" type="primary" htmlType="submit" loading={loading} block>
                     Создать
                   </Button>
-                  <Button onClick={onCancel} block>
+                  <Button size="large" onClick={onCancel} block>
                     Отмена
                   </Button>
                 </Space>

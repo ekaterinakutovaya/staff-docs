@@ -1,18 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
     Modal,
     Form,
     Input,
     Button,
     DatePicker,
-    Space
+    Space, Grid, Divider
 } from 'antd';
 import 'moment/locale/ru';
 import locale from 'antd/es/date-picker/locale/ru_RU';
 
 import { CompanyDetails } from "store/types";
 import companyService from "api/company.service";
+
 const dateFormatList = ['DD.MM.YYYY', 'DD.MM.YY'];
+const { useBreakpoint } = Grid;
+const { TextArea } = Input;
 
 type InsertCompanyChangesProps = {
     open: boolean;
@@ -22,6 +25,8 @@ type InsertCompanyChangesProps = {
 
 const InsertCompanyChanges: React.FC<InsertCompanyChangesProps> = ({ open, setOpen, companyId }) => {
     const [form] = Form.useForm();
+    const { sm, md, lg, xl, xxl } = useBreakpoint();
+    const [loading, setLoading] = useState(false);
 
     const onFinish = (values: CompanyDetails) => {
         console.log('Success:', values);
@@ -65,19 +70,26 @@ const InsertCompanyChanges: React.FC<InsertCompanyChangesProps> = ({ open, setOp
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                 >
-                    <Form.Item label="Наименование" name="companyName" rules={[{ required: true, message: 'Пожалуйста введите наименование!' }]}>
-                        <Input />
-                    </Form.Item>
-                    <Form.Item label="Адрес" name="address" rules={[{ required: true, message: 'Пожалуйста введите адрес организации!' }]}>
-                        <Input />
-                    </Form.Item>
-                    <Form.Item label="Телефон" name="phoneNumber" rules={[{ required: true, message: 'Пожалуйста введите телефон организации!' }]}>
-                        <Input />
-                    </Form.Item>
-
                     <Form.Item label="Дата изменения" name="registerDate" rules={[{ required: true, message: 'Пожалуйста введите дату изменения!' }]}>
                         <DatePicker format={dateFormatList} locale={locale} />
                     </Form.Item>
+                    <Divider />
+
+                    <Form.Item label="Наименование" name="companyName" rules={[{ required: true, message: 'Пожалуйста введите наименование!' }]}>
+                        <Input />
+                    </Form.Item>
+                    <Divider />
+
+                    <Form.Item label="Адрес" name="address" rules={[{ required: true, message: 'Пожалуйста введите адрес организации!' }]}>
+                        <TextArea rows={3} />
+                    </Form.Item>
+                    <Divider />
+
+                    <Form.Item label="Телефон" name="phoneNumber" rules={[{ required: true, message: 'Пожалуйста введите телефон организации!' }]}>
+                        <Input />
+                    </Form.Item>
+                    <Divider />
+
                     <Form.Item label="ИНН" name="companyINN" rules={[{
                         required: true,
                         message: 'Пожалуйста введите ИНН организации!'
@@ -89,6 +101,8 @@ const InsertCompanyChanges: React.FC<InsertCompanyChangesProps> = ({ open, setOp
                             maxLength={9}
                         />
                     </Form.Item>
+                    <Divider />
+
                     <Form.Item label="р/с" name="bankAccount" rules={[{
                         required: true,
                         message: 'Пожалуйста введите расчетный счет организации!'
@@ -100,10 +114,12 @@ const InsertCompanyChanges: React.FC<InsertCompanyChangesProps> = ({ open, setOp
                             maxLength={20}
                         />
                     </Form.Item>
+                    <Divider />
 
                     <Form.Item label="банк" name="bankName" rules={[{ required: true, message: 'Пожалуйста введите наименование банка!' }]}>
-                        <Input />
+                        <TextArea rows={3} />
                     </Form.Item>
+                    <Divider />
 
                     <Form.Item label="МФО" name="bankCode" rules={[{
                         required: true,
@@ -116,6 +132,7 @@ const InsertCompanyChanges: React.FC<InsertCompanyChangesProps> = ({ open, setOp
                             maxLength={5}
                         />
                     </Form.Item>
+                    <Divider />
 
                     <Form.Item label="ОКЭД" name="companyOKED" rules={[{
                         required: true,
@@ -128,6 +145,7 @@ const InsertCompanyChanges: React.FC<InsertCompanyChangesProps> = ({ open, setOp
                             maxLength={5}
                         />
                     </Form.Item>
+                    <Divider />
 
                     <Form.Item label="Руководитель" name="manager" rules={[{
                         required: true,
@@ -135,22 +153,36 @@ const InsertCompanyChanges: React.FC<InsertCompanyChangesProps> = ({ open, setOp
                     }]}>
                         <Input />
                     </Form.Item>
+                    <Divider />
 
+                    {sm ? (
+                        <Form.Item wrapperCol={{
+                            offset: 8,
+                            span: 16,
+                        }}>
+                            <Space>
+                                <Button type="primary" htmlType="submit" loading={loading}>
+                                    Создать
+                                </Button>
+                                <Button onClick={onCancel}>
+                                    Отмена
+                                </Button>
+                            </Space>
 
-                    <Form.Item wrapperCol={{
-                        offset: 8,
-                        span: 16,
-                    }}>
-                        <Space>
-                            <Button type="primary" htmlType="submit">
-                                Сохранить
-                            </Button>
-                            <Button onClick={onCancel}>
-                                Отмена
-                            </Button>
-                        </Space>
+                        </Form.Item>
+                    ) : (
+                        <Form.Item>
+                            <Space direction="vertical" style={{ width: '100%' }} size="middle">
+                                <Button size="large" type="primary" htmlType="submit" loading={loading} block>
+                                    Создать
+                                </Button>
+                                <Button size="large" onClick={onCancel} block>
+                                    Отмена
+                                </Button>
+                            </Space>
 
-                    </Form.Item>
+                        </Form.Item>
+                    )}
 
                 </Form>
             </Modal>

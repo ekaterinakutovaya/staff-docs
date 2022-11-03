@@ -19,6 +19,7 @@ import moment from 'moment';
 
 const dateFormatList = ['DD.MM.YYYY', 'DD.MM.YY'];
 const { useBreakpoint } = Grid;
+const { TextArea } = Input;
 
 type CreateCompanyProps = {
     open: boolean;
@@ -98,7 +99,7 @@ const CreateCompany: React.FC<CreateCompanyProps> = ({ open, setOpen }) => {
                     </Form.Item>
                     <Divider/>
                     <Form.Item label="Адрес" name="address" rules={[{ required: true, message: 'Пожалуйста введите адрес организации!' }]}>
-                        <Input />
+                        <TextArea rows={3} />
                     </Form.Item>
                     <Divider />
                     <Form.Item label="Телефон" name="phoneNumber" rules={[{ required: true, message: 'Пожалуйста введите телефон организации!' }]}>
@@ -136,7 +137,7 @@ const CreateCompany: React.FC<CreateCompanyProps> = ({ open, setOpen }) => {
                     <Divider />
 
                     <Form.Item label="банк" name="bankName" rules={[{ required: true, message: 'Пожалуйста введите наименование банка!' }]}>
-                        <Input />
+                        <TextArea rows={3} />
                     </Form.Item>
                     <Divider />
 
@@ -193,10 +194,10 @@ const CreateCompany: React.FC<CreateCompanyProps> = ({ open, setOpen }) => {
                     ) : (
                         <Form.Item>
                             <Space direction="vertical" style={{ width: '100%' }} size="middle">
-                                <Button type="primary" htmlType="submit" loading={loading} block>
+                                <Button size="large" type="primary" htmlType="submit" loading={loading} block>
                                     Создать
                                 </Button>
-                                <Button onClick={onCancel} block>
+                                    <Button size="large" onClick={onCancel} block>
                                     Отмена
                                 </Button>
                             </Space>
