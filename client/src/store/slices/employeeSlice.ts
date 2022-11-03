@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchEmployees, deleteEmployeeById, setEmployed } from "../actionCreators/employeeAction";
 import { Employee } from "../types";
 
-export interface EmployeeSliceState {
+interface EmployeeSliceState {
     employees: Employee[];
     loading: boolean;
 }
@@ -19,6 +19,9 @@ const employeeSlice = createSlice({
         setEmployees(state, action: PayloadAction<Employee[]>) {
             state.loading = false;
             state.employees = action.payload;
+        },
+        deleteEmployeeByIdDemo(state, action) {
+            state.employees = state.employees.filter((emp) => emp.id !== action.payload);
         }
     },
     extraReducers: (builder) => {
@@ -47,5 +50,5 @@ const employeeSlice = createSlice({
     },
 });
 
-const { setEmployees } = employeeSlice.actions;
+export const { setEmployees, deleteEmployeeByIdDemo } = employeeSlice.actions;
 export default employeeSlice.reducer;

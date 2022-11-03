@@ -198,7 +198,7 @@ const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({ open, setOpen, 
             <Form.Item>
               <Space direction="vertical" style={{ width: '100%' }} size="middle">
                   <Button size="large" type="primary" htmlType="submit" loading={loading} block>
-                  Создать
+                  Сохранить
                 </Button>
                   <Button size="large" onClick={onCancel} block>
                   Отмена

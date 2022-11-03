@@ -31,14 +31,10 @@ const Login = () => {
 
     const onFinish = (values: any) => {
         const given_name = 'demo';
-        const picture = 'https://lh3.googleusercontent.com/a/ALm5wu2RSc1LKy9wd4Fitpoe4gBeORdvu-oavVIloIG-=s96-c';
-        const sub = '001296207845141885081';
+        const picture = '';
+        const sub = 'demo';
         const secret= 'secret';
-        const data = {
-            given_name: 'demo',
-            picture: 'https://lh3.googleusercontent.com/a/ALm5wu2RSc1LKy9wd4Fitpoe4gBeORdvu-oavVIloIG-=s96-c',
-            sub: '001296207845141885081'
-        }
+        const data = { given_name, picture, sub }
         const token = sign(data, secret);
         dispatch(auth({ given_name, picture, sub, token }))
     };

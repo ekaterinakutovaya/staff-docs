@@ -7,10 +7,10 @@ import type { ColumnsType } from 'antd/es/table';
 
 import { useAppDispatch } from "store/store";
 import { fetchCompanyDetails, deleteCompanyDetailsById } from 'store/actionCreators/companyAction';
+import { deleteCompanyDetailsByIdDemo } from "store/slices/companySlice";
 import InsertCompanyChanges from "components/modals/InsertCompanyChanges";
 import EditCompanyDetails from "components/modals/EditCompanyDetails";
-import { selectCompanies } from "store/selectors";
-// import { CompanyDetails } from "../store/types";
+import { selectAuth, selectCompanies } from "store/selectors";
 
 const { Title, Text } = Typography;
 const { useBreakpoint } = Grid;
@@ -35,6 +35,7 @@ const CompanyDetails: React.FC = () => {
   const { id } = useParams();
   const { sm, md, lg, xl, xxl } = useBreakpoint();
   const dispatch = useAppDispatch();
+  const { sub } = useSelector(selectAuth);
   const { companyDetails } = useSelector(selectCompanies);
   const [companyId, setCompanyId] = useState<number | null>(null);
   const [data, setData] = useState<DataType[]>([]);
@@ -89,6 +90,10 @@ const CompanyDetails: React.FC = () => {
 
   const deleteHandler = (id: string) => {
     const companyDetailsId = Number(id);
+    if (sub === 'demo') {
+      dispatch(deleteCompanyDetailsByIdDemo({ companyDetailsId }))
+      return;
+    }
     dispatch(deleteCompanyDetailsById({ companyDetailsId }))
   }
 

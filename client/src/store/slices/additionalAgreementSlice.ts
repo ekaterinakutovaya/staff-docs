@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchAdditionalAgreements, deleteAdditionalAgreementById } from "../actionCreators/additionalAgreementAction";
 import { AdditionalAgreement } from "../types";
 
-export interface AdditionalAgreementSliceState {
+interface AdditionalAgreementSliceState {
     additionalAgreements: AdditionalAgreement[];
     loading: boolean;
 }
@@ -19,6 +19,10 @@ const additionalAgreementSlice = createSlice({
         setAdditionalAgreements(state, action: PayloadAction<AdditionalAgreement[]>) {
             state.additionalAgreements = action.payload;
             state.loading = false;
+        },
+        deleteAdditionalAgreementByIdDemo(state, action) {
+            console.log(action.payload);
+            
         }
     },
     extraReducers: (builder) => {
@@ -41,5 +45,5 @@ const additionalAgreementSlice = createSlice({
     },
 });
 
-const { setAdditionalAgreements } = additionalAgreementSlice.actions;
+export const { setAdditionalAgreements, deleteAdditionalAgreementByIdDemo } = additionalAgreementSlice.actions;
 export default additionalAgreementSlice.reducer;

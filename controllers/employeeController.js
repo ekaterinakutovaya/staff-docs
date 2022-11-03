@@ -9,8 +9,6 @@ class EmployeeController {
         
         try {
             const { values: { employeeFamilyName, employeeFirstName, employeePatronymic, personalId, employeeINN, passportSeries, passportNo, issueAuthority, issueDate, employeeAddress, employeePhoneNumber }, companyId } = req.body;
-            // console.log(typeof companyId);
-
 
             const employee = await Employee.create({ employeeFamilyName, employeeFirstName, employeePatronymic, personalId, employeeINN, passportSeries, passportNo, issueAuthority, issueDate, employeeAddress, employeePhoneNumber, companyId });
 
@@ -23,7 +21,6 @@ class EmployeeController {
 
     async getAll(req, res) {
         const { companyId } = req.query;
-        console.log(`myQuery: ${req}`);
         
         const employees = await Employee.findAll({
             where: { companyId: Number(companyId) },
@@ -76,14 +73,9 @@ class EmployeeController {
                 if (num === 1) {
                     return res.json(id);
                 } 
-                // else {
-                //     res.json(id);
-                // }
             })
             .catch(err => {
                 res.status(500).send({ message: `Невозможно удалить физ.лицо, имеются связанные документы.` })
-                // res.json(id);
-                // res.status(500).send(id)
             })
     }
 }

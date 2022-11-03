@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchOrders, deleteOrderById } from "../actionCreators/orderAction";
 import { Order } from "../types";
 
-export interface OrderSliceState {
+interface OrderSliceState {
     orders: Order[];
     loading: boolean;
 }
@@ -19,12 +19,14 @@ const OrderSlice = createSlice({
         setOrders(state, action: PayloadAction<Order[]>) {
             state.loading = false;
             state.orders = action.payload;
+        },
+        deleteOrderByIdDemo(state, action) {
+            state.orders = state.orders.filter((order) => order.id !== action.payload);
         }
     },
     extraReducers: (builder) => {
         builder.addCase(fetchOrders.pending, (state, action) => {
             state.loading = true;
-            // state.orders = [];
         });
         builder.addCase(fetchOrders.fulfilled, (state, action) => {
             state.loading = false;
@@ -41,5 +43,5 @@ const OrderSlice = createSlice({
     },
 });
 
-const { setOrders } = OrderSlice.actions;
+export const { setOrders, deleteOrderByIdDemo } = OrderSlice.actions;
 export default OrderSlice.reducer;

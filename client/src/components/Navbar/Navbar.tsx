@@ -27,8 +27,8 @@ const Navbar: React.FC = () => {
     if (currentCompany) {
       setCurrentCompanyTitle(currentCompany.companyName);
     }
-
-    if (sub === '001296207845141885081') {
+    
+    if (sub === 'demo') {
       setDemo(true);
     }
 

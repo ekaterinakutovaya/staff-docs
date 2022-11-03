@@ -5,13 +5,13 @@ import { DownOutlined, FileDoneOutlined, FileWordOutlined } from '@ant-design/ic
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps, } from 'antd/es/table/interface';
 
-import type { InputRef, DatePickerProps } from 'antd';
+import type { InputRef } from 'antd';
 import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from 'react-highlight-words';
 import moment from 'moment';
 
 import { useAppDispatch } from "store/store";
-import { selectCompanies, selectOrders, selectEmployees, selectSidebarItem } from "store/selectors";
+import { selectCompanies, selectOrders, selectEmployees, selectSidebarItem, selectAuth } from "store/selectors";
 import CreateEmploymentOrder from 'components/modals/CreateEmploymentOrder';
 import CreateDismissalOrder from 'components/modals/CreateDismissalOrder';
 import EditEmploymentOrder from 'components/modals/EditEmploymentOrder';
@@ -20,25 +20,19 @@ import { fetchCompanyDetails } from 'store/actionCreators/companyAction';
 import { fetchContracts, deleteContractById, cancelDismissal } from 'store/actionCreators/contractAction';
 import { fetchAdditionalAgreements, deleteAdditionalAgreementById } from 'store/actionCreators/additionalAgreementAction';
 import { fetchEmployees, setEmployed } from 'store/actionCreators/employeeAction';
-import contractService from "api/contract.service";
+import { deleteOrderByIdDemo } from "store/slices/orderSlice";
+import { deleteContractByIdDemo } from "store/slices/contractSlice";
+import { deleteAdditionalAgreementByIdDemo } from "store/slices/additionalAgreementSlice";
 import exportToDocService from "api/exportToDoc.service";
 import { orderTypes } from "consts/consts";
 import EditDismissalOrder from 'components/modals/EditDismissalOrder';
 import CreateStaffChanges from 'components/modals/CreateStaffChanges';
 import EditStaffChanges from 'components/modals/EditStaffChanges';
 import { Order, Employee } from "../store/types";
-import employeeService from 'api/employee.service';
 
-const { Text, Link } = Typography;
+const { Text } = Typography;
 const { useBreakpoint } = Grid;
 const dateFormat = 'DD.MM.YYYY';
-// const weekFormat = 'MM/DD';
-// const monthFormat = 'YYYY/MM';
-
-const dateFormatList = ['DD.MM.YYYY', 'DD.MM.YY'];
-
-const customFormat: DatePickerProps['format'] = value =>
-  `custom format: ${value.format(dateFormat)}`;
 
 
 interface DataType {
@@ -67,6 +61,7 @@ const Orders: React.FC = () => {
   const [openEditStaffChanges, setOpenEditStaffChanges] = useState(false);
   const [editOrderId, setEditOrderId] = useState(null);
   const [editAgreementId, setEditAgreementId] = useState(null);
+  const { sub } = useSelector(selectAuth);
   const { currentCompany } = useSelector(selectCompanies);
   const { orders } = useSelector(selectOrders);
   const { employees } = useSelector(selectEmployees);
@@ -76,7 +71,7 @@ const Orders: React.FC = () => {
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef<InputRef>(null);
 
-  
+
 
   const menuItems = [
     {
@@ -161,37 +156,50 @@ const Orders: React.FC = () => {
     if (orderTypeId === 0) {
       const joinedOrders = orders.filter((order: Order) => order.contractId === contractId);
 
-      if (joinedOrders.length > 1) {
-        notification.error({
-          message: `Невозможно удалить запись!`,
-          description:
-            'Существуют связанные документы.',
-          placement: 'top',
-        });
-      } else {
-        dispatch(deleteOrderById({ orderId }))
-          .then(() => {
-            dispatch(deleteContractById({ contractId }));
-          })
+      // if (joinedOrders.length > 1) {
+      //   notification.error({
+      //     message: `Невозможно удалить запись!`,
+      //     description:
+      //       'Существуют связанные документы.',
+      //     placement: 'top',
+      //   });
+      //   return;
+      // }
+
+      if (sub === 'demo') {
+        dispatch(deleteOrderByIdDemo(orderId))
+        dispatch(deleteContractByIdDemo(contractId))
+        return;
       }
+      dispatch(deleteOrderById({ orderId }))
+        .then(() => {
+          dispatch(deleteContractById({ contractId }));
+        })
 
     }
     if (orderTypeId === 1) {
       const joinedOrders = orders.filter((order: Order) => order.contractId === contractId && order.orderTypeId === 1);
 
-      if (joinedOrders.length > 1) {
-        notification.error({
-          message: `Невозможно удалить запись!`,
-          description:
-            'Существуют связанные документы.',
-          placement: 'top',
-        });
-      } else {
-        dispatch(deleteOrderById({ orderId }))
-          .then(() => {
-            dispatch(deleteAdditionalAgreementById({ agreementId }));
-          })
+      // if (joinedOrders.length > 1) {
+      //   notification.error({
+      //     message: `Невозможно удалить запись!`,
+      //     description:
+      //       'Существуют связанные документы.',
+      //     placement: 'top',
+      //   });
+      //   return;
+      // }
+
+      if (sub === 'demo') {
+        dispatch(deleteOrderByIdDemo(orderId))
+        dispatch(deleteAdditionalAgreementByIdDemo(agreementId))
+        return;
       }
+
+      dispatch(deleteOrderById({ orderId }))
+        .then(() => {
+          dispatch(deleteAdditionalAgreementById({ agreementId }));
+        })
 
     }
     if (orderTypeId === 2) {
@@ -281,7 +289,6 @@ const Orders: React.FC = () => {
             onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
             icon={<SearchOutlined />}
             size="small"
-            style={{ width: 90 }}
           >
             Поиск
           </Button>
@@ -329,7 +336,7 @@ const Orders: React.FC = () => {
           textToHighlight={text ? text.toString() : ''}
         />
       ) : (
-          text
+        text
       ),
   });
 
@@ -400,9 +407,9 @@ const Orders: React.FC = () => {
       render: (_, record) => {
         return (
           <React.Fragment>
-            <Space direction="vertical" size="small" style={{ width: '100%' }}>                
-              
-              <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <Space direction="vertical" size="small" style={{ width: '100%' }}>
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Text type="secondary" style={{ fontSize: '12px' }}>{record.orderType}</Text>
                 <a id={record.key} onClick={() => downloadHandler(record.key, record.orderTypeId, record.agreementId, record.employeeId, record.contractId)} ><FileWordOutlined style={{ fontSize: '24px' }} /></a>
               </div>

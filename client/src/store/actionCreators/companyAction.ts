@@ -80,8 +80,6 @@ export const setCurrentCompany = createAsyncThunk<CurrentCompany, CurrentCompany
     "companies/setCurrentCompany",
     async (params, thunkAPI) => {
         const { id, sub } = params;
-        // console.log(params);
-        
         try {
             const response = await companyService.setCurrentCompany(id, sub);
             return response.data;
@@ -148,7 +146,6 @@ export const deleteCompanyById = createAsyncThunk <Company[], DeleteCompanyByIdP
         const {companyId} = params;
         try {
             const response = await companyService.deleteCompanyById(companyId);
-            // console.log(response);
             return response.data;
         } catch (error) {
             const message =

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button, Input, PageHeader, Table, Space, Popconfirm, Tooltip, notification, Grid, Typography } from 'antd';
-import type { ColumnsType, TableProps, ColumnType } from 'antd/es/table';
+import type { ColumnsType, ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
 import type { InputRef } from 'antd';
 import { SearchOutlined } from "@ant-design/icons";
@@ -11,9 +11,10 @@ import Highlighter from 'react-highlight-words';
 import { useAppDispatch } from "store/store";
 import CreateEmployee from 'components/modals/CreateEmployee';
 import { fetchEmployees, deleteEmployeeById } from 'store/actionCreators/employeeAction';
+import { deleteEmployeeByIdDemo } from "store/slices/employeeSlice";
 import EditEmployee from 'components/modals/EditEmployee';
-import { selectCompanies, selectEmployees, selectAuth } from "store/selectors";
-import { Employee } from "../store/types";
+import { selectCompanies, selectEmployees, selectAuth, selectContracts } from "store/selectors";
+import { Contract, Employee } from "../store/types";
 
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
@@ -37,6 +38,7 @@ const Employees: React.FC = () => {
   const { currentCompany } = useSelector(selectCompanies);
   const { companies } = useSelector(selectCompanies);
   const { employees } = useSelector(selectEmployees);
+  const { contracts } = useSelector(selectContracts);
   const [openCreateEmployee, setOpenCreateEmployee] = useState(false);
   const [openEditEmployee, setOpenEditEmployee] = useState(false);
   const [employeeId, setEmployeeId] = useState<number | null>(null);
@@ -82,6 +84,22 @@ const Employees: React.FC = () => {
 
   const deleteHandler = (id: string) => {
     const employeeId = Number(id);
+    
+    if (sub === 'demo') {
+      const foundContracts = contracts.find((contract: Contract) => contract.employeeId === employeeId);
+      if (foundContracts) {
+        notification.error({
+          message: `Невозможно удалить физ.лицо!`,
+          description:
+            'Существуют связанные документы.',
+          placement: 'top',
+        });
+      } else {
+        dispatch(deleteEmployeeByIdDemo(employeeId));
+      }
+      return;
+    }
+
     dispatch(deleteEmployeeById(employeeId))
       .then((response: any) => {
         if (response.error?.message === 'Rejected') {
@@ -93,6 +111,7 @@ const Employees: React.FC = () => {
           });
         }
       })
+
   }
 
   const handleSearch = (
@@ -185,7 +204,7 @@ const Employees: React.FC = () => {
       dataIndex: 'indexNum',
       key: 'indexNum',
       width: '5%',
-      responsive: ["sm"]
+      responsive: ["md"]
     },
     {
       title: "ФИО",
@@ -199,7 +218,7 @@ const Employees: React.FC = () => {
             <Space direction="vertical" size="middle">
               <Text strong>{record.employeeName}</Text>
               <Space>ПИНДФЛ:{record.personalId}</Space>
-              
+
               <Space size="large">
                 <Space size="middle">
                   <a id={record.key} onClick={editHandler}>Редактировать</a>
@@ -219,7 +238,7 @@ const Employees: React.FC = () => {
       key: 'employeeName',
       width: '30%',
       ...getColumnSearchProps('employeeName'),
-      responsive: ["xl"]
+      responsive: ["md"]
     },
     {
       title: 'ПИНДФЛ',
@@ -227,14 +246,14 @@ const Employees: React.FC = () => {
       key: 'personalId',
       width: '10%',
       ...getColumnSearchProps('personalId'),
-      responsive: ["xl"]
+      responsive: ["md"]
     },
     {
       title: '',
       dataIndex: 'action',
       key: 'action',
       width: '10%',
-      responsive: ["xl"],
+      responsive: ["md"],
       render: (_, record) => {
         return (
           <Space size="middle">

@@ -7,8 +7,7 @@ const ApiError = require('../error/ApiError');
 
 class CompanyController {
     async create(req, res, next) {
-        // console.log(req.body);
-        
+
         try {
             const { values: { companyName, address, phoneNumber, registerDate, companyINN, bankAccount, bankName, bankCode, companyOKED, manager }, sub } = req.body;
             const user = await User.findOne({ where: { sub } });
@@ -17,9 +16,9 @@ class CompanyController {
             let company;
             
             if (companies.length > 0) {
-                company = await Company.create({ companyName, isCurrent: false, userId: user.id });
+                company = await Company.create({ companyName, companyinn: companyINN, isCurrent: false, userId: user.id });
             } else {
-                company = await Company.create({ companyName, isCurrent: true, userId: user.id });
+                company = await Company.create({ companyName, companyinn: companyINN, isCurrent: true, userId: user.id });
             }
             
 
@@ -93,8 +92,6 @@ class CompanyController {
 
     async deleteOneCompany(req, res) {
         const { id } = req.body;
-        // console.log(+id);
-        
         Company.destroy({where: {id: +id}})
             .then(num => {
                 if (num === 1) {

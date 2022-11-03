@@ -25,6 +25,18 @@ const companySlice = createSlice({
         },
         setCompanyDetails(state, action: PayloadAction<CompanyDetails[]>) {
             state.companyDetails = action.payload;
+        },
+        deleteCompanyByIdDemo(state, action) {
+            state.companies = state.companies.filter((comp) => comp.id !== action.payload.companyId);
+            if (state.companies.length === 0) {
+                state.currentCompany = {};
+            }
+            if (state.currentCompany.id === action.payload.companyId) {
+                state.currentCompany = {};
+            }
+        },
+        deleteCompanyDetailsByIdDemo(state, action) {
+            state.companyDetails = state.companyDetails.filter((details) => details.id !== action.payload.companyDetailsId);
         }
     },
     extraReducers: (builder) => {
@@ -80,7 +92,6 @@ const companySlice = createSlice({
                 )
             state.currentCompany = action.payload;
         });
-
         builder.addCase(deleteCompanyById.fulfilled, (state, action) => {
             state.loading = false;
             state.companies = state.companies.filter((comp) => comp.id !== +action.payload);
@@ -99,6 +110,6 @@ const companySlice = createSlice({
 });
 
 
-export const { setCompanies, setCompanyDetails } = companySlice.actions;
+export const { setCompanies, setCompanyDetails, deleteCompanyByIdDemo, deleteCompanyDetailsByIdDemo } = companySlice.actions;
 
 export default companySlice.reducer;

@@ -6,8 +6,10 @@ import moment from 'moment';
 import employeeService from "api/employee.service";
 import { selectCurrentCompany, selectCompanies } from "store/selectors";
 import { Employee } from 'store/types';
+
 const dateFormatList = ['DD.MM.YYYY', 'DD.MM.YY'];
 const { useBreakpoint } = Grid;
+const { TextArea } = Input;
 
 type CreateEmployeeProps = {
   open: boolean;
@@ -20,7 +22,6 @@ const CreateEmployee: React.FC<CreateEmployeeProps> = ({ open, setOpen }) => {
   const [loading, setLoading] = useState(false);
   const { currentCompany } = useSelector(selectCompanies);
   const [id, setId] = useState(null);
-  // const id = currentCompany?.id;
 
   useEffect(() => {
     form.setFieldsValue({
@@ -204,7 +205,7 @@ const CreateEmployee: React.FC<CreateEmployeeProps> = ({ open, setOpen }) => {
                   <Input maxLength={7} />
                 </Form.Item>
                 <Form.Item label="выдан" name="issueAuthority">
-                  <Input />
+                  <TextArea rows={3} />
                 </Form.Item>
                 <Form.Item label="дата выдачи" name="issueDate">
                   <DatePicker format={dateFormatList} />
@@ -220,7 +221,7 @@ const CreateEmployee: React.FC<CreateEmployeeProps> = ({ open, setOpen }) => {
         <Form.Item label="Адрес" name="employeeAddress" wrapperCol={{
           span: 18,
         }}>
-          <Input />
+          <TextArea rows={3} />
         </Form.Item>
         <Form.Item label="Телефон" name="employeePhoneNumber" wrapperCol={{
           span: 5,

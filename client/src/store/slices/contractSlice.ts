@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchContracts, deleteContractById, cancelDismissal } from "../actionCreators/contractAction";
 import { Contract } from "../types";
 
-export interface ContractSliceState {
+interface ContractSliceState {
     contracts: Contract[];
     loading: boolean;
 }
@@ -19,6 +19,9 @@ const contractSlice = createSlice({
         setContracts(state, action: PayloadAction<Contract[]>) {
             state.contracts = action.payload;
             state.loading = false;
+        },
+        deleteContractByIdDemo(state, action) {
+            state.contracts = state.contracts.filter((contract) => contract.id !== action.payload);
         }
     },
     extraReducers: (builder) => {
@@ -45,5 +48,5 @@ const contractSlice = createSlice({
     },
 });
 
-const { setContracts } = contractSlice.actions;
+export const { setContracts, deleteContractByIdDemo } = contractSlice.actions;
 export default contractSlice.reducer;

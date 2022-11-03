@@ -8,6 +8,7 @@ import type { ColumnsType } from 'antd/es/table';
 import CreateCompany from "components/modals/CreateCompany";
 import { useAppDispatch } from "store/store";
 import { fetchCompanies, setCurrentCompany, deleteCompanyById } from 'store/actionCreators/companyAction';
+import { deleteCompanyByIdDemo } from "store/slices/companySlice";
 import { selectAuth, selectCompanies } from "store/selectors";
 import { Company } from "../store/types";
 import axios from 'axios';
@@ -60,12 +61,16 @@ const Companies: React.FC = () => {
     dispatch(setCurrentCompany({ id, sub }));
   }
 
-  const navigateToEditPage = (e: React.MouseEvent<HTMLElement>) => {
+  const navigateToCompanyDetails= (e: React.MouseEvent<HTMLElement>) => {
     navigate(`/dashboard/company_details/${e.currentTarget.id}`, { replace: true });
   }
 
   const deleteHandler = (id: string) => {
     const companyId = Number(id);
+    if (sub === 'demo') {
+      dispatch(deleteCompanyByIdDemo({ companyId }));
+      return;
+    }
     dispatch(deleteCompanyById({ companyId }))
   }
 
@@ -87,7 +92,7 @@ const Companies: React.FC = () => {
               <Space direction="vertical" size="middle">
                 <Text strong>{record.companyName}</Text>
                 <Space size="large">
-                  <a onClick={navigateToEditPage} id={record.key}>Реквизиты</a>
+                  <a onClick={navigateToCompanyDetails} id={record.key}>Реквизиты</a>
                   <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
                     <a >Удалить</a>
                   </Popconfirm>
@@ -104,7 +109,7 @@ const Companies: React.FC = () => {
               <Space direction="vertical" size="middle">
                 <Text strong>{record.companyName}</Text>
                 <Space size="large">
-                  <a onClick={navigateToEditPage} id={record.key}>Реквизиты</a>
+                  <a onClick={navigateToCompanyDetails} id={record.key}>Реквизиты</a>
                   <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
                     <a >Удалить</a>
                   </Popconfirm>
@@ -134,7 +139,7 @@ const Companies: React.FC = () => {
       render: (_, record) => {
         return (
           <Space size="middle">
-            <a onClick={navigateToEditPage} id={record.key}>Реквизиты</a>
+            <a onClick={navigateToCompanyDetails} id={record.key}>Реквизиты</a>
             <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
               <a >Удалить</a>
             </Popconfirm>
