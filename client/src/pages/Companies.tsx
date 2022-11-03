@@ -168,10 +168,9 @@ const Companies: React.FC = () => {
 
   ]
 
-  const handleJobs = () => {
-    axios.get(API_URL + "/profession/create")
-    
-  }
+  // const handleJobs = () => {
+  //   axios.get(API_URL + "/profession/create")  
+  // }
 
 
   return (
@@ -200,7 +199,7 @@ const Companies: React.FC = () => {
         // showHeader={sm ? true : false}
       />
 
-      <Button onClick={handleJobs}>jobs</Button>
+      {/* <Button onClick={handleJobs}>jobs</Button> */}
 
       <CreateCompany open={open} setOpen={setOpen} />
     </div>

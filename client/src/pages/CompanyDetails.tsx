@@ -28,6 +28,7 @@ interface DataType {
   companyINN: string;
   companyOKED: string;
   manager: string;
+  description: string;
 }
 
 const CompanyDetails: React.FC = () => {
@@ -68,7 +69,8 @@ const CompanyDetails: React.FC = () => {
           bankCode: details.bankCode,
           companyINN: details.companyINN,
           companyOKED: details.companyOKED,
-          manager: details.manager
+          manager: details.manager,
+          description: 'blabla'
         }
       ])
     })
@@ -112,10 +114,17 @@ const CompanyDetails: React.FC = () => {
       render: (_, record) => {
         return (
           <React.Fragment>
-            <Space direction="vertical" size="small" style={{width: '100%'}}>
-              <Text strong style={{ fontSize: '10px' }}>{record.registerDate}</Text>
-              <Text style={{ fontSize: '10px' }}>{record.companyName}</Text>
-              <Text style={{ fontSize: '10px' }}>{record.address}</Text>
+            <Space direction="vertical" size="middle">
+              <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+                <Text strong style={{ fontSize: '12px' }}>{record.registerDate}</Text>
+                <Text style={{ fontSize: '12px' }}>{record.companyName}</Text>
+              </div>
+              <Space size="middle">
+                <a id={record.key} onClick={handleEditCompanyDetails}>Ред.</a>
+                <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
+                  <a >Удалить</a>
+                </Popconfirm>
+              </Space>
             </Space>
           </React.Fragment>
         )
@@ -273,8 +282,33 @@ const CompanyDetails: React.FC = () => {
         columns={columns}
         size="small"
         bordered
-        scroll={{
-          x: "max-content"
+        scroll={sm ? { x: "max-content" } : {}}
+        expandable={{
+          showExpandColumn: sm ? false : true,
+          expandedRowRender: record => <div style={{ margin: 0 }}>
+            <React.Fragment>
+              {/* <Space direction="vertical" size="small" style={{width: '100%'}}> */}
+              <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+                <Text strong style={{ fontSize: '10px' }}>Адрес:</Text>
+                <Text style={{ fontSize: '12px' }}>{record.address}</Text>
+                <Text strong style={{ fontSize: '10px' }}>Телефон:</Text>
+                <Text style={{ fontSize: '12px' }}>{record.phoneNumber}</Text>
+                <Text strong style={{ fontSize: '10px' }}>р/с:</Text>
+                <Text style={{ fontSize: '12px' }}>{record.bankAccount}</Text>
+                <Text strong style={{ fontSize: '10px' }}>Банк:</Text>
+                <Text style={{ fontSize: '12px' }}>{record.bankName}</Text>
+                <Text strong style={{ fontSize: '10px' }}>МФО:</Text>
+                <Text style={{ fontSize: '12px' }}>{record.bankCode}</Text>
+                <Text strong style={{ fontSize: '10px' }}>ИНН:</Text>
+                <Text style={{ fontSize: '12px' }}>{record.companyINN}</Text>
+                <Text strong style={{ fontSize: '10px' }}>ОКЭД:</Text>
+                <Text style={{ fontSize: '12px' }}>{record.companyOKED}</Text>
+                <Text strong style={{ fontSize: '10px' }}>Руководитель:</Text>
+                <Text style={{ fontSize: '12px' }}>{record.manager}</Text>
+                {/* </Space> */}
+              </div>
+            </React.Fragment>
+          </div>,
         }}
       />
 
