@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     if (currentCompany) {
       // Set actual company name
-      setCurrentCompanyTitle(companyDetails[companyDetails.length - 1].companyName);
+      setCurrentCompanyTitle(currentCompany.companyName);
     }
     
     if (sub === 'demo') {
