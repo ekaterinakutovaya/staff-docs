@@ -98,7 +98,7 @@ const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({ open, setOpen, 
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
-          <Form.Item label="Дата изменения" name="registerDate" rules={[{ required: true, message: 'Пожалуйста введите дату изменения!' }]}>
+          <Form.Item label="Дата" name="registerDate" rules={[{ required: true, message: 'Пожалуйста введите дату!' }]}>
             <DatePicker format={dateFormatList} />
           </Form.Item>
           <Divider />

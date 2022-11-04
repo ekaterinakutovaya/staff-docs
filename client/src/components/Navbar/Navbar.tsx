@@ -19,13 +19,14 @@ const Navbar: React.FC = () => {
   const {md} = useBreakpoint();
   const myFontSize = md ? '18px' : '12px';
   const { picture, sub } = useSelector(selectAuth);
-  const { currentCompany } = useSelector(selectCompanies);
+  const { currentCompany, companyDetails } = useSelector(selectCompanies);
   const [currentCompanyTitle, setCurrentCompanyTitle] = useState<string | ''>('');
   const [demo, setDemo] = useState(false);
 
   useEffect(() => {
     if (currentCompany) {
-      setCurrentCompanyTitle(currentCompany.companyName);
+      // Set actual company name
+      setCurrentCompanyTitle(companyDetails[companyDetails.length - 1].companyName);
     }
     
     if (sub === 'demo') {

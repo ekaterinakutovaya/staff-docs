@@ -167,61 +167,45 @@ const EditEmploymentOrder: React.FC<EditEmploymentOrderProps> = ({ open, setOpen
           <Form.Item label="Номер" required>
             {md ? (
               <Input.Group size="default">
-                <Row gutter={10}>
-                  <Col span={4}>
+                <Row>
                     <Form.Item name="orderNo">
-                      <InputNumber />
+                    <InputNumber style={{ width: '70px', marginRight: '10px' }} />
                     </Form.Item>
-                  </Col>
-                  <Col span={9}>
                     <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
                       <DatePicker format={dateFormatList} />
                     </Form.Item>
-                  </Col>
                 </Row>
               </Input.Group>
             ) : (
               <>
-                <Form.Item name="orderNo" style={{ width: '70px' }}>
+                <Form.Item name="orderNo">
                   <InputNumber />
                 </Form.Item>
 
                 <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
                   <DatePicker format={dateFormatList} />
                 </Form.Item>
-
               </>
-            )
-
-            }
-
+            )}
           </Form.Item>
           <Divider />
 
           <Form.Item required label="Основание">
             {sm ? (
               <Input.Group size="default" >
-                <Row gutter={18}>
-                  <Col span={12}>
-                    <Form.Item name="contractNo" label="Трудовой договор №">
-                      <InputNumber style={{
-                        textAlign: 'center', width: '70px'
-                      }} />
+                <Row>
+                  <Form.Item name="contractNo" label="Трудовой договор №">
+                    <InputNumber style={{ width: '70px', marginRight: '10px' }} />
                     </Form.Item>
-                  </Col>
-                  <Col span={12}>
                     <Form.Item name="contractDate" label="от">
                       <DatePicker format={dateFormatList} />
                     </Form.Item>
-                  </Col>
                 </Row>
               </Input.Group>
             ) : (
               <>
                 <Form.Item name="contractNo" label="Трудовой договор №">
-                  <InputNumber style={{
-                    textAlign: 'center', width: '70px'
-                  }} />
+                  <InputNumber />
                 </Form.Item>
                 <Form.Item name="contractDate" label="от">
                   <DatePicker format={dateFormatList} />
@@ -229,7 +213,6 @@ const EditEmploymentOrder: React.FC<EditEmploymentOrderProps> = ({ open, setOpen
                 <Divider />
               </>
             )}
-
           </Form.Item>
 
           <Form.Item label="Физ.лицо" required>

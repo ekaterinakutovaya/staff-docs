@@ -164,8 +164,8 @@ const CreateDismissalOrder: React.FC<CreateDismissalOrderProps> = ({ open, setOp
       >
         <Form
           form={form}
-          labelCol={{ span: 7 }}
-          wrapperCol={{ span: 16 }}
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 14 }}
           layout="horizontal"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
@@ -174,19 +174,15 @@ const CreateDismissalOrder: React.FC<CreateDismissalOrderProps> = ({ open, setOp
           <Form.Item label="Номер" required>
             {md ? (
               <Input.Group size="default">
-                <Row gutter={10}>
-                  <Col span={4}>
+                <Row>
                     <Form.Item name="orderNo"
                       rules={[{ required: true, message: 'Пожалуйста введите номер приказа!' }]}
                     >
-                      <InputNumber />
+                      <InputNumber style={{marginRight: '10px'}}/>
                     </Form.Item>
-                  </Col>
-                  <Col span={9}>
                     <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
                       <DatePicker format={dateFormatList} />
                     </Form.Item>
-                  </Col>
                 </Row>
               </Input.Group>
             ) : (

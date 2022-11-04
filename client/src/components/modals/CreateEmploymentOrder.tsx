@@ -188,30 +188,22 @@ const CreateEmploymentOrder: React.FC<CreateEmploymentOrderProps> = ({ open, set
           <Form.Item label="Номер" required>
             {md ? (
               <Input.Group size="default">
-                <Row gutter={10}>
-                  <Col span={4}>
-                    <Form.Item name="orderNo" style={{
-                      textAlign: 'center'
-                    }}>
-                      <InputNumber style={{
-                        textAlign: 'center', width: '70px'
-                      }} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={9}>
-                    <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
-                      <DatePicker format={dateFormatList} />
-                    </Form.Item>
-                  </Col>
+                <Row>
+                  <Form.Item name="orderNo" style={{}}>
+                    <InputNumber style={{ width: '70px', marginRight: '10px' }} />
+                  </Form.Item>
+
+                  <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
+                    <DatePicker format={dateFormatList} />
+                  </Form.Item>
                 </Row>
               </Input.Group>
-
             ) : (
               <>
                 <Form.Item name="orderNo">
-                    <InputNumber style={{
-                      textAlign: 'center', width: '70px'
-                    }} />
+                  <InputNumber style={{
+                    textAlign: 'center', width: '70px'
+                  }} />
                 </Form.Item>
 
                 <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
@@ -227,27 +219,23 @@ const CreateEmploymentOrder: React.FC<CreateEmploymentOrderProps> = ({ open, set
           <Form.Item required label="Основание">
             {sm ? (
               <Input.Group size="default" >
-                <Row gutter={18}>
-                  <Col span={12}>
-                    <Form.Item name="contractNo" label="Трудовой договор №">
-                      <InputNumber style={{
-                        textAlign: 'center', width: '70px'
-                      }} />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item name="contractDate" label="от">
-                      <DatePicker format={dateFormatList} />
-                    </Form.Item>
-                  </Col>
+                <Row >
+                  <Form.Item name="contractNo" label="Трудовой договор №" style={{ marginRight: '10px' }}>
+                    <InputNumber style={{
+                      width: '70px'
+                    }} />
+                  </Form.Item>
+                  <Form.Item name="contractDate" label="от">
+                    <DatePicker format={dateFormatList} />
+                  </Form.Item>
                 </Row>
               </Input.Group>
             ) : (
               <>
                 <Form.Item name="contractNo" label="Трудовой договор №">
-                    <InputNumber style={{
-                      textAlign: 'center', width: '70px'
-                    }} />
+                  <InputNumber style={{
+                    textAlign: 'center', width: '70px'
+                  }} />
                 </Form.Item>
                 <Form.Item name="contractDate" label="от">
                   <DatePicker format={dateFormatList} />
@@ -331,12 +319,12 @@ const CreateEmploymentOrder: React.FC<CreateEmploymentOrderProps> = ({ open, set
                   <Space>
                     <Col span={10}>
                       <Form.Item name="workHoursStart" label="с">
-                          <InputNumber />
+                        <InputNumber />
                       </Form.Item>
                     </Col>
                     <Col span={10}>
                       <Form.Item name="workHoursEnd" label="до">
-                          <InputNumber />
+                        <InputNumber />
                       </Form.Item>
                     </Col>
                   </Space>
@@ -371,7 +359,7 @@ const CreateEmploymentOrder: React.FC<CreateEmploymentOrderProps> = ({ open, set
           >
             <InputNumber step="1" />
           </Form.Item>
-          <Divider/>
+          <Divider />
 
 
 
@@ -391,19 +379,19 @@ const CreateEmploymentOrder: React.FC<CreateEmploymentOrderProps> = ({ open, set
 
             </Form.Item>
           ) : (
-              <Form.Item>
-                <Space direction="vertical" style={{width: '100%'}} size="middle">
-                  <Button size="large" type="primary" htmlType="submit" loading={loading} block>
-                    Создать
-                  </Button>
-                  <Button size="large" onClick={onCancel} block>
-                    Отмена
-                  </Button>
-                </Space>
+            <Form.Item>
+              <Space direction="vertical" style={{ width: '100%' }} size="middle">
+                <Button size="large" type="primary" htmlType="submit" loading={loading} block>
+                  Создать
+                </Button>
+                <Button size="large" onClick={onCancel} block>
+                  Отмена
+                </Button>
+              </Space>
 
-              </Form.Item>
+            </Form.Item>
           )}
-          
+
 
         </Form>
       </Modal>

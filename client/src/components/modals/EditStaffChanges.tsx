@@ -209,23 +209,19 @@ const EditStaffChanges: React.FC<EditStaffChangesProps> = ({ open, setOpen, orde
           <Form.Item label="Номер" required>
             {md ? (
               <Input.Group size="default">
-                <Row gutter={10}>
-                  <Col span={6}>
-                    <Form.Item name="orderNo" >
-                      <InputNumber />
-                    </Form.Item>
-                  </Col>
-                  <Col span={9}>
-                    <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
-                      <DatePicker format={dateFormatList} />
-                    </Form.Item>
-                  </Col>
+                <Row>
+                  <Form.Item name="orderNo" >
+                    <InputNumber style={{ width: '70px', marginRight: '10px' }} />
+                  </Form.Item>
+                  <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
+                    <DatePicker format={dateFormatList} />
+                  </Form.Item>
                 </Row>
               </Input.Group>
             ) : (
               <>
                 <Form.Item name="orderNo" >
-                  <InputNumber />
+                  <InputNumber style={{ width: '70px' }} />
                 </Form.Item>
                 <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
                   <DatePicker format={dateFormatList} />
@@ -279,19 +275,15 @@ const EditStaffChanges: React.FC<EditStaffChangesProps> = ({ open, setOpen, orde
 
           <Form.Item label="Часы работы">
             <Input.Group size="default" >
-              <Row gutter={10}>
+              <Row>
                 {md ? (
                   <>
-                    <Col span={6}>
-                      <Form.Item name="workHoursStartPrev" label="с">
-                        <InputNumber disabled style={{ width: '70px' }} />
-                      </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                      <Form.Item name="workHoursEndPrev" label="до">
-                        <InputNumber disabled style={{ width: '70px' }} />
-                      </Form.Item>
-                    </Col>
+                    <Form.Item name="workHoursStartPrev" label="с">
+                      <InputNumber disabled style={{ width: '70px', marginRight: '10px' }} />
+                    </Form.Item>
+                    <Form.Item name="workHoursEndPrev" label="до">
+                      <InputNumber disabled style={{ width: '70px' }} />
+                    </Form.Item>
                   </>
                 ) : (
                   <Space>
@@ -323,7 +315,7 @@ const EditStaffChanges: React.FC<EditStaffChangesProps> = ({ open, setOpen, orde
           </Form.Item>
           <Divider />
 
-          <Form.Item label="Режим рабочего времени" name="workSchedulePrev" wrapperCol={{span: 14}}
+          <Form.Item label="Режим рабочего времени" name="workSchedulePrev" wrapperCol={{ span: 14 }}
           >
             <Input disabled />
           </Form.Item>
@@ -354,16 +346,12 @@ const EditStaffChanges: React.FC<EditStaffChangesProps> = ({ open, setOpen, orde
               <Row gutter={10}>
                 {md ? (
                   <>
-                    <Col span={6}>
                       <Form.Item name="workHoursStart" label="с">
-                        <InputNumber style={{ width: '70px' }} />
+                        <InputNumber style={{ width: '70px', marginRight: '10px' }} />
                       </Form.Item>
-                    </Col>
-                    <Col span={5}>
                       <Form.Item name="workHoursEnd" label="до">
                         <InputNumber style={{ width: '70px' }} />
                       </Form.Item>
-                    </Col>
                   </>
                 ) : (
                   <>
@@ -380,7 +368,7 @@ const EditStaffChanges: React.FC<EditStaffChangesProps> = ({ open, setOpen, orde
               </Row>
             </Input.Group>
           </Form.Item>
-          <Divider/>
+          <Divider />
 
           <Form.Item label="Рабочий день" required>
             <Space>

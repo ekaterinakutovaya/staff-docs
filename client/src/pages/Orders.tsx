@@ -11,7 +11,7 @@ import Highlighter from 'react-highlight-words';
 import moment from 'moment';
 
 import { useAppDispatch } from "store/store";
-import { selectCompanies, selectOrders, selectEmployees, selectSidebarItem, selectAuth } from "store/selectors";
+import { selectCompanies, selectOrders, selectEmployees, selectSidebarItem, selectAuth, selectAdditionalAgreements } from "store/selectors";
 import CreateEmploymentOrder from 'components/modals/CreateEmploymentOrder';
 import CreateDismissalOrder from 'components/modals/CreateDismissalOrder';
 import EditEmploymentOrder from 'components/modals/EditEmploymentOrder';
@@ -28,7 +28,7 @@ import { orderTypes } from "consts/consts";
 import EditDismissalOrder from 'components/modals/EditDismissalOrder';
 import CreateStaffChanges from 'components/modals/CreateStaffChanges';
 import EditStaffChanges from 'components/modals/EditStaffChanges';
-import { Order, Employee } from "../store/types";
+import { Order, Employee, AdditionalAgreement } from "../store/types";
 
 const { Text } = Typography;
 const { useBreakpoint } = Grid;
@@ -50,6 +50,7 @@ interface DataType {
 
 type DataIndex = keyof DataType;
 
+
 const Orders: React.FC = () => {
   const dispatch = useAppDispatch();
   const { sm, md, lg, xl, xxl } = useBreakpoint();
@@ -64,6 +65,7 @@ const Orders: React.FC = () => {
   const { sub } = useSelector(selectAuth);
   const { currentCompany } = useSelector(selectCompanies);
   const { orders } = useSelector(selectOrders);
+  const { additionalAgreements } = useSelector(selectAdditionalAgreements);
   const { employees } = useSelector(selectEmployees);
   const { selectedItem } = useSelector(selectSidebarItem);
   const [data, setData] = useState([]);
@@ -154,17 +156,19 @@ const Orders: React.FC = () => {
     const { contractId } = orders.filter((order: Order) => order.id === Number(orderId))[0];
 
     if (orderTypeId === 0) {
-      const joinedOrders = orders.filter((order: Order) => order.contractId === contractId);
+      const joinedAgreements = additionalAgreements.filter((agreement: AdditionalAgreement) => agreement.contractId === contractId);
 
-      // if (joinedOrders.length > 1) {
-      //   notification.error({
-      //     message: `Невозможно удалить запись!`,
-      //     description:
-      //       'Существуют связанные документы.',
-      //     placement: 'top',
-      //   });
-      //   return;
-      // }
+      // We can delete the order and contract only if there is no additional agreements connected to the contract
+      // If there is any connected additional agreements, prohibit deletion
+      if (joinedAgreements.length > 0) {
+        notification.error({
+          message: `Невозможно удалить запись!`,
+          description:
+            'Существуют связанные документы.',
+          placement: 'top',
+        });
+        return;
+      }
 
       if (sub === 'demo') {
         dispatch(deleteOrderByIdDemo(orderId))
@@ -175,20 +179,33 @@ const Orders: React.FC = () => {
         .then(() => {
           dispatch(deleteContractById({ contractId }));
         })
-
     }
-    if (orderTypeId === 1) {
-      const joinedOrders = orders.filter((order: Order) => order.contractId === contractId && order.orderTypeId === 1);
 
-      // if (joinedOrders.length > 1) {
-      //   notification.error({
-      //     message: `Невозможно удалить запись!`,
-      //     description:
-      //       'Существуют связанные документы.',
-      //     placement: 'top',
-      //   });
-      //   return;
-      // }
+    if (orderTypeId === 1) {
+      const joinedAgreements = additionalAgreements.filter((agreement: AdditionalAgreement) => agreement.contractId === contractId);
+
+      // We can delete only the last agreement and if there is no dismissal order
+      const isTheLastAgreement = joinedAgreements[joinedAgreements.length - 1].id === agreementId;
+      const dismissalOrders = orders.filter((order: Order) => order.contractId === contractId && order.orderTypeId === 2);
+      
+      // If the agreement is not last, prohibit deletion
+      if (!isTheLastAgreement) {
+        notification.error({
+          message: `Невозможно удалить запись!`,
+          description:
+            'Существуют связанные документы.',
+          placement: 'top',
+        });
+        return;
+      } else if (dismissalOrders.length > 0) { // If there is a dismissal order, prohibit deletion
+        notification.error({
+          message: `Невозможно удалить запись!`,
+          description:
+            'Существуют связанные документы.',
+          placement: 'top',
+        });
+        return;
+      }
 
       if (sub === 'demo') {
         dispatch(deleteOrderByIdDemo(orderId))
@@ -200,8 +217,8 @@ const Orders: React.FC = () => {
         .then(() => {
           dispatch(deleteAdditionalAgreementById({ agreementId }));
         })
-
     }
+
     if (orderTypeId === 2) {
       dispatch(deleteOrderById({ orderId }))
       dispatch(cancelDismissal({ contractId }))
@@ -395,8 +412,9 @@ const Orders: React.FC = () => {
       title: '№ п/п',
       dataIndex: 'orderNo',
       key: 'orderNo',
+      width: '100px',
       ...getColumnSearchProps('orderNo'),
-      responsive: ["sm"]
+      responsive: ["md"]
     },
     {
       title: '',
@@ -406,9 +424,8 @@ const Orders: React.FC = () => {
       responsive: ["xs"],
       render: (_, record) => {
         return (
-          <React.Fragment>
+          <div className="ordersTable">
             <Space direction="vertical" size="small" style={{ width: '100%' }}>
-
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Text type="secondary" style={{ fontSize: '12px' }}>{record.orderType}</Text>
                 <a id={record.key} onClick={() => downloadHandler(record.key, record.orderTypeId, record.agreementId, record.employeeId, record.contractId)} ><FileWordOutlined style={{ fontSize: '24px' }} /></a>
@@ -428,7 +445,7 @@ const Orders: React.FC = () => {
                 </Popconfirm>
               </Space>
             </Space>
-          </React.Fragment>
+          </div>
         )
       }
     },
@@ -436,14 +453,16 @@ const Orders: React.FC = () => {
       title: 'Дата',
       dataIndex: 'orderDate',
       key: 'orderDate',
+      width: '130px',
       ...getColumnDateSearchProps('orderDate'),
-      responsive: ["sm"]
+      responsive: ["md"]
     },
     {
       title: 'Вид документа',
       dataIndex: 'orderType',
       key: 'orderType',
-      responsive: ["sm"],
+      width: '250px',
+      responsive: ["md"],
       filters: [
         {
           text: 'Прием на работу',
@@ -464,15 +483,17 @@ const Orders: React.FC = () => {
       title: 'Работник',
       dataIndex: 'employeeName',
       key: 'employeeName',
+      width: '30%',
       ...getColumnSearchProps('employeeName'),
-      responsive: ["sm"]
+      responsive: ["md"]
     },
     {
-      title: 'Скачать документы',
+      title: 'Скачать',
       dataIndex: 'download',
       key: 'download',
-      responsive: ["sm"],
-      width: '10%',
+      width: '150px',
+      responsive: ["md"],
+      // width: '10%',
       render: (_, record) => {
         return (
           <a id={record.key} onClick={() => downloadHandler(record.key, record.orderTypeId, record.agreementId, record.employeeId, record.contractId)} ><FileWordOutlined style={{ fontSize: '20px' }} /></a>
@@ -483,7 +504,8 @@ const Orders: React.FC = () => {
       title: '',
       dataIndex: 'action',
       key: 'action',
-      responsive: ["sm"],
+      width: '200px',
+      responsive: ["md"],
       render: (_, record) => {
         return (
           <Space size="middle">
@@ -540,7 +562,7 @@ const Orders: React.FC = () => {
       <Table
         dataSource={data}
         columns={columns}
-        pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '15', '25'], position: ['topRight'], size: 'default' }}
+        pagination={{ defaultPageSize: 10, showSizeChanger: true, pageSizeOptions: ['10', '15', '25'], position: ['topRight'], size: 'default', total: orders.length }}
         size={sm ? "small" : "large"}
       />
 
