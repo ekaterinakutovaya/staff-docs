@@ -10,8 +10,10 @@ import {
 import 'moment/locale/ru';
 import locale from 'antd/es/date-picker/locale/ru_RU';
 
+import { useAppDispatch } from "store/store";
 import { CompanyDetails } from "store/types";
 import companyService from "api/company.service";
+import { insertCompanyChanges } from "store/actionCreators/companyAction";
 
 const dateFormatList = ['DD.MM.YYYY', 'DD.MM.YY'];
 const { useBreakpoint } = Grid;
@@ -25,14 +27,15 @@ type InsertCompanyChangesProps = {
 
 const InsertCompanyChanges: React.FC<InsertCompanyChangesProps> = ({ open, setOpen, companyId }) => {
     const [form] = Form.useForm();
+    const dispatch = useAppDispatch();
     const { sm, md, lg, xl, xxl } = useBreakpoint();
     const [loading, setLoading] = useState(false);
 
     const onFinish = (values: CompanyDetails) => {
-        console.log('Success:', values);
+        console.log('Success:', values);        
 
-        companyService.insertCompanyChanges({values, companyId})
-            .then((response) => {
+        dispatch(insertCompanyChanges({values, companyId}))
+            .then(() => {
                 form.resetFields();
                 setOpen(false)
             })

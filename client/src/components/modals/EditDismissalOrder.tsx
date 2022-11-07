@@ -211,7 +211,7 @@ const EditDismissalOrder: React.FC<EditDismissalOrderProps> = ({ open, setOpen, 
           </Form.Item>
           <Divider />
 
-          <Form.Item label="Дата увольнения" name="dismissalDate" rules={[{ validator: validateDate }]}>
+          <Form.Item label="Дата увольнения" name="dismissalDate" rules={[{ validator: validateDate }]} required>
             <DatePicker format={dateFormatList} />
           </Form.Item>
 

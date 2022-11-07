@@ -17,7 +17,7 @@ type CreateCompanyParams = {
 
 export type InsertChangesParams = {
     values: any;
-    id: number;
+    companyId: number;
 }
 export type fetchCompaniesParams = {
     sub: string | null;
@@ -118,26 +118,28 @@ export const fetchCompanyDetails = createAsyncThunk<CompanyDetails[], CompanyDet
     }
 )
 
-// export const insertCompanyChanges = createAsyncThunk<CompanyDetails[], InsertChangesParams>(
-//     "companies/insertCompanyChanges",
-//     async (params, thunkAPI) => {
-//         const {values, id} = params;
-//         try {
-//             const response = await companyService.insertCompanyChanges(values, id);
-//             thunkAPI.dispatch(setMessage(response.data.message));
-//             return response.data;
-//         } catch (error) {
-//             const message =
-//                 (error.response &&
-//                     error.response.data &&
-//                     error.response.data.message) ||
-//                 error.message ||
-//                 error.toString();
-//             thunkAPI.dispatch(setMessage(message));
-//             return thunkAPI.rejectWithValue(error.response ?.data);
-//         }
-//     }
-// )
+export const insertCompanyChanges = createAsyncThunk<CompanyDetails[], InsertChangesParams>(
+    "companies/insertCompanyChanges",
+    async (params, thunkAPI) => {
+        const {values, companyId} = params;
+        try {
+            const response = await companyService.insertCompanyChanges({values, companyId});
+            thunkAPI.dispatch(setMessage(response.data.message));
+            console.log(response.data);
+            
+            return response.data;
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+            thunkAPI.dispatch(setMessage(message));
+            return thunkAPI.rejectWithValue(error.response ?.data);
+        }
+    }
+)
 
 
 export const deleteCompanyById = createAsyncThunk <Company[], DeleteCompanyByIdParams>(

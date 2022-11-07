@@ -3,7 +3,7 @@ import { createCompany, fetchCompanies,
     fetchCompanyDetails, 
     setCurrentCompany, 
     deleteCompanyById, 
-    deleteCompanyDetailsById
+    deleteCompanyDetailsById, insertCompanyChanges
  } from "../actionCreators/companyAction";
 import { CompanySliceState, Company, CompanyDetails, CurrentCompany } from "../types";
 
@@ -105,6 +105,9 @@ const companySlice = createSlice({
         builder.addCase(deleteCompanyDetailsById.fulfilled, (state, action) => {
             state.loading = false;
             state.companyDetails = state.companyDetails.filter((details) => details.id !== +action.payload);
+        });
+        builder.addCase(insertCompanyChanges.fulfilled, (state, action: any) => {
+            state.currentCompany.companyName = action.payload.companyName;
         });
     }
 });

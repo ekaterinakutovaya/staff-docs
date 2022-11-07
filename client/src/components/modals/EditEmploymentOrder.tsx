@@ -178,7 +178,7 @@ const EditEmploymentOrder: React.FC<EditEmploymentOrderProps> = ({ open, setOpen
               </Input.Group>
             ) : (
               <>
-                <Form.Item name="orderNo">
+                <Form.Item name="orderNo" required>
                   <InputNumber />
                 </Form.Item>
 
@@ -243,15 +243,13 @@ const EditEmploymentOrder: React.FC<EditEmploymentOrderProps> = ({ open, setOpen
             <SearchInput placeholder="Выбрать должность" position={position} setPosition={setPosition} />
           </Form.Item>
 
-          <Form.Item label="Оклад" name="salary" wrapperCol={{ span: 10 }}
-          >
+          <Form.Item label="Оклад" name="salary" wrapperCol={{ span: 10 }} required>
             <InputNumber step="100000" style={{ width: 200 }}
               formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}
             />
           </Form.Item>
 
-          <Form.Item label="Ставок" name="salaryRate" wrapperCol={{ span: 2 }}
-          >
+          <Form.Item label="Ставок" name="salaryRate" wrapperCol={{ span: 2 }} required>
             <InputNumber step="0.25" />
           </Form.Item>
           <Divider />

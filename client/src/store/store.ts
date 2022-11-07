@@ -33,7 +33,6 @@ const appReducer = combineReducers({
 });
 
 const rootReducer = (state:any, action:any) => {
-    // console.log(action);
     if (action.type === 'auth/logout/fulfilled') {
         storage.removeItem('persist:root')
         state = {};

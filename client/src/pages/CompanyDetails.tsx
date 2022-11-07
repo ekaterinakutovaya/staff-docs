@@ -83,7 +83,7 @@ const CompanyDetails: React.FC = () => {
   }, [companyDetails])
 
 
-  const handleEditCompanyDetails = (e: React.MouseEvent<HTMLElement>) => {
+  const editHandler = (e: React.MouseEvent<HTMLElement>) => {
     setCompanyDetailsId(Number(e.currentTarget.id));
     setOpenEditCompanyDetails(true);
   }
@@ -126,7 +126,7 @@ const CompanyDetails: React.FC = () => {
                   <Text style={{ fontSize: '14px' }}>{record.companyName}</Text>
                 </div>
                 <Space size="middle">
-                  <a id={record.key} onClick={handleEditCompanyDetails}>Редактировать</a>
+                  <a id={record.key} onClick={editHandler}>Редактировать</a>
                   <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
                     <a >Удалить</a>
                   </Popconfirm>
@@ -246,7 +246,7 @@ const CompanyDetails: React.FC = () => {
       render: (_, record) => {
         return (
           <Space size="middle">
-            <a id={record.key} onClick={handleEditCompanyDetails}>Ред.</a>
+            <a id={record.key} onClick={editHandler}>Ред.</a>
             <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
               <a >Удалить</a>
             </Popconfirm>

@@ -201,7 +201,7 @@ const CreateDismissalOrder: React.FC<CreateDismissalOrderProps> = ({ open, setOp
           </Form.Item>
           <Divider/>
 
-          <Form.Item label="Физ.лицо">
+          <Form.Item label="Физ.лицо" required>
             <Select
               showSearch
               placeholder="Выбрать физ.лицо"
@@ -226,7 +226,7 @@ const CreateDismissalOrder: React.FC<CreateDismissalOrderProps> = ({ open, setOp
           <Divider/>
 
 
-          <Form.Item label="Дата увольнения" name="dismissalDate" rules={[{ validator: validateDate }]}>
+          <Form.Item label="Дата увольнения" name="dismissalDate" rules={[{ validator: validateDate }]} required>
             <DatePicker format={dateFormatList} />
           </Form.Item>
 

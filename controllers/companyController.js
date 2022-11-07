@@ -87,6 +87,11 @@ class CompanyController {
 
         const companyDetails = await CompanyDetails.create({ companyName, address, phoneNumber, registerDate, companyINN, bankAccount, bankName, bankCode, companyOKED, manager, companyId: +companyId });
 
+        const updatedCompanyName = await Company.update(
+            {companyName},
+            { where: { id: companyId } }
+        )
+
         return res.json(companyDetails);  
     }
 

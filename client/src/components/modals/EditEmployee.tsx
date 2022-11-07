@@ -135,7 +135,7 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ open, setOpen, id }) => {
             </Input.Group>
           ) : (
             <>
-              <Space direction="vertical" style={{ display: 'flex' }} size="middle">
+              <Space direction="vertical" style={{ display: 'flex' }} size="small">
                 <Form.Item name="employeeFamilyName" rules={[{
                   required: true,
                   message: 'Пожалуйста введите фамилию!'
@@ -179,7 +179,7 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ open, setOpen, id }) => {
         </Form.Item>
         <Divider/>
 
-        <Form.Item label="Паспорт серия">
+        <Form.Item label="Паспорт серия" required>
           {md ? (
             <Input.Group size="default" >
               <Row gutter={10}>
@@ -207,7 +207,7 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ open, setOpen, id }) => {
             </Input.Group>
           ) : (
             <>
-              <Form.Item name="passportSeries" >
+              <Form.Item name="passportSeries" required>
                 <Input maxLength={2} />
               </Form.Item>
               <Form.Item label="Номер" name="passportNo">
@@ -225,14 +225,10 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ open, setOpen, id }) => {
         </Form.Item>
           <Divider/>
 
-        <Form.Item label="Адрес" name="employeeAddress" wrapperCol={{
-          span: 18,
-        }}>
+        <Form.Item label="Адрес" name="employeeAddress" wrapperCol={{ span: 18 }} required>
           <TextArea rows={3} />
         </Form.Item>
-        <Form.Item label="Телефон" name="employeePhoneNumber" wrapperCol={{
-          span: 5,
-        }}>
+        <Form.Item label="Телефон" name="employeePhoneNumber" wrapperCol={{span: 5}} required>
           <Input />
         </Form.Item>
         <Divider/>
