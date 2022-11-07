@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from "react-redux";
 import { Button, PageHeader, Table, Dropdown, Menu, Space, Popconfirm, Tooltip, Input, DatePicker, notification, Grid, Typography } from 'antd';
-import { DownOutlined, FileDoneOutlined, FileWordOutlined } from '@ant-design/icons';
+import { DownOutlined, FileDoneOutlined, FileWordOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps, } from 'antd/es/table/interface';
 
@@ -425,7 +425,7 @@ const Orders: React.FC = () => {
       render: (_, record) => {
         return (
           <div className="ordersTable">
-            <Space direction="vertical" size="small" style={{ width: '100%' }}>
+            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Text type="secondary" style={{ fontSize: '12px' }}>{record.orderType}</Text>
                 <a id={record.key} onClick={() => downloadHandler(record.key, record.orderTypeId, record.agreementId, record.employeeId, record.contractId)} ><FileWordOutlined style={{ fontSize: '24px' }} /></a>
@@ -491,12 +491,14 @@ const Orders: React.FC = () => {
       title: 'Скачать',
       dataIndex: 'download',
       key: 'download',
-      width: '150px',
+      width: '120px',
       responsive: ["md"],
       // width: '10%',
       render: (_, record) => {
         return (
-          <a id={record.key} onClick={() => downloadHandler(record.key, record.orderTypeId, record.agreementId, record.employeeId, record.contractId)} ><FileWordOutlined style={{ fontSize: '20px' }} /></a>
+          <Tooltip title="Скачать в формате Word">
+            <a id={record.key} onClick={() => downloadHandler(record.key, record.orderTypeId, record.agreementId, record.employeeId, record.contractId)} ><FileWordOutlined style={{ fontSize: '22px' }} /></a>
+          </Tooltip>
         )
       }
     },
@@ -509,9 +511,13 @@ const Orders: React.FC = () => {
       render: (_, record) => {
         return (
           <Space size="middle">
-            <a id={record.key} onClick={() => editHandler(record.key, record.orderTypeId, record.agreementId)}>Редактировать</a>
+            <Tooltip title="Редактировать">
+              <a id={record.key} onClick={() => editHandler(record.key, record.orderTypeId, record.agreementId)} style={{ marginRight: '20px' }}><FormOutlined style={{fontSize: '22px'}}/></a>
+            </Tooltip>
             <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key, record.orderTypeId, record.agreementId, record.employeeId)} >
-              <a >Удалить</a>
+              <Tooltip title="Удалить">
+                <a ><DeleteOutlined style={{ fontSize: '22px' }} /></a>
+              </Tooltip>
             </Popconfirm>
 
           </Space>

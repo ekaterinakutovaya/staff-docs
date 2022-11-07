@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Button, PageHeader, Table, Space, Typography, Popconfirm, Grid, Divider } from 'antd';
+import { Button, PageHeader, Table, Space, Typography, Popconfirm, Grid, Divider, Tooltip } from 'antd';
+import { FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import type { ColumnsType } from 'antd/es/table';
 
@@ -241,15 +242,20 @@ const CompanyDetails: React.FC = () => {
       dataIndex: 'action',
       key: 'action',
       width: 150,
+      align: 'center',
       fixed: 'right',
       responsive: ["sm"],
       render: (_, record) => {
         return (
           <Space size="middle">
-            <a id={record.key} onClick={editHandler}>Ред.</a>
-            <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
-              <a >Удалить</a>
-            </Popconfirm>
+            <Tooltip title="Редактировать">
+              <a id={record.key} onClick={editHandler} style={{ marginRight: '20px' }}><FormOutlined style={{ fontSize: '22px' }} /></a>
+            </Tooltip>
+            <Tooltip title="Удалить">
+              <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
+                <a ><DeleteOutlined style={{ fontSize: '22px' }} /></a>
+              </Popconfirm>
+            </Tooltip>
           </Space>
         )
       }

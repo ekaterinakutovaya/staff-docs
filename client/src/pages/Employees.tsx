@@ -5,7 +5,7 @@ import { Button, Input, PageHeader, Table, Space, Popconfirm, Tooltip, notificat
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
 import type { InputRef } from 'antd';
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, FormOutlined, DeleteOutlined } from "@ant-design/icons";
 import Highlighter from 'react-highlight-words';
 
 import { useAppDispatch } from "store/store";
@@ -257,10 +257,14 @@ const Employees: React.FC = () => {
       render: (_, record) => {
         return (
           <Space size="middle">
-            <a id={record.key} onClick={editHandler}>Редактировать</a>
-            <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
-              <a >Удалить</a>
-            </Popconfirm>
+            <Tooltip title="Редактировать">
+              <a id={record.key} onClick={editHandler} style={{ marginRight: '20px' }}><FormOutlined style={{ fontSize: '22px' }} /></a>
+            </Tooltip>
+            <Tooltip title="Удалить">
+              <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
+                <a ><DeleteOutlined style={{ fontSize: '22px' }} /></a>
+              </Popconfirm>
+            </Tooltip>
           </Space>
         )
       }

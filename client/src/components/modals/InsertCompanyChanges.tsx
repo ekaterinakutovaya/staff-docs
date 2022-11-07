@@ -174,9 +174,10 @@ const InsertCompanyChanges: React.FC<InsertCompanyChangesProps> = ({ open, setOp
 
                         </Form.Item>
                     ) : (
-                        <Form.Item>
-                            <Space direction="vertical" style={{ width: '100%' }} size="middle">
-                                <Button size="large" type="primary" htmlType="submit" loading={loading} block>
+                            <Form.Item>
+                                <Space direction="vertical" size="middle" style={{ width: '100%'}}>
+                                <Button size="large" type="primary" htmlType="submit" loading={loading} block
+                                >
                                     Создать
                                 </Button>
                                 <Button size="large" onClick={onCancel} block>
