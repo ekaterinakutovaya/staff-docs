@@ -257,14 +257,10 @@ const Employees: React.FC = () => {
       render: (_, record) => {
         return (
           <Space size="middle">
-            <Tooltip title="Редактировать">
               <a id={record.key} onClick={editHandler} style={{ marginRight: '20px' }}><FormOutlined style={{ fontSize: '22px' }} /></a>
-            </Tooltip>
-            <Tooltip title="Удалить">
               <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
                 <a ><DeleteOutlined style={{ fontSize: '22px' }} /></a>
               </Popconfirm>
-            </Tooltip>
           </Space>
         )
       }

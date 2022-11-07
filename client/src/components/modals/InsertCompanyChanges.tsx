@@ -128,12 +128,7 @@ const InsertCompanyChanges: React.FC<InsertCompanyChangesProps> = ({ open, setOp
                         required: true,
                         message: 'Пожалуйста введите МФО банка!'
                     }]}>
-                        <Input
-                            style={{
-                                width: 70,
-                            }}
-                            maxLength={5}
-                        />
+                        <Input style={{ width: 70 }}  maxLength={5} />
                     </Form.Item>
                     <Divider />
 

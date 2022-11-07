@@ -496,9 +496,7 @@ const Orders: React.FC = () => {
       // width: '10%',
       render: (_, record) => {
         return (
-          <Tooltip title="Скачать в формате Word">
             <a id={record.key} onClick={() => downloadHandler(record.key, record.orderTypeId, record.agreementId, record.employeeId, record.contractId)} ><FileWordOutlined style={{ fontSize: '22px' }} /></a>
-          </Tooltip>
         )
       }
     },
@@ -511,13 +509,9 @@ const Orders: React.FC = () => {
       render: (_, record) => {
         return (
           <Space size="middle">
-            <Tooltip title="Редактировать">
               <a id={record.key} onClick={() => editHandler(record.key, record.orderTypeId, record.agreementId)} style={{ marginRight: '20px' }}><FormOutlined style={{fontSize: '22px'}}/></a>
-            </Tooltip>
             <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key, record.orderTypeId, record.agreementId, record.employeeId)} >
-              <Tooltip title="Удалить">
                 <a ><DeleteOutlined style={{ fontSize: '22px' }} /></a>
-              </Tooltip>
             </Popconfirm>
 
           </Space>

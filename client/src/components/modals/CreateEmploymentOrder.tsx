@@ -297,23 +297,15 @@ const CreateEmploymentOrder: React.FC<CreateEmploymentOrderProps> = ({ open, set
 
           <Form.Item label="Часы работы" required>
             <Input.Group size="default" >
-              <Row gutter={10}>
+              <Row>
                 {md ? (
                   <>
-                    <Col span={5}>
-                      <Form.Item name="workHoursStart" label="с">
-                        <InputNumber style={{
-                          textAlign: 'center', width: '70px'
-                        }} />
+                    <Form.Item name="workHoursStart" label="с" style={{ marginRight: '10px' }}>
+                        <InputNumber />
                       </Form.Item>
-                    </Col>
-                    <Col span={5}>
                       <Form.Item name="workHoursEnd" label="до">
-                        <InputNumber style={{
-                          textAlign: 'center', width: '70px'
-                        }} />
+                        <InputNumber />
                       </Form.Item>
-                    </Col>
                   </>
                 ) : (
                   <Space>
@@ -337,9 +329,7 @@ const CreateEmploymentOrder: React.FC<CreateEmploymentOrderProps> = ({ open, set
           <Form.Item label="Рабочий день" required>
             <Space>
               <Form.Item name="workHours" noStyle>
-                <InputNumber style={{
-                  textAlign: 'center', width: '70px'
-                }} />
+                <InputNumber />
               </Form.Item>
               <Typography.Text>часов</Typography.Text>
             </Space>

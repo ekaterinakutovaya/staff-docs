@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
   const {md} = useBreakpoint();
   const myFontSize = md ? '18px' : '12px';
   const { picture, sub } = useSelector(selectAuth);
-  const { currentCompany, companyDetails } = useSelector(selectCompanies);
+  const { currentCompany } = useSelector(selectCompanies);
   const [currentCompanyTitle, setCurrentCompanyTitle] = useState<string | ''>('');
   const [demo, setDemo] = useState(false);
 
