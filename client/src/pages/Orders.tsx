@@ -20,14 +20,12 @@ import { fetchCompanyDetails } from 'store/actionCreators/companyAction';
 import { fetchContracts, deleteContractById, cancelDismissal } from 'store/actionCreators/contractAction';
 import { fetchAdditionalAgreements, deleteAdditionalAgreementById } from 'store/actionCreators/additionalAgreementAction';
 import { fetchEmployees, setEmployed } from 'store/actionCreators/employeeAction';
-import { deleteOrderByIdDemo } from "store/slices/orderSlice";
-import { deleteContractByIdDemo } from "store/slices/contractSlice";
 import { deleteAdditionalAgreementByIdDemo } from "store/slices/additionalAgreementSlice";
 import exportToDocService from "api/exportToDoc.service";
 import { orderTypes } from "consts/consts";
 import EditDismissalOrder from 'components/modals/EditDismissalOrder';
-import CreateStaffChanges from 'components/modals/CreateStaffChanges';
-import EditStaffChanges from 'components/modals/EditStaffChanges';
+import CreateEmployeeTransfer from 'components/modals/CreateEmployeeTransfer';
+import EditEmployeeTransfer from 'components/modals/EditEmployeeTransfer';
 import { Order, Employee, AdditionalAgreement } from "../store/types";
 
 const { Text } = Typography;
@@ -58,12 +56,12 @@ const Orders: React.FC = () => {
   const [openDismissal, setOpenDismissal] = useState(false);
   const [openEditEmployment, setOpenEditEmployment] = useState(false);
   const [openEditDismissal, setOpenEditDismissal] = useState(false);
-  const [openStaffChanges, setOpenStaffChanges] = useState(false);
-  const [openEditStaffChanges, setOpenEditStaffChanges] = useState(false);
+  const [openEmployeeTransfer, setOpenEmployeeTransfer] = useState(false);
+  const [openEditEmployeeTransfer, setOpenEditEmployeeTransfer] = useState(false);
   const [editOrderId, setEditOrderId] = useState(null);
   const [editAgreementId, setEditAgreementId] = useState(null);
   const { sub } = useSelector(selectAuth);
-  const { currentCompany } = useSelector(selectCompanies);
+  const { currentCompany, companyDetails } = useSelector(selectCompanies);
   const { orders } = useSelector(selectOrders);
   const { additionalAgreements } = useSelector(selectAdditionalAgreements);
   const { employees } = useSelector(selectEmployees);
@@ -72,8 +70,6 @@ const Orders: React.FC = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef<InputRef>(null);
-
-
 
   const menuItems = [
     {
@@ -84,7 +80,7 @@ const Orders: React.FC = () => {
     {
       key: '2',
       icon: <FileDoneOutlined />,
-      label: (<Button type="link" onClick={() => setOpenStaffChanges(true)}>Кадровое перемещение</Button>),
+      label: (<Button type="link" onClick={() => setOpenEmployeeTransfer(true)}>Кадровое перемещение</Button>),
     },
     {
       icon: <FileDoneOutlined />,
@@ -103,7 +99,7 @@ const Orders: React.FC = () => {
       dispatch(fetchAdditionalAgreements({ id }));
       dispatch(fetchOrders({ id }))
     }
-  }, [openEmployment, openEditEmployment, openEditDismissal, openDismissal, selectedItem, currentCompany, openStaffChanges, openEditStaffChanges])
+  }, [openEmployment, openEditEmployment, openEditDismissal, openDismissal, selectedItem, currentCompany, openEmployeeTransfer, openEditEmployeeTransfer])
 
   useEffect(() => {
     orders?.map((order: Order, index: number) => {
@@ -145,7 +141,7 @@ const Orders: React.FC = () => {
       setOpenEditEmployment(true);
     }
     if (orderTypeId === 1) {
-      setOpenEditStaffChanges(true);
+      setOpenEditEmployeeTransfer(true);
     }
     if (orderTypeId === 2) {
       setOpenEditDismissal(true);
@@ -170,14 +166,9 @@ const Orders: React.FC = () => {
         return;
       }
 
-      if (sub === 'demo') {
-        dispatch(deleteOrderByIdDemo(orderId))
-        dispatch(deleteContractByIdDemo(contractId))
-        return;
-      }
-      dispatch(deleteOrderById({ orderId }))
+      dispatch(deleteOrderById({ orderId, sub }))
         .then(() => {
-          dispatch(deleteContractById({ contractId }));
+          dispatch(deleteContractById({ contractId, sub }));
         })
     }
 
@@ -207,20 +198,14 @@ const Orders: React.FC = () => {
         return;
       }
 
-      if (sub === 'demo') {
-        dispatch(deleteOrderByIdDemo(orderId))
-        dispatch(deleteAdditionalAgreementByIdDemo(agreementId))
-        return;
-      }
-
-      dispatch(deleteOrderById({ orderId }))
+      dispatch(deleteOrderById({ orderId, sub }))
         .then(() => {
-          dispatch(deleteAdditionalAgreementById({ agreementId }));
+          dispatch(deleteAdditionalAgreementById({ agreementId, sub }));
         })
     }
 
     if (orderTypeId === 2) {
-      dispatch(deleteOrderById({ orderId }))
+      dispatch(deleteOrderById({ orderId, sub }))
       dispatch(cancelDismissal({ contractId }))
       dispatch(setEmployed(employeeId))
     }
@@ -228,6 +213,16 @@ const Orders: React.FC = () => {
 
   const downloadHandler = (orderId: string, orderTypeId: number, agreementId: number, employeeId: number, contractId: number) => {
 
+    if (!companyDetails.length) {
+      notification.error({
+        message: `Отсутствуют реквизиты организации!`,
+        description:
+          'Пожалуйста заполните реквизиты.',
+        placement: 'top',
+      });
+      return;
+    }
+    
     switch (orderTypeId) {
       case 0:
         exportToDocService.generateOrder(Number(orderId))
@@ -571,8 +566,8 @@ const Orders: React.FC = () => {
       <EditEmploymentOrder open={openEditEmployment} setOpen={setOpenEditEmployment} orderId={editOrderId} />
       <EditDismissalOrder open={openEditDismissal} setOpen={setOpenEditDismissal} orderId={editOrderId} />
 
-      <CreateStaffChanges open={openStaffChanges} setOpen={setOpenStaffChanges} />
-      <EditStaffChanges open={openEditStaffChanges} setOpen={setOpenEditStaffChanges} orderId={editOrderId} agreementId={editAgreementId} />
+      <CreateEmployeeTransfer open={openEmployeeTransfer} setOpen={setOpenEmployeeTransfer} />
+      <EditEmployeeTransfer open={openEditEmployeeTransfer} setOpen={setOpenEditEmployeeTransfer} orderId={editOrderId} agreementId={editAgreementId} />
     </>
   );
 };

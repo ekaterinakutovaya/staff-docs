@@ -1,30 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
-import {
-  Modal,
-  Form,
-  Input,
-  Button,
-  DatePicker,
-  InputNumber,
-  Space,
-  Row,
-  Col,
-  notification,
-  Divider,
-  Select,
-  Typography, Grid
-} from 'antd';
+import { Modal, Form, Input, InputNumber, notification, Divider, Select } from 'antd';
 import moment from 'moment';
 
 import contractService from "api/contract.service";
 import orderService from "api/order.service";
-import { selectOrders, selectEmployees, selectContracts, selectCompanies } from "store/selectors";
+import { selectOrders, selectEmployees, selectContracts } from "store/selectors";
 import { Employee, Contract } from "store/types";
+import SubmitButtonsBlock from 'components/SubmitButtonsBlock';
+import NumberAndDateInputs from 'components/NumberAndDateInputs';
+import DateInput from 'components/DateInput';
 
-const dateFormatList = ['DD.MM.YYYY', 'DD.MM.YY'];
 const { Option } = Select;
-const { useBreakpoint } = Grid;
 const { TextArea } = Input;
 
 type CreateDismissalOrderProps = {
@@ -43,24 +30,18 @@ type OnFinish = {
 
 const CreateDismissalOrder: React.FC<CreateDismissalOrderProps> = ({ open, setOpen }) => {
   const [form] = Form.useForm();
-  const { sm, md, lg, xl, xxl } = useBreakpoint();
   const { orders } = useSelector(selectOrders);
   const { employees } = useSelector(selectEmployees);
   const { contracts } = useSelector(selectContracts);
-  const { companyDetails } = useSelector(selectCompanies);
   const [activeEmployees, setActiveEmployees] = useState([]);
   const [employeeId, setEmployeeId] = useState(null);
   const [companyId, setCompanyId] = useState(null);
-  const [registerDate, setRegisterDate] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   useEffect(() => {
     setActiveEmployees(employees.filter((emp: Employee) => emp.isEmployed === true));
 
-    if (companyDetails.length > 0) {
-      setRegisterDate(companyDetails[0]?.registerDate);
-    }
     form.setFieldsValue({
       orderNo: orders.length + 1,
       orderDate: moment(Date.now()),
@@ -72,23 +53,14 @@ const CreateDismissalOrder: React.FC<CreateDismissalOrderProps> = ({ open, setOp
 
     return () => {
       form.resetFields();
-      setSelectedValue(null);
+      setSelectedEmployee(null);
     }
   }, [open])
 
-  const validateDate = (rule: any, value: any, callback: (error?: string) => void) => {
-    if (value === null) {
-      return Promise.reject('Пожалуйста введите дату!');
-    } else if (moment(value).isBefore(registerDate, 'day'))
-      return Promise.reject('Дата документа не может быть раньше даты регистрации организации!');
-    else {
-      return Promise.resolve();
-    }
-  };
 
 
   const onFinish = async (values: OnFinish) => {
-    console.log('Success:', values);
+    // console.log('Success:', values);
     setLoading(true);
     const { dismissalDate } = values;
 
@@ -101,7 +73,7 @@ const CreateDismissalOrder: React.FC<CreateDismissalOrderProps> = ({ open, setOp
       orderService.createDismissalOrder({ values, orderTypeId, employeeId, contractId, companyId })
         .then(() => {
           form.resetFields();
-          setSelectedValue(null);
+          setSelectedEmployee(null);
           setLoading(false);
           setOpen(false);
         })
@@ -121,12 +93,12 @@ const CreateDismissalOrder: React.FC<CreateDismissalOrderProps> = ({ open, setOp
 
   const onCancel = () => {
     setOpen(false);
-    setSelectedValue(null);
+    setSelectedEmployee(null);
     form.resetFields();
   }
 
   const onSelectChange = (value: string) => {
-    setSelectedValue(value);
+    setSelectedEmployee(value);
     setEmployeeId(Number(value));
     const foundEmployee = employees.filter((emp: Employee) => emp.id === Number(value))[0];
     if (foundEmployee) {
@@ -134,16 +106,6 @@ const CreateDismissalOrder: React.FC<CreateDismissalOrderProps> = ({ open, setOp
       setCompanyId(companyId);
     }
 
-  };
-
-  const onSelectSearch = (value: string) => {
-    setSelectedValue(value);
-    setEmployeeId(Number(value));
-    const foundEmployee = employees.filter((emp: Employee) => emp.id === Number(value))[0];
-    if (foundEmployee) {
-      const { companyId } = foundEmployee;
-      setCompanyId(companyId);
-    }
   };
 
   return (
@@ -171,34 +133,7 @@ const CreateDismissalOrder: React.FC<CreateDismissalOrderProps> = ({ open, setOp
           onFinishFailed={onFinishFailed}
           preserve={false}
         >
-          <Form.Item label="Номер" required>
-            {md ? (
-              <Input.Group size="default">
-                <Row>
-                    <Form.Item name="orderNo"
-                      rules={[{ required: true, message: 'Пожалуйста введите номер приказа!' }]}
-                    >
-                      <InputNumber style={{marginRight: '10px'}}/>
-                    </Form.Item>
-                    <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
-                      <DatePicker format={dateFormatList} />
-                    </Form.Item>
-                </Row>
-              </Input.Group>
-            ) : (
-              <>
-                <Form.Item name="orderNo"
-                  rules={[{ required: true, message: 'Пожалуйста введите номер приказа!' }]}
-                >
-                  <InputNumber />
-                </Form.Item>
-                <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
-                  <DatePicker format={dateFormatList} />
-                </Form.Item>
-              </>
-            )}
-
-          </Form.Item>
+          <NumberAndDateInputs document="order" label="Номер" />
           <Divider/>
 
           <Form.Item label="Физ.лицо" required>
@@ -207,12 +142,12 @@ const CreateDismissalOrder: React.FC<CreateDismissalOrderProps> = ({ open, setOp
               placeholder="Выбрать физ.лицо"
               optionFilterProp="children"
               onChange={onSelectChange}
-              onSearch={onSelectSearch}
+              onSearch={onSelectChange}
               filterOption={(input, option) =>
                 (option!.children as unknown as string).toLowerCase().includes(input.toLowerCase())
               }
               allowClear
-              value={selectedValue}
+              value={selectedEmployee}
             >
               {activeEmployees?.map((emp: Employee, index: number) => (
                 <Option key={index} value={emp.id} label={`${emp.employeeFamilyName} ${emp.employeeFirstName} ${emp.employeePatronymic}`}>
@@ -225,17 +160,13 @@ const CreateDismissalOrder: React.FC<CreateDismissalOrderProps> = ({ open, setOp
           </Form.Item>
           <Divider/>
 
-
-          <Form.Item label="Дата увольнения" name="dismissalDate" rules={[{ validator: validateDate }]} required>
-            <DatePicker format={dateFormatList} />
-          </Form.Item>
-
+          <DateInput label="Дата увольнения" name="dismissalDate" />
 
           <Form.Item label="Основание увольнения" name="groundsForDismissal" wrapperCol={{
             span: 14
           }} rules={[{ required: true, message: 'Пожалуйста заполните поле!' }]}
           >
-            <TextArea rows={3} />
+            <TextArea rows={2} />
           </Form.Item>
           <Divider />
 
@@ -261,35 +192,7 @@ const CreateDismissalOrder: React.FC<CreateDismissalOrderProps> = ({ open, setOp
           </Form.Item>
           <Divider />
 
-
-          {sm ? (
-            <Form.Item wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}>
-              <Space>
-                <Button type="primary" htmlType="submit" loading={loading}>
-                  Создать
-                </Button>
-                <Button onClick={onCancel}>
-                  Отмена
-                </Button>
-              </Space>
-
-            </Form.Item>
-          ) : (
-            <Form.Item>
-              <Space direction="vertical" style={{ width: '100%' }} size="middle">
-                <Button size="large" type="primary" htmlType="submit" loading={loading} block>
-                  Создать
-                </Button>
-                <Button size="large" onClick={onCancel} block>
-                  Отмена
-                </Button>
-              </Space>
-
-            </Form.Item>
-          )}
+          <SubmitButtonsBlock loading={loading} onCancel={onCancel} text="Создать" />
 
         </Form>
       </Modal>

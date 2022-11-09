@@ -3,9 +3,9 @@ import { createCompany, fetchCompanies,
     fetchCompanyDetails, 
     setCurrentCompany, 
     deleteCompanyById, 
-    deleteCompanyDetailsById, insertCompanyChanges
+    deleteCompanyDetailsById, createCompanyDetails
  } from "../actionCreators/companyAction";
-import { CompanySliceState, Company, CompanyDetails, CurrentCompany } from "../types";
+import { CompanySliceState, Company, CompanyDetails } from "../types";
 
 
 const initialState: CompanySliceState = {
@@ -25,18 +25,6 @@ const companySlice = createSlice({
         },
         setCompanyDetails(state, action: PayloadAction<CompanyDetails[]>) {
             state.companyDetails = action.payload;
-        },
-        deleteCompanyByIdDemo(state, action) {
-            state.companies = state.companies.filter((comp) => comp.id !== action.payload.companyId);
-            if (state.companies.length === 0) {
-                state.currentCompany = {};
-            }
-            if (state.currentCompany.id === action.payload.companyId) {
-                state.currentCompany = {};
-            }
-        },
-        deleteCompanyDetailsByIdDemo(state, action) {
-            state.companyDetails = state.companyDetails.filter((details) => details.id !== action.payload.companyDetailsId);
         }
     },
     extraReducers: (builder) => {
@@ -106,13 +94,13 @@ const companySlice = createSlice({
             state.loading = false;
             state.companyDetails = state.companyDetails.filter((details) => details.id !== +action.payload);
         });
-        builder.addCase(insertCompanyChanges.fulfilled, (state, action: any) => {
+        builder.addCase(createCompanyDetails.fulfilled, (state, action: any) => {
             state.currentCompany.companyName = action.payload.companyName;
         });
     }
 });
 
 
-export const { setCompanies, setCompanyDetails, deleteCompanyByIdDemo, deleteCompanyDetailsByIdDemo } = companySlice.actions;
+export const { setCompanies, setCompanyDetails } = companySlice.actions;
 
 export default companySlice.reducer;

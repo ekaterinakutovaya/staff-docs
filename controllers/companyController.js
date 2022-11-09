@@ -82,7 +82,7 @@ class CompanyController {
         return res.json(details);
     }
 
-    async insertCompanyChanges(req, res) {
+    async createCompanyDetails(req, res) {
         const { values: { companyName, address, phoneNumber, registerDate, companyINN, bankAccount, bankName, bankCode, companyOKED, manager }, companyId } = req.body;        
 
         const companyDetails = await CompanyDetails.create({ companyName, address, phoneNumber, registerDate, companyINN, bankAccount, bankName, bankCode, companyOKED, manager, companyId: +companyId });

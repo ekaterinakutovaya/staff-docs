@@ -9,6 +9,7 @@ type FetchContractParams = {
 
 type DeleteContractByIdParams = {
     contractId: number;
+    sub: string;
 }
 
 type CancelDismissalParams = {
@@ -41,8 +42,11 @@ export const fetchContracts = createAsyncThunk<Contract[], FetchContractParams>(
 export const deleteContractById = createAsyncThunk <Contract[], DeleteContractByIdParams>(
     "contracts/deleteContractById",
     async (params, thunkAPI) => {
-        const { contractId } = params;
+        const { contractId, sub } = params;
         try {
+            if (sub === 'demo') {
+                return contractId;
+            }
             const response = await contractService.deleteContractById(contractId);
             return response.data;
         } catch (error) {

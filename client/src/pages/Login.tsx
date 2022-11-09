@@ -1,15 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import { Link } from "react-router-dom";
-import { Card, Button, Checkbox, Form, Input, Typography, Space, Divider  } from 'antd';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { GoogleLogin, googleLogout  } from '@react-oauth/google';
-import { useDispatch, useSelector } from "react-redux";
-import { auth } from "store/actionCreators/authAction";
-import AuthService from "../api/auth.service";
-import jwt_decode from "jwt-decode";
-import jwt_encode from "jwt-encode";
+import React, { useEffect } from 'react';
+import { useDispatch } from "react-redux";
+import { Card, Button, Form, Input, Typography, Space, Divider } from 'antd';
+import { GoogleLogin } from '@react-oauth/google';
 
-import { selectAuth } from "store/selectors";
+import { auth } from "store/actionCreators/authAction";
+import jwt_decode from "jwt-decode";
+
 import { JwtPayloadToken } from "store/types";
 
 const { Title } = Typography;
@@ -19,7 +15,6 @@ const sign = require('jwt-encode');
 const Login = () => {
     const [form] = Form.useForm();
     const dispatch = useDispatch();
-    const { isAuth } = useSelector(selectAuth);
 
     useEffect(() => {
         form.setFieldsValue({
@@ -33,32 +28,28 @@ const Login = () => {
         const given_name = 'demo';
         const picture = '';
         const sub = 'demo';
-        const secret= 'secret';
+        const secret = 'secret';
         const data = { given_name, picture, sub }
         const token = sign(data, secret);
         dispatch(auth({ given_name, picture, sub, token }))
     };
 
-    const onFinishFailed = (errorInfo:any) => {
+    const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
 
-    const onSuccess = (response:any) => {
-        const token = response.credential;     
+    const onSuccess = (response: any) => {
+        const token = response.credential;
         const decoded = jwt_decode<JwtPayloadToken>(token);
         const { given_name, picture, sub } = decoded;
-        dispatch(auth({given_name, picture, sub, token}))
-            // .then(() => {
-            //     localStorage.setItem("user", JSON.stringify(token));
-            // })
-        
+        dispatch(auth({ given_name, picture, sub, token }))
     }
 
 
     return (
         <div className="site-card-border-less-wrapper login-wrapper">
             <Card style={{ width: 475 }} className="login-card">
-                <Title level={3} style={{textAlign: 'center'}}>Логин</Title>
+                <Title level={3} style={{ textAlign: 'center' }}>Логин</Title>
                 <Space direction="vertical" size={'large'} style={{ display: 'flex' }} />
                 <Form
                     form={form}
@@ -67,7 +58,6 @@ const Login = () => {
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
                     labelCol={{ span: 8 }}
-                    // wrapperCol={{ span: 18 }}
                     autoComplete="off"
                 >
                     <Form.Item
@@ -92,7 +82,7 @@ const Login = () => {
                         </Button>
                     </Form.Item>
 
-                    <Divider/>
+                    <Divider />
                     <div className="socials-login">
                         <GoogleLogin
                             onSuccess={onSuccess}

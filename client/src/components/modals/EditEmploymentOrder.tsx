@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
-import { Modal, Form, Input, Button, DatePicker, InputNumber, Space, Row, Col, Select, Typography, Grid, Divider } from 'antd';
+import { Modal, Form, Select, Grid, Divider, InputNumber } from 'antd';
 import moment from 'moment';
 
-import SearchInput from "components/SearchInput";
 import contractService from "api/contract.service";
 import orderService from "api/order.service";
-import { selectOrders, selectContracts, selectEmployees, selectCompanies } from "store/selectors";
+import { selectOrders, selectContracts, selectEmployees } from "store/selectors";
 import { Employee, Order, Contract } from "store/types";
+import NumberAndDateInputs from 'components/NumberAndDateInputs';
+import PositionSearchInput from "components/PositionSearchInput";
+import WorkConditionsInputs from 'components/WorkConditionsInputs';
+import SubmitButtonsBlock from 'components/SubmitButtonsBlock';
 
-const dateFormatList = ['DD.MM.YYYY', 'DD.MM.YY'];
 const { Option } = Select;
 const { useBreakpoint } = Grid;
 
@@ -35,23 +37,18 @@ type OnFinish = {
 
 const EditEmploymentOrder: React.FC<EditEmploymentOrderProps> = ({ open, setOpen, orderId }) => {
   const [form] = Form.useForm();
-  const { sm, md, lg, xl, xxl } = useBreakpoint();
+  const { sm, md } = useBreakpoint();
   const { orders } = useSelector(selectOrders);
   const { contracts } = useSelector(selectContracts);
   const { employees } = useSelector(selectEmployees);
-  const { companyDetails } = useSelector(selectCompanies);
   const [contractId, setContractId] = useState<number | null>(null);
   const [employeeId, setEmployeeId] = useState<number | null>(null);
   const [companyId, setCompanyId] = useState<number | null>(null);
-  const [registerDate, setRegisterDate] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [position, setPosition] = useState<string>('');
 
   useEffect(() => {
-    if (companyDetails.length > 0) {
-      setRegisterDate(companyDetails[0]?.registerDate);
-    }
     const order = orders.filter((order: Order) => order.id === orderId)[0];
     const contract = contracts.filter((contract: Contract) => contract.id === order?.contractId)[0];
     const employee = employees.filter((emp: Employee) => emp.id === order?.employeeId)[0];
@@ -79,25 +76,11 @@ const EditEmploymentOrder: React.FC<EditEmploymentOrderProps> = ({ open, setOpen
     })
   }, [orders, open])
 
-  useEffect(() => {
-    form.validateFields(['position']);
-  }, [position])
-
   const validatePosition = (rule: any, value: any, callback: (error?: string) => void) => {
     if (position) {
       return Promise.resolve();
     }
     return Promise.reject('Пожалуйста выберите должность!');
-  };
-
-  const validateDate = (rule: any, value: any, callback: (error?: string) => void) => {
-    if (value === null) {
-      return Promise.reject('Пожалуйста введите дату приказа!');
-    } else if (moment(value).isBefore(registerDate, 'day'))
-      return Promise.reject('Дата документа не может быть раньше даты регистрации организации!');
-    else {
-      return Promise.resolve();
-    }
   };
 
 
@@ -121,6 +104,7 @@ const EditEmploymentOrder: React.FC<EditEmploymentOrderProps> = ({ open, setOpen
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
     setLoading(false);
+    setPosition(null);
   };
 
   const onCancel = () => {
@@ -138,13 +122,12 @@ const EditEmploymentOrder: React.FC<EditEmploymentOrderProps> = ({ open, setOpen
       const { companyId } = foundEmployee;
       setCompanyId(companyId);
     }
-
   };
 
   return (
     <>
       <Modal
-        title="Прием на работу в организацию. Редактирование*"
+        title="Прием на работу. Редактирование*"
         centered
         open={open}
         onOk={() => setOpen(false)}
@@ -164,56 +147,11 @@ const EditEmploymentOrder: React.FC<EditEmploymentOrderProps> = ({ open, setOpen
           onFinishFailed={onFinishFailed}
           preserve={false}
         >
-          <Form.Item label="Номер" required>
-            {md ? (
-              <Input.Group size="default">
-                <Row>
-                    <Form.Item name="orderNo">
-                    <InputNumber style={{ width: '70px', marginRight: '10px' }} />
-                    </Form.Item>
-                    <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
-                      <DatePicker format={dateFormatList} />
-                    </Form.Item>
-                </Row>
-              </Input.Group>
-            ) : (
-              <>
-                <Form.Item name="orderNo" required>
-                  <InputNumber />
-                </Form.Item>
-
-                <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
-                  <DatePicker format={dateFormatList} />
-                </Form.Item>
-              </>
-            )}
-          </Form.Item>
+          <NumberAndDateInputs document="order" label="Номер" />
           <Divider />
 
-          <Form.Item required label="Основание">
-            {sm ? (
-              <Input.Group size="default" >
-                <Row>
-                  <Form.Item name="contractNo" label="Трудовой договор №">
-                    <InputNumber style={{ width: '70px', marginRight: '10px' }} />
-                    </Form.Item>
-                    <Form.Item name="contractDate" label="от">
-                      <DatePicker format={dateFormatList} />
-                    </Form.Item>
-                </Row>
-              </Input.Group>
-            ) : (
-              <>
-                <Form.Item name="contractNo" label="Трудовой договор №">
-                  <InputNumber />
-                </Form.Item>
-                <Form.Item name="contractDate" label="от">
-                  <DatePicker format={dateFormatList} />
-                </Form.Item>
-                <Divider />
-              </>
-            )}
-          </Form.Item>
+          <NumberAndDateInputs document="contract" label="Трудовой договор №" />
+          <Divider />
 
           <Form.Item label="Физ.лицо" required>
             <Select
@@ -240,113 +178,19 @@ const EditEmploymentOrder: React.FC<EditEmploymentOrderProps> = ({ open, setOpen
           <Divider />
 
           <Form.Item label="Должность" name="position" required rules={[{ validator: validatePosition }]}>
-            <SearchInput placeholder="Выбрать должность" position={position} setPosition={setPosition} />
-          </Form.Item>
-
-          <Form.Item label="Оклад" name="salary" wrapperCol={{ span: 10 }} required>
-            <InputNumber step="100000" style={{ width: 200 }}
-              formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}
-            />
-          </Form.Item>
-
-          <Form.Item label="Ставок" name="salaryRate" wrapperCol={{ span: 2 }} required>
-            <InputNumber step="0.25" />
+            <PositionSearchInput position={position} setPosition={setPosition} />
           </Form.Item>
           <Divider />
 
-          <Form.Item label="Часы работы" required>
-            <Input.Group size="default" >
-              <Row gutter={10}>
-                {md ? (
-                  <>
-                    <Col span={5}>
-                      <Form.Item name="workHoursStart" label="с">
-                        <InputNumber style={{
-                          textAlign: 'center', width: '70px'
-                        }} />
-                      </Form.Item>
-                    </Col>
-                    <Col span={5}>
-                      <Form.Item name="workHoursEnd" label="до">
-                        <InputNumber style={{
-                          textAlign: 'center', width: '70px'
-                        }} />
-                      </Form.Item>
-                    </Col>
-                  </>
-                ) : (
-                  <Space>
-                    <Col span={10}>
-                      <Form.Item name="workHoursStart" label="с">
-                        <InputNumber />
-                      </Form.Item>
-                    </Col>
-                    <Col span={10}>
-                      <Form.Item name="workHoursEnd" label="до">
-                        <InputNumber />
-                      </Form.Item>
-                    </Col>
-                  </Space>
-                )}
-
-              </Row>
-            </Input.Group>
-          </Form.Item>
+          <WorkConditionsInputs prev='' disabled={false}/>
           <Divider />
 
-          <Form.Item label="Рабочий день" required>
-            <Space>
-              <Form.Item name="workHours" noStyle>
-                <InputNumber />
-              </Form.Item>
-              <Typography.Text>часов</Typography.Text>
-            </Space>
-          </Form.Item>
-          <Divider />
-
-          <Form.Item required label="Режим рабочего времени" name="workSchedule" wrapperCol={{
-            span: 14
-          }}
-          >
-            <Input placeholder="40-часовая рабочая неделя" />
-          </Form.Item>
-          <Divider />
-
-          <Form.Item required label="Дней отпуска" name="vacationDays" wrapperCol={{ span: 14 }}
-          >
+          <Form.Item label="Дней отпуска" required name="vacationDays" wrapperCol={{ span: 14 }}>
             <InputNumber step="1" />
           </Form.Item>
           <Divider />
 
-
-          {sm ? (
-            <Form.Item wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}>
-              <Space>
-                <Button type="primary" htmlType="submit" loading={loading}>
-                  Создать
-                </Button>
-                <Button onClick={onCancel}>
-                  Отмена
-                </Button>
-              </Space>
-
-            </Form.Item>
-          ) : (
-            <Form.Item>
-              <Space direction="vertical" style={{ width: '100%' }} size="middle">
-                <Button size="large" type="primary" htmlType="submit" loading={loading} block>
-                  Сохранить
-                </Button>
-                <Button size="large" onClick={onCancel} block>
-                  Отмена
-                </Button>
-              </Space>
-
-            </Form.Item>
-          )}
+          <SubmitButtonsBlock text="Сохранить" onCancel={onCancel} loading={loading} />
 
         </Form>
       </Modal>

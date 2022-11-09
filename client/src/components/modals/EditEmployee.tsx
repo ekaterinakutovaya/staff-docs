@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
-import {
-  Modal,
-  Form,
-  Input,
-  Button,
-  DatePicker,
-  Space,
-  Row,
-  Col, Grid, Divider
-} from 'antd';
+import { Modal, Form, Input, DatePicker, Space, Row, Col, Grid, Divider } from 'antd';
 import moment from 'moment';
 
 import employeeService from "api/employee.service";
 import { selectEmployees } from "store/selectors";
 import { Employee } from "store/types";
+import SubmitButtonsBlock from 'components/SubmitButtonsBlock';
 
 const dateFormatList = ['DD.MM.YYYY', 'DD.MM.YY'];
 const { useBreakpoint } = Grid;
@@ -158,14 +150,14 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ open, setOpen, id }) => {
             </>
           )}
         </Form.Item>
-        <Divider/>
+        <Divider />
 
 
         <Form.Item label="ПИНДФЛ" name="personalId" rules={[{ required: true, message: 'Пожалуйста введите ПИНДФЛ!' }]}>
           <Input style={{ width: 150 }}
             maxLength={14} />
         </Form.Item>
-        <Divider/>
+        <Divider />
         <Form.Item label="ИНН" name="employeeINN" rules={[{
           required: true,
           message: 'Пожалуйста введите ИНН физ.лица!'
@@ -177,7 +169,7 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ open, setOpen, id }) => {
             maxLength={9}
           />
         </Form.Item>
-        <Divider/>
+        <Divider />
 
         <Form.Item label="Паспорт серия" required>
           {md ? (
@@ -214,53 +206,25 @@ const EditEmployee: React.FC<EditEmployeeProps> = ({ open, setOpen, id }) => {
                 <Input maxLength={7} />
               </Form.Item>
               <Form.Item label="выдан" name="issueAuthority">
-                  <TextArea rows={3} />
+                <TextArea rows={2} />
               </Form.Item>
               <Form.Item label="дата выдачи" name="issueDate">
                 <DatePicker format={dateFormatList} />
               </Form.Item>
-
             </>
           )}
         </Form.Item>
-          <Divider/>
+        <Divider />
 
         <Form.Item label="Адрес" name="employeeAddress" wrapperCol={{ span: 18 }} required>
-          <TextArea rows={3} />
+          <TextArea rows={2} />
         </Form.Item>
-        <Form.Item label="Телефон" name="employeePhoneNumber" wrapperCol={{span: 5}} required>
+        <Form.Item label="Телефон" name="employeePhoneNumber" wrapperCol={{ span: 5 }} required>
           <Input />
         </Form.Item>
-        <Divider/>
+        <Divider />
 
-        {sm ? (
-          <Form.Item wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}>
-            <Space>
-              <Button type="primary" htmlType="submit" loading={loading}>
-                Создать
-              </Button>
-              <Button onClick={onCancel}>
-                Отмена
-              </Button>
-            </Space>
-
-          </Form.Item>
-        ) : (
-          <Form.Item>
-            <Space direction="vertical" style={{ width: '100%' }} size="middle">
-              <Button size="large" type="primary" htmlType="submit" loading={loading} block>
-                Сохранить
-              </Button>
-              <Button size="large" onClick={onCancel} block>
-                Отмена
-              </Button>
-            </Space>
-
-          </Form.Item>
-        )}
+        <SubmitButtonsBlock loading={loading} onCancel={onCancel} text="Сохранить" />
       </Form>
     </Modal>
   );

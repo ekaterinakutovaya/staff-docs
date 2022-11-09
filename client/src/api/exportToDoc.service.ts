@@ -1,7 +1,6 @@
 import axios from "axios";
 import { API_URL } from "consts/consts";
 
-// const API_URL = 'http://localhost:5000/api';
 
 const generateContract = async (contractId:number) => {
     return axios.post(API_URL + "/word/generate_contract", { contractId });

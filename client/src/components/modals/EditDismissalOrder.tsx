@@ -1,29 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
-import {
-  Modal,
-  Form,
-  Input,
-  Button,
-  DatePicker,
-  InputNumber,
-  Space,
-  Row,
-  Col,
-  notification,
-  Divider, Select, Grid
-} from 'antd';
+import { Modal, Form, Input, InputNumber, Divider, Select } from 'antd';
 import moment from 'moment';
 
 import contractService from "api/contract.service";
 import orderService from "api/order.service";
 import { selectOrders, selectEmployees, selectContracts, selectCompanies } from "store/selectors";
 import { Employee, Contract, Order } from "store/types";
+import SubmitButtonsBlock from 'components/SubmitButtonsBlock';
+import NumberAndDateInputs from 'components/NumberAndDateInputs';
+import DateInput from 'components/DateInput';
 
 const { Option } = Select;
-const { useBreakpoint } = Grid;
 const { TextArea } = Input;
-const dateFormatList = ['DD.MM.YYYY', 'DD.MM.YY'];
 
 type EditDismissalOrderProps = {
   open: boolean;
@@ -42,7 +31,6 @@ type OnFinish = {
 
 const EditDismissalOrder: React.FC<EditDismissalOrderProps> = ({ open, setOpen, orderId }) => {
   const [form] = Form.useForm();
-  const { sm, md, lg, xl, xxl } = useBreakpoint();
   const { orders } = useSelector(selectOrders);
   const { employees } = useSelector(selectEmployees);
   const { contracts } = useSelector(selectContracts);
@@ -53,8 +41,6 @@ const EditDismissalOrder: React.FC<EditDismissalOrderProps> = ({ open, setOpen, 
   const [registerDate, setRegisterDate] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-  // const [selectedEmployee, setSelectedEmployee] = useState(null);
-
 
   useEffect(() => {
     if (companyDetails.length > 0) {
@@ -84,16 +70,6 @@ const EditDismissalOrder: React.FC<EditDismissalOrderProps> = ({ open, setOpen, 
       form.resetFields();
     }
   }, [open])
-
-  const validateDate = (rule: any, value: any, callback: (error?: string) => void) => {
-    if (value === null) {
-      return Promise.reject('Пожалуйста введите дату!');
-    } else if (moment(value).isBefore(registerDate, 'day'))
-      return Promise.reject('Дата документа не может быть раньше даты регистрации организации!');
-    else {
-      return Promise.resolve();
-    }
-  };
 
   const onFinish = async (values: OnFinish) => {
     console.log('Success:', values);
@@ -156,34 +132,7 @@ const EditDismissalOrder: React.FC<EditDismissalOrderProps> = ({ open, setOpen, 
           onFinishFailed={onFinishFailed}
           preserve={false}
         >
-          <Form.Item label="Номер" required>
-            {md ? (
-              <Input.Group size="default">
-                <Row>
-                    <Form.Item name="orderNo"
-                      rules={[{ required: true, message: 'Пожалуйста введите номер приказа!' }]}
-                    >
-                      <InputNumber style={{marginRight: '10px'}}/>
-                    </Form.Item>
-                    <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
-                      <DatePicker format={dateFormatList} />
-                    </Form.Item>
-                </Row>
-              </Input.Group>
-            ) : (
-              <>
-                <Form.Item name="orderNo"
-                  rules={[{ required: true, message: 'Пожалуйста введите номер приказа!' }]}
-                >
-                  <InputNumber />
-                </Form.Item>
-                <Form.Item name="orderDate" label="от" rules={[{ validator: validateDate }]}>
-                  <DatePicker format={dateFormatList} />
-                </Form.Item>
-              </>
-            )}
-
-          </Form.Item>
+          <NumberAndDateInputs document="order" label="Номер" />
           <Divider/>
 
           <Form.Item label="Физ.лицо">
@@ -211,16 +160,13 @@ const EditDismissalOrder: React.FC<EditDismissalOrderProps> = ({ open, setOpen, 
           </Form.Item>
           <Divider />
 
-          <Form.Item label="Дата увольнения" name="dismissalDate" rules={[{ validator: validateDate }]} required>
-            <DatePicker format={dateFormatList} />
-          </Form.Item>
-
+          <DateInput label="Дата увольнения" name="dismissalDate" />
 
           <Form.Item label="Основание увольнения" name="groundsForDismissal" wrapperCol={{
             span: 14
           }} rules={[{ required: true, message: 'Пожалуйста заполните поле!' }]}
           >
-            <TextArea rows={3} />
+            <TextArea rows={2} />
           </Form.Item>
 
           <Divider />
@@ -245,35 +191,7 @@ const EditDismissalOrder: React.FC<EditDismissalOrderProps> = ({ open, setOpen, 
           </Form.Item>
           <Divider />
 
-
-          {sm ? (
-            <Form.Item wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}>
-              <Space>
-                <Button type="primary" htmlType="submit" loading={loading}>
-                  Создать
-                </Button>
-                <Button onClick={onCancel}>
-                  Отмена
-                </Button>
-              </Space>
-
-            </Form.Item>
-          ) : (
-            <Form.Item>
-              <Space direction="vertical" style={{ width: '100%' }} size="middle">
-                <Button size="large" type="primary" htmlType="submit" loading={loading} block>
-                  Сохранить
-                </Button>
-                <Button size="large" onClick={onCancel} block>
-                  Отмена
-                </Button>
-              </Space>
-
-            </Form.Item>
-          )}
+          <SubmitButtonsBlock loading={loading} onCancel={onCancel} text="Сохранить" />
 
         </Form>
       </Modal>

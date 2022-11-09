@@ -1,9 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import AuthService from "../../api/auth.service";
 import companyService from "../../api/company.service";
 import { setMessage } from "../slices/message";
 import { Company, CompanyDetails, CurrentCompany } from "../types";
-import { useAppDispatch } from "store/store";
 
 type CurrentCompanyParams = {
     id: number;
@@ -15,7 +13,7 @@ type CreateCompanyParams = {
     sub: string;
 }
 
-export type InsertChangesParams = {
+export type createCompanyDetailsParams = {
     values: any;
     companyId: number;
 }
@@ -24,9 +22,11 @@ export type fetchCompaniesParams = {
 }
 export type DeleteCompanyByIdParams = {
     companyId: number;
+    sub: string;
 }
 export type DeleteCompanyDetailsByIdParams = {
     companyDetailsId: number;
+    sub: string;
 }
 type CompanyDetailsParams = {
     companyId: number;
@@ -61,7 +61,6 @@ export const fetchCompanies = createAsyncThunk<Company[], fetchCompaniesParams>(
         try {
             const response = await companyService.fetchCompanies( sub );
             thunkAPI.dispatch(setMessage(response.data.message));
-
             return response.data;
         } catch (error) {
             const message =
@@ -103,7 +102,6 @@ export const fetchCompanyDetails = createAsyncThunk<CompanyDetails[], CompanyDet
         try {
             const response = await companyService.fetchCompanyDetails(companyId);
             thunkAPI.dispatch(setMessage(response.data.message));
-
             return response.data;
         } catch (error) {
             const message =
@@ -118,15 +116,13 @@ export const fetchCompanyDetails = createAsyncThunk<CompanyDetails[], CompanyDet
     }
 )
 
-export const insertCompanyChanges = createAsyncThunk<CompanyDetails[], InsertChangesParams>(
-    "companies/insertCompanyChanges",
+export const createCompanyDetails = createAsyncThunk<CompanyDetails[], createCompanyDetailsParams>(
+    "companies/createCompanyDetails",
     async (params, thunkAPI) => {
         const {values, companyId} = params;
         try {
-            const response = await companyService.insertCompanyChanges({values, companyId});
+            const response = await companyService.createCompanyDetails({values, companyId});
             thunkAPI.dispatch(setMessage(response.data.message));
-            console.log(response.data);
-            
             return response.data;
         } catch (error) {
             const message =
@@ -145,8 +141,11 @@ export const insertCompanyChanges = createAsyncThunk<CompanyDetails[], InsertCha
 export const deleteCompanyById = createAsyncThunk <Company[], DeleteCompanyByIdParams>(
     "companies/deleteCompanyById",
     async (params, thunkAPI) => {
-        const {companyId} = params;
+        const {companyId, sub} = params;
         try {
+            if (sub === 'demo') {
+                return companyId;
+            }
             const response = await companyService.deleteCompanyById(companyId);
             return response.data;
         } catch (error) {
@@ -165,12 +164,13 @@ export const deleteCompanyById = createAsyncThunk <Company[], DeleteCompanyByIdP
 export const deleteCompanyDetailsById = createAsyncThunk<CompanyDetails[], DeleteCompanyDetailsByIdParams>(
     "companies/deleteCompanyDetailsById",
     async (params, thunkAPI) => {
-        const { companyDetailsId } = params;
+        const { companyDetailsId, sub } = params;
         try {
+            if (sub === 'demo') {
+                return companyDetailsId;
+            }
             const response = await companyService.deleteCompanyDetailsById(companyDetailsId);
-            console.log(response);
             thunkAPI.dispatch(setMessage(response.data.message));
-
             return response.data;
         } catch (error) {
             const message =

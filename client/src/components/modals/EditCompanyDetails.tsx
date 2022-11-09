@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
-import {
-  Modal,
-  Form,
-  Input,
-  Button,
-  DatePicker,
-  Space, Grid, Divider
-} from 'antd';
+import { Modal, Form, Input, DatePicker, Divider } from 'antd';
 import moment from 'moment';
 
 import companyService from "api/company.service";
-import { selectCompanyDetails, selectCompanies } from "store/selectors";
+import { selectCompanies } from "store/selectors";
 import { CompanyDetails } from "store/types";
+import SubmitButtonsBlock from 'components/SubmitButtonsBlock';
 
 const dateFormatList = ['DD.MM.YYYY', 'DD.MM.YY'];
-const { useBreakpoint } = Grid;
 const { TextArea } = Input;
 
 type EditCompanyDetailsProps = {
@@ -26,7 +19,6 @@ type EditCompanyDetailsProps = {
 
 const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({ open, setOpen, id }) => {
   const [form] = Form.useForm();
-  const { sm, md, lg, xl, xxl } = useBreakpoint();
   const { companyDetails } = useSelector(selectCompanies);
   const [loading, setLoading] = useState(false);
 
@@ -108,7 +100,7 @@ const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({ open, setOpen, 
           </Form.Item>
           <Divider />
           <Form.Item label="Адрес" name="address" rules={[{ required: true, message: 'Пожалуйста введите адрес организации!' }]}>
-            <TextArea rows={3} />
+            <TextArea rows={2} />
           </Form.Item>
           <Divider />
           <Form.Item label="Телефон" name="phoneNumber" rules={[{ required: true, message: 'Пожалуйста введите телефон организации!' }]}>
@@ -142,7 +134,7 @@ const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({ open, setOpen, 
           <Divider />
 
           <Form.Item label="банк" name="bankName" rules={[{ required: true, message: 'Пожалуйста введите наименование банка!' }]}>
-            <TextArea rows={3} />
+            <TextArea rows={2} />
           </Form.Item>
           <Divider />
 
@@ -179,34 +171,7 @@ const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({ open, setOpen, 
           </Form.Item>
           <Divider />
 
-          {sm ? (
-            <Form.Item wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}>
-              <Space>
-                <Button type="primary" htmlType="submit" loading={loading}>
-                  Создать
-                </Button>
-                <Button onClick={onCancel}>
-                  Отмена
-                </Button>
-              </Space>
-
-            </Form.Item>
-          ) : (
-              <Form.Item>
-              <Space direction="vertical" style={{ width: '100%' }} size="middle">
-                  <Button size="large" type="primary" htmlType="submit" loading={loading} block>
-                  Сохранить
-                </Button>
-                  <Button size="large" onClick={onCancel} block>
-                  Отмена
-                </Button>
-              </Space>
-
-            </Form.Item>
-          )}
+          <SubmitButtonsBlock loading={loading} onCancel={onCancel} text="Сохранить" />
 
         </Form>
       </Modal>

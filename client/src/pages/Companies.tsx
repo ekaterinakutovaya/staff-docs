@@ -8,11 +8,9 @@ import type { ColumnsType } from 'antd/es/table';
 import CreateCompany from "components/modals/CreateCompany";
 import { useAppDispatch } from "store/store";
 import { fetchCompanies, setCurrentCompany, deleteCompanyById } from 'store/actionCreators/companyAction';
-import { deleteCompanyByIdDemo } from "store/slices/companySlice";
 import { selectAuth, selectCompanies } from "store/selectors";
 import { Company } from "../store/types";
-import axios from 'axios';
-import { API_URL } from "consts/consts";
+
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
 
@@ -26,7 +24,7 @@ interface DataType {
 const Companies: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { sm, md, lg, xl, xxl } = useBreakpoint();
+  const { md } = useBreakpoint();
   const [open, setOpen] = useState<boolean>(false);
   const { sub } = useSelector(selectAuth);
   const { companies } = useSelector(selectCompanies);
@@ -67,11 +65,7 @@ const Companies: React.FC = () => {
 
   const deleteHandler = (id: string) => {
     const companyId = Number(id);
-    if (sub === 'demo') {
-      dispatch(deleteCompanyByIdDemo({ companyId }));
-      return;
-    }
-    dispatch(deleteCompanyById({ companyId }))
+    dispatch(deleteCompanyById({ companyId, sub }));
   }
 
   const columns: ColumnsType<DataType> = [

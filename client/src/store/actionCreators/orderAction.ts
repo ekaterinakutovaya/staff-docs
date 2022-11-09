@@ -9,6 +9,7 @@ type FetchOrderParams = {
 
 type DeleteOrderByIdParams = {
     orderId: string;
+    sub: string;
 }
 
 export const fetchOrders = createAsyncThunk<Order[], FetchOrderParams>(
@@ -36,10 +37,12 @@ export const fetchOrders = createAsyncThunk<Order[], FetchOrderParams>(
 export const deleteOrderById = createAsyncThunk <Order[], DeleteOrderByIdParams>(
     "orders/deleteOrderById",
     async (params, thunkAPI) => {
-        const { orderId } = params;
+        const { orderId, sub } = params;
         try {
+            if (sub === 'demo') {
+                return Number(orderId);
+            }
             const response = await orderService.deleteOrderById(orderId);
-            console.log(response);
             return response.data;
         } catch (error) {
             const message =

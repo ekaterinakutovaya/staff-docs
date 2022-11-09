@@ -9,6 +9,7 @@ type FetchAdditionalAgreementsParams = {
 
 type DeleteAdditionalAgreementByIdParams = {
     agreementId: number;
+    sub: string;
 }
 
 export const fetchAdditionalAgreements = createAsyncThunk<AdditionalAgreement[], FetchAdditionalAgreementsParams>(
@@ -37,8 +38,11 @@ export const fetchAdditionalAgreements = createAsyncThunk<AdditionalAgreement[],
 export const deleteAdditionalAgreementById = createAsyncThunk<AdditionalAgreement[], DeleteAdditionalAgreementByIdParams>(
     "additionalAgreements/deleteAdditionalAgreementById",
     async (params, thunkAPI) => {
-        const { agreementId } = params;
+        const { agreementId, sub } = params;
         try {
+            if (sub === 'demo') {
+                return agreementId;
+            }
             const response = await additionalAgreementService.deleteAdditionalAgreementById(agreementId);
             return response.data;
         } catch (error) {

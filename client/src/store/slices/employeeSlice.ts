@@ -19,9 +19,6 @@ const employeeSlice = createSlice({
         setEmployees(state, action: PayloadAction<Employee[]>) {
             state.loading = false;
             state.employees = action.payload;
-        },
-        deleteEmployeeByIdDemo(state, action) {
-            state.employees = state.employees.filter((emp) => emp.id !== action.payload);
         }
     },
     extraReducers: (builder) => {
@@ -38,7 +35,7 @@ const employeeSlice = createSlice({
         });
         builder.addCase(deleteEmployeeById.fulfilled, (state, action) => {
             state.loading = false;
-            state.employees = state.employees.filter((emp) => emp.id !== action.payload);
+            state.employees = state.employees.filter((emp) => emp.id !== Number(action.payload));
         });
         builder.addCase(deleteEmployeeById.rejected, (state, action) => {
             state.loading = false;
@@ -50,5 +47,5 @@ const employeeSlice = createSlice({
     },
 });
 
-export const { setEmployees, deleteEmployeeByIdDemo } = employeeSlice.actions;
+export const { setEmployees } = employeeSlice.actions;
 export default employeeSlice.reducer;

@@ -8,11 +8,10 @@ type FetchEmployeesParams = {
     id: number;
 }
 
-// type DeleteEmployeeById = {
-//     type: string;
-//     payload: any;
-//     meta: any
-// }
+type DeleteEmployeeByIdParams = {
+    employeeId: number;
+    sub: string;
+}
 
 export const fetchEmployees = createAsyncThunk<Employee[], FetchEmployeesParams>(
     "employees/fetchEmployees",
@@ -36,13 +35,15 @@ export const fetchEmployees = createAsyncThunk<Employee[], FetchEmployeesParams>
     }
 )
 
-export const deleteEmployeeById = createAsyncThunk(
+export const deleteEmployeeById = createAsyncThunk<Employee[], DeleteEmployeeByIdParams>(
     "employees/deleteEmployeeById",
-    async (employeeId:number, thunkAPI) => {
-        // console.log(employeeId);
+    async (params, thunkAPI) => {
+        const {employeeId, sub} = params;
         try {
+            if (sub === 'demo') {
+                return employeeId;
+            }
             const response = await employeeService.deleteEmployeeById(employeeId);
-            console.log(response);
             return response.data;
         } catch (error) {
             const message =

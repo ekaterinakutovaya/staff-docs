@@ -11,7 +11,6 @@ import Highlighter from 'react-highlight-words';
 import { useAppDispatch } from "store/store";
 import CreateEmployee from 'components/modals/CreateEmployee';
 import { fetchEmployees, deleteEmployeeById } from 'store/actionCreators/employeeAction';
-import { deleteEmployeeByIdDemo } from "store/slices/employeeSlice";
 import EditEmployee from 'components/modals/EditEmployee';
 import { selectCompanies, selectEmployees, selectAuth, selectContracts } from "store/selectors";
 import { Contract, Employee } from "../store/types";
@@ -84,34 +83,19 @@ const Employees: React.FC = () => {
 
   const deleteHandler = (id: string) => {
     const employeeId = Number(id);
-    
-    if (sub === 'demo') {
-      const foundContracts = contracts.find((contract: Contract) => contract.employeeId === employeeId);
-      if (foundContracts) {
-        notification.error({
-          message: `Невозможно удалить физ.лицо!`,
-          description:
-            'Существуют связанные документы.',
-          placement: 'top',
-        });
-      } else {
-        dispatch(deleteEmployeeByIdDemo(employeeId));
-      }
+
+    const hasContracts = contracts.find((contract: Contract) => contract.employeeId === employeeId);
+    if (hasContracts) {
+      notification.error({
+        message: `Невозможно удалить физ.лицо!`,
+        description:
+          'Существуют связанные документы.',
+        placement: 'top',
+      });
       return;
     }
 
-    dispatch(deleteEmployeeById(employeeId))
-      .then((response: any) => {
-        if (response.error?.message === 'Rejected') {
-          notification.error({
-            message: `Невозможно удалить физ.лицо!`,
-            description:
-              'Существуют связанные документы.',
-            placement: 'top',
-          });
-        }
-      })
-
+    dispatch(deleteEmployeeById({ employeeId, sub }));
   }
 
   const handleSearch = (
@@ -257,10 +241,10 @@ const Employees: React.FC = () => {
       render: (_, record) => {
         return (
           <Space size="middle">
-              <a id={record.key} onClick={editHandler} style={{ marginRight: '20px' }}><FormOutlined style={{ fontSize: '22px' }} /></a>
-              <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
-                <a ><DeleteOutlined style={{ fontSize: '22px' }} /></a>
-              </Popconfirm>
+            <a id={record.key} onClick={editHandler} style={{ marginRight: '20px' }}><FormOutlined style={{ fontSize: '22px' }} /></a>
+            <Popconfirm title="Вы уверенны, что хотите удалить запись?" okText="Да" cancelText="Нет" onConfirm={() => deleteHandler(record.key)} >
+              <a ><DeleteOutlined style={{ fontSize: '22px' }} /></a>
+            </Popconfirm>
           </Space>
         )
       }

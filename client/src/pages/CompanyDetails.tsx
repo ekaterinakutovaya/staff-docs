@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Button, PageHeader, Table, Space, Typography, Popconfirm, Grid, Divider, Tooltip } from 'antd';
+import { Button, PageHeader, Table, Space, Typography, Popconfirm, Grid, Divider } from 'antd';
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import type { ColumnsType } from 'antd/es/table';
 
 import { useAppDispatch } from "store/store";
 import { fetchCompanyDetails, deleteCompanyDetailsById } from 'store/actionCreators/companyAction';
-import { deleteCompanyDetailsByIdDemo } from "store/slices/companySlice";
-import InsertCompanyChanges from "components/modals/InsertCompanyChanges";
+import CreateCompanyDetails from "components/modals/CreateCompanyDetails";
 import EditCompanyDetails from "components/modals/EditCompanyDetails";
 import { selectAuth, selectCompanies } from "store/selectors";
 
@@ -34,7 +33,7 @@ interface DataType {
 
 const CompanyDetails: React.FC = () => {
   const { id } = useParams();
-  const { sm, md, lg, xl, xxl } = useBreakpoint();
+  const { sm, md } = useBreakpoint();
   const dispatch = useAppDispatch();
   const { sub } = useSelector(selectAuth);
   const { companyDetails } = useSelector(selectCompanies);
@@ -91,11 +90,7 @@ const CompanyDetails: React.FC = () => {
 
   const deleteHandler = (id: string) => {
     const companyDetailsId = Number(id);
-    if (sub === 'demo') {
-      dispatch(deleteCompanyDetailsByIdDemo({ companyDetailsId }))
-      return;
-    }
-    dispatch(deleteCompanyDetailsById({ companyDetailsId }))
+    dispatch(deleteCompanyDetailsById({ companyDetailsId, sub }))
   }
 
   const columns: ColumnsType<DataType> = [
@@ -155,9 +150,9 @@ const CompanyDetails: React.FC = () => {
       key: 'address',
       responsive: ["sm"],
       render: (_, record) => (
-        <Typography.Text style={{ fontSize: '12px' }}>
+        <Text style={{ fontSize: '12px' }}>
           {record.address}
-        </Typography.Text>
+        </Text>
       )
     },
     {
@@ -166,9 +161,9 @@ const CompanyDetails: React.FC = () => {
       key: 'phoneNumber',
       responsive: ["sm"],
       render: (_, record) => (
-        <Typography.Text style={{ fontSize: '12px' }}>
+        <Text style={{ fontSize: '12px' }}>
           {record.phoneNumber}
-        </Typography.Text>
+        </Text>
       )
     },
     {
@@ -177,9 +172,9 @@ const CompanyDetails: React.FC = () => {
       key: 'bankAccount',
       responsive: ["sm"],
       render: (_, record) => (
-        <Typography.Text style={{ fontSize: '12px' }}>
+        <Text style={{ fontSize: '12px' }}>
           {record.bankAccount}
-        </Typography.Text>
+        </Text>
       )
     },
     {
@@ -188,9 +183,9 @@ const CompanyDetails: React.FC = () => {
       key: 'bankName',
       responsive: ["sm"],
       render: (_, record) => (
-        <Typography.Text style={{ fontSize: '12px' }}>
+        <Text style={{ fontSize: '12px' }}>
           {record.bankName}
-        </Typography.Text>
+        </Text>
       )
     },
     {
@@ -199,9 +194,9 @@ const CompanyDetails: React.FC = () => {
       key: 'bankCode',
       responsive: ["sm"],
       render: (_, record) => (
-        <Typography.Text style={{ fontSize: '12px' }}>
+        <Text style={{ fontSize: '12px' }}>
           {record.bankCode}
-        </Typography.Text>
+        </Text>
       )
     },
     {
@@ -210,9 +205,9 @@ const CompanyDetails: React.FC = () => {
       key: 'companyINN',
       responsive: ["sm"],
       render: (_, record) => (
-        <Typography.Text style={{ fontSize: '12px' }}>
+        <Text style={{ fontSize: '12px' }}>
           {record.companyINN}
-        </Typography.Text>
+        </Text>
       )
     },
     {
@@ -221,9 +216,9 @@ const CompanyDetails: React.FC = () => {
       key: 'companyOKED',
       responsive: ["sm"],
       render: (_, record) => (
-        <Typography.Text style={{ fontSize: '12px' }}>
+        <Text style={{ fontSize: '12px' }}>
           {record.companyOKED}
-        </Typography.Text>
+        </Text>
       )
     },
     {
@@ -232,9 +227,9 @@ const CompanyDetails: React.FC = () => {
       key: 'manager',
       responsive: ["sm"],
       render: (_, record) => (
-        <Typography.Text style={{ fontSize: '12px' }}>
+        <Text style={{ fontSize: '12px' }}>
           {record.manager}
-        </Typography.Text>
+        </Text>
       )
     },
     {
@@ -300,7 +295,6 @@ const CompanyDetails: React.FC = () => {
           showExpandColumn: sm ? false : true,
           expandedRowRender: record => <div style={{ margin: 0 }}>
             <React.Fragment>
-              
               <div style={{ padding: '20px 10px' }}>
                 <Space direction="vertical" size="small" style={{ width: '100%' }}>
                 <Text strong style={{ fontSize: '12px' }}>Адрес:</Text>
@@ -326,7 +320,7 @@ const CompanyDetails: React.FC = () => {
         }}
       />
 
-      <InsertCompanyChanges open={open} setOpen={setOpen} companyId={companyId} />
+      <CreateCompanyDetails open={open} setOpen={setOpen} companyId={companyId} />
       <EditCompanyDetails open={openEditCompanyDetails} setOpen={setOpenEditCompanyDetails} id={companyDetailsId} />
     </div >
   );

@@ -19,9 +19,6 @@ const OrderSlice = createSlice({
         setOrders(state, action: PayloadAction<Order[]>) {
             state.loading = false;
             state.orders = action.payload;
-        },
-        deleteOrderByIdDemo(state, action) {
-            state.orders = state.orders.filter((order) => order.id !== action.payload);
         }
     },
     extraReducers: (builder) => {
@@ -43,5 +40,5 @@ const OrderSlice = createSlice({
     },
 });
 
-export const { setOrders, deleteOrderByIdDemo } = OrderSlice.actions;
+export const { setOrders } = OrderSlice.actions;
 export default OrderSlice.reducer;

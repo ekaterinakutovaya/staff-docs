@@ -19,9 +19,6 @@ const contractSlice = createSlice({
         setContracts(state, action: PayloadAction<Contract[]>) {
             state.contracts = action.payload;
             state.loading = false;
-        },
-        deleteContractByIdDemo(state, action) {
-            state.contracts = state.contracts.filter((contract) => contract.id !== action.payload);
         }
     },
     extraReducers: (builder) => {
@@ -48,5 +45,5 @@ const contractSlice = createSlice({
     },
 });
 
-export const { setContracts, deleteContractByIdDemo } = contractSlice.actions;
+export const { setContracts } = contractSlice.actions;
 export default contractSlice.reducer;

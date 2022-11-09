@@ -22,6 +22,7 @@ class wordDocController {
         const allCompanyDetails = await CompanyDetails.findAll({where: {companyId}});
         
         let companyDetailsId;
+        // find actual details
         allCompanyDetails.forEach((details) => {
             if (moment(details.registerDate).isBefore(contractDate, 'day') || moment(details.registerDate).isSame(contractDate, 'day')) {
                 companyDetailsId = details.id;
