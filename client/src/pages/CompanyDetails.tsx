@@ -256,7 +256,20 @@ const CompanyDetails: React.FC = () => {
 
   return (
     <div>
-      {md ? (
+      <PageHeader
+        ghost={false}
+        title={companyTitle}
+        subTitle="Реквизиты"
+        // onBack={() => window.history.back()}
+        style={{ fontSize: '12px' }}
+        extra={[
+          <Button key="1" type="primary" onClick={() => setOpen(true)}>
+            Внести изменения
+          </Button>
+        ]}
+      >
+      </PageHeader>
+      {/* {md ? (
         <PageHeader
           ghost={false}
           title={companyTitle}
@@ -283,7 +296,7 @@ const CompanyDetails: React.FC = () => {
           <Divider />
         </>
       )
-      }
+      } */}
 
       <Table
         dataSource={data}

@@ -40,8 +40,8 @@ const NumberAndDateInputs: React.FC<NumberAndDateInputsProps> = ({ document, lab
       <Form.Item label={label} required>
         {md ? (
           <Input.Group size="default">
-            <Row>
-              <Form.Item name={`${document}No`}>
+            <Row wrap={false}>
+              <Form.Item name={`${document}No`} >
                 <InputNumber style={{ width: '70px', marginRight: '10px' }} />
               </Form.Item>
 

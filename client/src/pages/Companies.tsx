@@ -179,17 +179,17 @@ const Companies: React.FC = () => {
         title="Организации"
         extra={[
           <Button key="1" type="primary" onClick={() => setOpen(true)}
-            style={md ? { display: 'flex' } : { display: 'none' }}
+            // style={md ? { display: 'flex' } : { display: 'none' }}
           >
             Добавить
           </Button>
         ]}
       >
-        <Button size="large" type="primary" onClick={() => setOpen(true)} block
+        {/* <Button size="large" type="primary" onClick={() => setOpen(true)} block
           style={md ? { display: 'none' } : { display: 'block', marginBottom: '20px' }}
         >
           Добавить
-        </Button>
+        </Button> */}
       </PageHeader>
 
       <Table
