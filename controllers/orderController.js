@@ -65,7 +65,6 @@ class OrderController {
 
     async delete(req, res, next) {
         const { orderId } = req.body;
-        console.log(req.body);
         
         Order.destroy({ where: { id: Number(orderId) } })
             .then(num => {

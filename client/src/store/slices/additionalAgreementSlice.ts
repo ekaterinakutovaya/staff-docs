@@ -21,7 +21,6 @@ const additionalAgreementSlice = createSlice({
             state.loading = false;
         },
         deleteAdditionalAgreementByIdDemo(state, action) {
-            console.log(action.payload);
             state.additionalAgreements = state.additionalAgreements.filter((agreement) => agreement.id !== action.payload);
         }
     },

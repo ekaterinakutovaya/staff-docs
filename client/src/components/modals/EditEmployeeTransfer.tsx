@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
-import { Modal, Form, Input, DatePicker, InputNumber, Space, Row, Col, Divider, Typography, Select, Grid } from 'antd';
+import { Modal, Form, Input, Divider, Typography, Select, Grid } from 'antd';
 import moment from 'moment';
 
 import PositionSearchInput from "components/PositionSearchInput";
@@ -13,7 +13,6 @@ import NumberAndDateInputs from 'components/NumberAndDateInputs';
 import DateInput from 'components/DateInput';
 import WorkConditionsInputs from 'components/WorkConditionsInputs';
 
-const dateFormatList = ['DD.MM.YYYY', 'DD.MM.YY'];
 const { Title } = Typography;
 const { Option } = Select;
 const { useBreakpoint } = Grid;
@@ -68,7 +67,7 @@ type OnFinish = {
 
 const EditEmployeeTransfer: React.FC<EditEmployeeTransferProps> = ({ open, setOpen, orderId, agreementId }) => {
   const [form] = Form.useForm();
-  const { sm, md, lg, xl, xxl } = useBreakpoint();
+  const { md } = useBreakpoint();
   const { orders } = useSelector(selectOrders);
   const { employees } = useSelector(selectEmployees);
   const { contracts } = useSelector(selectContracts);

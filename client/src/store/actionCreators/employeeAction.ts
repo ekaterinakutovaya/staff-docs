@@ -30,7 +30,7 @@ export const fetchEmployees = createAsyncThunk<Employee[], FetchEmployeesParams>
                 error.message ||
                 error.toString();
             thunkAPI.dispatch(setMessage(message));
-            return thunkAPI.rejectWithValue(error.response ?.data);
+            return thunkAPI.rejectWithValue(error.response?.data);
         }
     }
 )
@@ -53,7 +53,7 @@ export const deleteEmployeeById = createAsyncThunk<Employee[], DeleteEmployeeByI
                 error.message ||
                 error.toString();
             thunkAPI.dispatch(setMessage(message));
-            return thunkAPI.rejectWithValue(error.response ?.data);
+            return thunkAPI.rejectWithValue(error.response?.data);
         }
     }
 )
@@ -61,10 +61,9 @@ export const deleteEmployeeById = createAsyncThunk<Employee[], DeleteEmployeeByI
 export const setEmployed = createAsyncThunk(
     "employees/setEmployed",
     async (employeeId: number, thunkAPI) => {
-        // console.log(employeeId);
+      
         try {
             const response = await employeeService.setEmployed(employeeId);
-            console.log(response);
             return response.data;
         } catch (error) {
             const message =

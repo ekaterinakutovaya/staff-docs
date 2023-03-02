@@ -29,7 +29,7 @@ export const fetchOrders = createAsyncThunk<Order[], FetchOrderParams>(
                 error.message ||
                 error.toString();
             thunkAPI.dispatch(setMessage(message));
-            return thunkAPI.rejectWithValue(error.response ?.data);
+            return thunkAPI.rejectWithValue(error.response?.data);
         }
     }
 )
@@ -52,7 +52,7 @@ export const deleteOrderById = createAsyncThunk <Order[], DeleteOrderByIdParams>
                 error.message ||
                 error.toString();
             thunkAPI.dispatch(setMessage(message));
-            return thunkAPI.rejectWithValue(error.response ?.data);
+            return thunkAPI.rejectWithValue(error.response?.data);
         }
     }
 )

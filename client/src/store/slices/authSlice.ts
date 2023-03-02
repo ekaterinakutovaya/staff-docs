@@ -35,9 +35,7 @@ const authSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(auth.fulfilled, (state, action) => {
-            console.log(action.payload);
-            
+        builder.addCase(auth.fulfilled, (state, action) => {            
             state.isAuth = true;
             state.sub = action.payload.sub;
             state.picture = action.payload.picture;
@@ -54,5 +52,9 @@ const authSlice = createSlice({
     },
 });
 
-const { setIsAuth } = authSlice.actions;
-export default authSlice.reducer;
+// const { setIsAuth } = authSlice.actions;
+// export default authSlice.reducer;
+
+export const { reducer } = authSlice;;
+
+export default reducer;

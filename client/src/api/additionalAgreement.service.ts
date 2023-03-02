@@ -1,8 +1,6 @@
 import axios from "axios";
 import { API_URL } from "consts/consts";
 
-// const API_URL = 'http://localhost:5000/api';
-
 
 const createAdditionalAgreement = async ({ values, position, agreementNo, companyId, employeeId, contractId, prevAgreementId }) => {
     return axios.post(API_URL + "/additional_agreement/create", {

@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { Layout, Menu, MenuProps } from 'antd';
-import { UserOutlined, VideoCameraOutlined, TeamOutlined, ProfileOutlined, FileDoneOutlined } from '@ant-design/icons';
+import { TeamOutlined, ProfileOutlined, FileDoneOutlined } from '@ant-design/icons';
 import { MenuInfo } from 'rc-menu/lib/interface';
 
 import { useAppDispatch } from "store/store";
@@ -53,7 +53,6 @@ const SideBar: React.FC<SideBarProps> = ({ collapsed, setCollapsed }) => {
         breakpoint="lg"
             collapsedWidth="0"
             onBreakpoint={broken => {
-                // console.log(broken);
                 setCollapsed(broken);
             }}
             onCollapse={(collapsed, type) => {

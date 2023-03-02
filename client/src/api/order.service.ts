@@ -5,9 +5,6 @@ const createOrder = async ({ values, orderTypeId, employeeId, companyId, contrac
     return axios.post(API_URL + "/order/create", {
         values, orderTypeId, employeeId, companyId, contractId, agreementId
     })
-        .then((response) => {
-            console.log(response);
-        });
 }
 
 const fetchOrders = async (companyId:number) => {
@@ -34,9 +31,6 @@ const createDismissalOrder = async ({ values, orderTypeId, employeeId, contractI
     return axios.post(API_URL + "/order/create_dismissal", {
         values, orderTypeId, employeeId, contractId, companyId
     })
-        .then((response) => {
-            console.log(response);
-        });
 }
 
 const orderService = {

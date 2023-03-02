@@ -34,7 +34,7 @@ export const fetchContracts = createAsyncThunk<Contract[], FetchContractParams>(
                 error.message ||
                 error.toString();
             thunkAPI.dispatch(setMessage(message));
-            return thunkAPI.rejectWithValue(error.response ?.data);
+            return thunkAPI.rejectWithValue(error.response?.data);
         }
     }
 )
@@ -57,7 +57,7 @@ export const deleteContractById = createAsyncThunk <Contract[], DeleteContractBy
                 error.message ||
                 error.toString();
             thunkAPI.dispatch(setMessage(message));
-            return thunkAPI.rejectWithValue(error.response ?.data);
+            return thunkAPI.rejectWithValue(error.response?.data);
         }
     }
 )

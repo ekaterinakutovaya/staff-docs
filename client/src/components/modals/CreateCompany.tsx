@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from "react-redux";
-import { Modal, Form, Input, Button, DatePicker, Space, Divider, Grid } from 'antd';
+import { Modal, Form, Input, DatePicker, Divider, Grid } from 'antd';
 
 import { useAppDispatch } from "store/store";
-import { createCompany } from "../../store/actionCreators/companyAction";
+import { createCompany } from "store/actionCreators/companyAction";
 import { selectAuth } from 'store/selectors';
 import { CompanyDetails } from "store/types";
-import moment from 'moment';
 import SubmitButtonsBlock from 'components/SubmitButtonsBlock';
 
 const dateFormatList = ['DD.MM.YYYY', 'DD.MM.YY'];
-const { useBreakpoint } = Grid;
 const { TextArea } = Input;
 
 type CreateCompanyProps = {
@@ -22,24 +20,8 @@ type CreateCompanyProps = {
 const CreateCompany: React.FC<CreateCompanyProps> = ({ open, setOpen }) => {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
-  const { sm, md, lg, xl, xxl } = useBreakpoint();
   const { sub } = useSelector(selectAuth);
   const [form] = Form.useForm();
-
-  useEffect(() => {
-    form.setFieldsValue({
-      companyName: 'OOO "KIMPLE"',
-      address: `Toshkent shahri, Yunusobod tumani, Osiyo ko'chasi, 37-uy`,
-      phoneNumber: '+ (998) 99 999 99 99',
-      registerDate: moment(Date.now()),
-      companyINN: '999999999',
-      bankAccount: '20208000005046738001',
-      bankName: `АТ «Алокабанк» Амалиёт бошкармаси`,
-      bankCode: '00963',
-      companyOKED: '69101',
-      manager: 'Аблакулов О. Д.'
-    })
-  }, [])
 
   const onFinish = (values: CompanyDetails) => {
     // console.log('Success:', values);

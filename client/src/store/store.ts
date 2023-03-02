@@ -3,7 +3,6 @@ import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } fro
 import { useDispatch } from 'react-redux';
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import authReducer from './slices/authSlice';
-import resetState from './slices/authSlice';
 import companyReducer from './slices/companySlice';
 import employeeReducer from './slices/employeeSlice';
 import contractReducer from './slices/contractSlice';
@@ -11,7 +10,6 @@ import additionalAgreementReducer from './slices/additionalAgreementSlice';
 import orderReducer from './slices/orderSlice';
 import sideBarReducer from './slices/sideBarSlice';
 import messageReducer from "./slices/message";
-
 
 
 const persistConfig = {

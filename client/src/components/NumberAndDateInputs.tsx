@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
-import { Modal, Form, Input, Button, DatePicker, InputNumber, Space, Row, Col, Select, Typography, Grid, Divider } from 'antd';
+import { Form, Input, DatePicker, InputNumber, Row, Grid } from 'antd';
 import moment from 'moment';
 
 import { selectCompanies } from "store/selectors";
@@ -17,7 +17,7 @@ type NumberAndDateInputsProps = {
 const NumberAndDateInputs: React.FC<NumberAndDateInputsProps> = ({ document, label }) => {
   const { companyDetails } = useSelector(selectCompanies);
   const [registerDate, setRegisterDate] = useState<string | null>(null);
-  const { sm, md, lg, xl, xxl } = useBreakpoint();
+  const { md } = useBreakpoint();
 
   useEffect(() => {
     if (companyDetails.length > 0) {

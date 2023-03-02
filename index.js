@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const sequelize = require('./db');
-const models = require('./models/models');
 const cors = require('cors');
 const router = require('./routes/index');
 const errorHandler = require('./middleware/ErrorHandlingMiddleware');
@@ -16,6 +15,7 @@ app.use(express.json());
 if (process.env.NODE_ENV === "production") {
     app.use(express.static('client/build'));
     app.get('/', (req, res) => res.sendFile(path.resolve('client', 'build', 'index.html')));
+    app.get('/login', (req, res) => res.sendFile(path.resolve('client', 'build', 'index.html')));
     app.get('/dashboard/companies', (req, res) => res.sendFile(path.resolve('client', 'build', 'index.html')));
     app.get('/dashboard/employees', (req, res) => res.sendFile(path.resolve('client', 'build', 'index.html')));
     app.get('/dashboard/orders', (req, res) => res.sendFile(path.resolve('client', 'build', 'index.html')));

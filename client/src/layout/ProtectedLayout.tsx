@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from "react-redux";
 import { Navigate, useOutlet } from "react-router-dom";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
@@ -12,7 +12,7 @@ const { Header, Content } = Layout;
 
 const ProtectedLayout: React.FC = () => {
   const { isAuth } = useSelector(selectAuth);
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const outlet = useOutlet();
   
 

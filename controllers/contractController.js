@@ -109,7 +109,6 @@ class ContractController {
                 { where: { id: contractId } }
             )
 
-            // console.log(contract);
             return res.status(200).json(contractId).send({ message: 'The contract has been restored' });
         } catch (error) {
             next(ApiError.badRequest(error.message));

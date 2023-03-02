@@ -6,8 +6,6 @@ const { User } = require('../models/models')
 
 class UserController {
     async auth(req, res, next) {
-        console.log(req);
-        
         const { given_name, picture, sub } = req.body;
 
         const user = await User.findOne({ where: { sub } });

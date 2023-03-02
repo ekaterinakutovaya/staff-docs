@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Button, PageHeader, Table, Space, Typography, Popconfirm, Grid, Divider } from 'antd';
+import { Button, PageHeader, Table, Space, Typography, Popconfirm, Grid } from 'antd';
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import type { ColumnsType } from 'antd/es/table';
@@ -12,7 +12,7 @@ import CreateCompanyDetails from "components/modals/CreateCompanyDetails";
 import EditCompanyDetails from "components/modals/EditCompanyDetails";
 import { selectAuth, selectCompanies } from "store/selectors";
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 const { useBreakpoint } = Grid;
 
 interface DataType {
@@ -33,7 +33,7 @@ interface DataType {
 
 const CompanyDetails: React.FC = () => {
   const { id } = useParams();
-  const { sm, md } = useBreakpoint();
+  const { sm } = useBreakpoint();
   const dispatch = useAppDispatch();
   const { sub } = useSelector(selectAuth);
   const { companyDetails } = useSelector(selectCompanies);
@@ -269,34 +269,6 @@ const CompanyDetails: React.FC = () => {
         ]}
       >
       </PageHeader>
-      {/* {md ? (
-        <PageHeader
-          ghost={false}
-          title={companyTitle}
-          subTitle="Реквизиты"
-          // onBack={() => window.history.back()}
-          style={{ fontSize: '12px' }}
-          extra={[
-            <Button key="1" type="primary" onClick={() => setOpen(true)}>
-              Внести изменения
-            </Button>
-          ]}
-        >
-        </PageHeader>
-      ) : (
-        <>
-          <Space direction="vertical">
-            <Title level={5}>{companyTitle}</Title>
-            <Text type="secondary" >Реквизиты</Text>
-          </Space>
-          <Divider/>
-            <Button size="large" block type="primary" onClick={() => setOpen(true)}>
-              Внести изменения
-            </Button>
-          <Divider />
-        </>
-      )
-      } */}
 
       <Table
         dataSource={data}

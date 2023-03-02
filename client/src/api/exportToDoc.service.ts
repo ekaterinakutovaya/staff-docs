@@ -15,7 +15,6 @@ const generateContractCancellation = async (contractId:number) => {
 }
 
 const downloadDocument = async (fileName:string) => {
-    console.log(API_URL + `/word/download?fileName`);
     
     const response = await fetch(API_URL + `/word/download?fileName=${fileName}`, {
         headers: {
@@ -46,23 +45,6 @@ const generateDismissalOrder = async (orderId:number) => {
     return axios.post(API_URL + "/word/generate_dismissal_order", {orderId});
 }
 
-// const fetchOrderInWordFormat = async (fileName) => {
-//     const response = await fetch(API_URL + `/word/download?fileName=${fileName}`, {
-//         headers: {
-//             'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-//             'Content-Disposition': 'attachment; filename="file.docx"'
-//         }
-//     })
-//     if (response.status === 200) {
-//         const blob = await response.blob();
-//         const downloadUrl = window.URL.createObjectURL(blob);
-//         const link = document.createElement('a');
-//         link.href = downloadUrl;
-//         link.download = fileName;
-//         link.target = '_blank';
-//         link.dispatchEvent(new MouseEvent('click'));
-//     }
-// }
 
 const exportToDocService = {
     generateContract,

@@ -23,8 +23,6 @@ const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({ open, setOpen, 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // console.log(companyDetails.length);
-    // if (companyDetails.length > 0) {
     let data = companyDetails?.filter(details => details.id === id)[0];
     form.setFieldsValue({
       companyName: data?.companyName,
@@ -38,8 +36,6 @@ const EditCompanyDetails: React.FC<EditCompanyDetailsProps> = ({ open, setOpen, 
       companyOKED: data?.companyOKED,
       manager: data?.manager,
     })
-    // }
-
 
   }, [companyDetails, id])
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Select, Form } from 'antd';
+import { Select } from 'antd';
 import axios from "axios";
 import { API_URL } from "consts/consts";
 

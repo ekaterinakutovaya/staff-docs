@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from "react-redux";
-import { Modal, Form, Input, Button, DatePicker, Space, Row, Col, Grid, Divider } from 'antd';
-import moment from 'moment';
+import { Modal, Form, Input, DatePicker, Space, Row, Col, Grid, Divider } from 'antd';
 
 import employeeService from "api/employee.service";
 import { selectCompanies } from "store/selectors";
@@ -19,26 +18,11 @@ type CreateEmployeeProps = {
 
 const CreateEmployee: React.FC<CreateEmployeeProps> = ({ open, setOpen }) => {
   const [form] = Form.useForm();
-  const { sm, md, lg, xl, xxl } = useBreakpoint();
+  const { sm, md } = useBreakpoint();
   const [loading, setLoading] = useState(false);
   const { currentCompany } = useSelector(selectCompanies);
   const [id, setId] = useState(null);
 
-  useEffect(() => {
-    form.setFieldsValue({
-      employeeFamilyName: 'Ablakulov',
-      employeeFirstName: 'Otabek',
-      employeePatronymic: 'Davronovich',
-      personalId: '40608840220079',
-      employeeINN: '999999999',
-      passportSeries: 'AA',
-      passportNo: '4598374',
-      issueAuthority: `Toshkent shahar Mirzo-Ulug'bek tumani IIB`,
-      issueDate: moment(Date.now()),
-      employeeAddress: `г. Ташкент, Чиланзарский р-н, ул. Нурафшон, д. 1, кв. 5`,
-      employeePhoneNumber: '+998909094511'
-    })
-  }, [])
 
   useEffect(() => {
     setId(currentCompany?.id)

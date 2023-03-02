@@ -20,7 +20,6 @@ import { fetchCompanyDetails } from 'store/actionCreators/companyAction';
 import { fetchContracts, deleteContractById, cancelDismissal } from 'store/actionCreators/contractAction';
 import { fetchAdditionalAgreements, deleteAdditionalAgreementById } from 'store/actionCreators/additionalAgreementAction';
 import { fetchEmployees, setEmployed } from 'store/actionCreators/employeeAction';
-import { deleteAdditionalAgreementByIdDemo } from "store/slices/additionalAgreementSlice";
 import exportToDocService from "api/exportToDoc.service";
 import { orderTypes } from "consts/consts";
 import EditDismissalOrder from 'components/modals/EditDismissalOrder';
@@ -51,7 +50,7 @@ type DataIndex = keyof DataType;
 
 const Orders: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { sm, md, lg, xl, xxl } = useBreakpoint();
+  const { sm } = useBreakpoint();
   const [openEmployment, setOpenEmployment] = useState(false);
   const [openDismissal, setOpenDismissal] = useState(false);
   const [openEditEmployment, setOpenEditEmployment] = useState(false);

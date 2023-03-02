@@ -45,10 +45,7 @@ const CreateDismissalOrder: React.FC<CreateDismissalOrderProps> = ({ open, setOp
     form.setFieldsValue({
       orderNo: orders.length + 1,
       orderDate: moment(Date.now()),
-      dismissalDate: moment(Date.now()),
-      groundsForDismissal: 'Заявление',
-      compensationDays: 5,
-      averageSalary: 1500000
+      dismissalDate: moment(Date.now())
     })
 
     return () => {

@@ -8,8 +8,6 @@ class AdditionalAgreementController {
     async create(req, res, next) {
         const { values, position, agreementNo, companyId, employeeId, contractId, prevAgreementId } = req.body;
         const { agreementDate, salary, salaryRate, workHours, workHoursStart, workHoursEnd, workSchedule } = values;
-        // console.log(agreementDate);
-
 
         try {
             const agreement = await AdditionalAgreement.create({
@@ -25,8 +23,6 @@ class AdditionalAgreementController {
 
     async getAll(req, res) {
         const { companyId } = req.query;
-        console.log(req.query);
-
         const agreements = await AdditionalAgreement.findAll({ where: { companyId: Number(companyId) } })
 
         if (agreements) {

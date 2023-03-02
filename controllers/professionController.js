@@ -39,8 +39,6 @@ class ProfessionController {
                 profession: { [Op.like]: '%' + val + '%' }
             }
         });
-        console.log(professions);
-
 
         return res.json(professions);
     }

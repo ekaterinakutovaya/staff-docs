@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useSelector } from "react-redux";
-import { Modal, Form, Select, Grid } from 'antd';
+import { Form, Select } from 'antd';
 
 import { selectEmployees } from "store/selectors";
 import { Employee } from "store/types";

@@ -31,8 +31,7 @@ type DataIndex = keyof DataType;
 
 const Employees: React.FC = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { sm, md, lg, xl, xxl } = useBreakpoint();
+  const { sm } = useBreakpoint();
   const { sub } = useSelector(selectAuth);
   const { currentCompany } = useSelector(selectCompanies);
   const { companies } = useSelector(selectCompanies);
@@ -261,17 +260,11 @@ const Employees: React.FC = () => {
           title="Физические лица"
           extra={[
             <Button key="1" type="primary" onClick={() => setOpenCreateEmployee(true)}
-              // style={md ? { display: 'flex' } : { display: 'none' }}
             >
               Добавить
             </Button>
           ]}
         >
-          {/* <Button size="large" key="1" type="primary" onClick={() => setOpenCreateEmployee(true)} block
-            style={md ? { display: 'none' } : { display: 'block' }}
-          >
-            Добавить
-          </Button> */}
 
         </PageHeader>
       ) : (

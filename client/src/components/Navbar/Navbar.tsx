@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from "react-redux";
 import { Button, Space, Typography, Avatar, Grid } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { GoogleLogin, googleLogout } from '@react-oauth/google';
+import { googleLogout } from '@react-oauth/google';
 
 import { useAppDispatch } from "store/store";
 import { logout } from "store/actionCreators/authAction";

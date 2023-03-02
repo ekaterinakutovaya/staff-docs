@@ -36,7 +36,6 @@ class CompanyController {
 
     async getAll(req, res) {
         const {sub} = req.query;
-        // console.log(req.query)
         const user = await User.findOne({ where: { sub: sub } });
         const companies = await Company.findAll({
             where: {userId: user.id},
@@ -48,7 +47,6 @@ class CompanyController {
 
     async setCurrent(req, res) {
         const { companyId, sub} = req.body;
-        // console.log(companyId);
         
         const currentCompany = await Company.findOne({ where: { id: companyId } });
                
@@ -133,9 +131,7 @@ class CompanyController {
     }
 
     async deleteCompanyDetails(req, res) {
-        const {id} = req.body;
-        console.log(typeof id);
-        
+        const {id} = req.body;        
 
         CompanyDetails.destroy({ where: { id: Number(id) } })
             .then(num => {

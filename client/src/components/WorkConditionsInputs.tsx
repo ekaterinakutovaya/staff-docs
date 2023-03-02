@@ -1,11 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from "react-redux";
-import { Modal, Form, Input, Button, DatePicker, InputNumber, Space, Row, Col, Select, Typography, Grid, Divider } from 'antd';
-import moment from 'moment';
+import React from 'react';
+import { Form, Input, InputNumber, Space, Row, Col, Typography, Grid, Divider } from 'antd';
 
-import { selectCompanies } from "store/selectors";
-
-const dateFormatList = ['DD.MM.YYYY', 'DD.MM.YY'];
 const { useBreakpoint } = Grid;
 
 type WorkConditionsInputsProps = {
@@ -14,18 +9,7 @@ type WorkConditionsInputsProps = {
 }
 
 const WorkConditionsInputs: React.FC<WorkConditionsInputsProps> = ({prev = '', disabled = false}) => {
-  const { companyDetails } = useSelector(selectCompanies);
-  const [registerDate, setRegisterDate] = useState<string | null>(null);
-  const { sm, md, lg, xl, xxl } = useBreakpoint();
-  console.log(`salary${prev}`);
-  
-
-  useEffect(() => {
-    if (companyDetails.length > 0) {
-      setRegisterDate(companyDetails[0]?.registerDate);
-    }
-  }, [])
-
+  const { md } = useBreakpoint();  
 
   return (
     <>

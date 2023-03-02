@@ -56,7 +56,7 @@ const CreateEmploymentOrder: React.FC<CreateEmploymentOrderProps> = ({ open, set
       workHours: 8,
       workSchedule: 'пятидневная рабочая неделя (40 часов)',
       vacationDays: 15,
-      salary: 1500000,
+      salary: 15000000,
       salaryRate: 1.00,
       contractNo: contracts.length + 1,
       contractDate: moment(Date.now()),

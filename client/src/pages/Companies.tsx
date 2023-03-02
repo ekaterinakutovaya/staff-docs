@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Button, PageHeader, Table, Space, Tag, Popconfirm, Grid, Typography } from 'antd';
+import { Button, PageHeader, Table, Space, Tag, Popconfirm, Typography } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-
 
 import CreateCompany from "components/modals/CreateCompany";
 import { useAppDispatch } from "store/store";
@@ -11,7 +10,6 @@ import { fetchCompanies, setCurrentCompany, deleteCompanyById } from 'store/acti
 import { selectAuth, selectCompanies } from "store/selectors";
 import { Company } from "../store/types";
 
-const { useBreakpoint } = Grid;
 const { Text } = Typography;
 
 interface DataType {
@@ -24,12 +22,10 @@ interface DataType {
 const Companies: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { md } = useBreakpoint();
   const [open, setOpen] = useState<boolean>(false);
   const { sub } = useSelector(selectAuth);
   const { companies } = useSelector(selectCompanies);
   const [data, setData] = useState<DataType[]>([]);
-
 
   useEffect(() => {
     dispatch(fetchCompanies({ sub }));
@@ -167,38 +163,23 @@ const Companies: React.FC = () => {
 
   ]
 
-  // const handleJobs = () => {
-  //   axios.get(API_URL + "/profession/create")  
-  // }
-
-
   return (
     <div>
       <PageHeader
         ghost={false}
         title="Организации"
         extra={[
-          <Button key="1" type="primary" onClick={() => setOpen(true)}
-            // style={md ? { display: 'flex' } : { display: 'none' }}
-          >
+          <Button key="1" type="primary" onClick={() => setOpen(true)}>
             Добавить
           </Button>
         ]}
       >
-        {/* <Button size="large" type="primary" onClick={() => setOpen(true)} block
-          style={md ? { display: 'none' } : { display: 'block', marginBottom: '20px' }}
-        >
-          Добавить
-        </Button> */}
       </PageHeader>
 
       <Table
         dataSource={data}
         columns={columns}
-        // showHeader={sm ? true : false}
       />
-
-      {/* <Button onClick={handleJobs}>jobs</Button> */}
 
       <CreateCompany open={open} setOpen={setOpen} />
     </div>

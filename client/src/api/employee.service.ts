@@ -2,8 +2,6 @@ import axios from "axios";
 import { Employee } from "store/types";
 import { API_URL } from "consts/consts";
 
-// const API_URL = 'http://localhost:5000/api';
-
 const createEmployee = async (values: Employee, companyId: number) => {
     return axios.post(API_URL + "/employee/create", {values, companyId});
 }

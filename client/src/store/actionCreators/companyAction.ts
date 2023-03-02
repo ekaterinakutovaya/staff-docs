@@ -13,18 +13,18 @@ type CreateCompanyParams = {
     sub: string;
 }
 
-export type createCompanyDetailsParams = {
+type createCompanyDetailsParams = {
     values: any;
     companyId: number;
 }
-export type fetchCompaniesParams = {
+type fetchCompaniesParams = {
     sub: string | null;
 }
-export type DeleteCompanyByIdParams = {
+type DeleteCompanyByIdParams = {
     companyId: number;
     sub: string;
 }
-export type DeleteCompanyDetailsByIdParams = {
+type DeleteCompanyDetailsByIdParams = {
     companyDetailsId: number;
     sub: string;
 }
@@ -90,7 +90,7 @@ export const setCurrentCompany = createAsyncThunk<CurrentCompany, CurrentCompany
                 error.message ||
                 error.toString();
             thunkAPI.dispatch(setMessage(message));
-            return thunkAPI.rejectWithValue(error.response ?.data);
+            return thunkAPI.rejectWithValue(error.response?.data);
         }
     }
 )
@@ -111,7 +111,7 @@ export const fetchCompanyDetails = createAsyncThunk<CompanyDetails[], CompanyDet
                 error.message ||
                 error.toString();
             thunkAPI.dispatch(setMessage(message));
-            return thunkAPI.rejectWithValue(error.response ?.data);
+            return thunkAPI.rejectWithValue(error.response?.data);
         }
     }
 )
@@ -132,7 +132,7 @@ export const createCompanyDetails = createAsyncThunk<CompanyDetails[], createCom
                 error.message ||
                 error.toString();
             thunkAPI.dispatch(setMessage(message));
-            return thunkAPI.rejectWithValue(error.response ?.data);
+            return thunkAPI.rejectWithValue(error.response?.data);
         }
     }
 )
@@ -156,7 +156,7 @@ export const deleteCompanyById = createAsyncThunk <Company[], DeleteCompanyByIdP
                 error.message ||
                 error.toString();
             thunkAPI.dispatch(setMessage(message));
-            return thunkAPI.rejectWithValue(error.response ?.data);
+            return thunkAPI.rejectWithValue(error.response?.data);
         }
     }
 )
@@ -180,7 +180,7 @@ export const deleteCompanyDetailsById = createAsyncThunk<CompanyDetails[], Delet
                 error.message ||
                 error.toString();
             thunkAPI.dispatch(setMessage(message));
-            return thunkAPI.rejectWithValue(error.response ?.data);
+            return thunkAPI.rejectWithValue(error.response?.data);
         }
     }
 )

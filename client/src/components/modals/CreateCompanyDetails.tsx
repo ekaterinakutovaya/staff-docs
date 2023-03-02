@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, Button, DatePicker, Space, Grid, Divider } from 'antd';
+import { Modal, Form, Input, DatePicker, Grid, Divider } from 'antd';
 
 import { useAppDispatch } from "store/store";
 import { CompanyDetails } from "store/types";
@@ -19,12 +19,10 @@ type CreateCompanyDetailsProps = {
 const CreateCompanyDetails: React.FC<CreateCompanyDetailsProps> = ({ open, setOpen, companyId }) => {
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
-  const { sm, md, lg, xl, xxl } = useBreakpoint();
   const [loading, setLoading] = useState(false);
 
   const onFinish = (values: CompanyDetails) => {
     // console.log('Success:', values);        
-
     dispatch(createCompanyDetails({ values, companyId }))
       .then(() => {
         form.resetFields();
